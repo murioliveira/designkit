@@ -133,6 +133,12 @@ para implementar, componente por componente, usando os tokens do designkit.
 | **E. Validação multi-agente** — rodar o fluxo real no Claude Code e Codex | ⬜ (bloqueia 1.0.0) |
 | **Decisões do fundador** — agentes-alvo, escopo de pesquisa, imagens, licença, nome | ⬜ (bloqueiam 1.0.0) |
 
+## Vitrine ao vivo
+
+O showcase do design system (tokens, componentes e demonstrações) roda em:
+- **Local:** abra `index.html` no navegador (sem build, sem dependências)
+- **GitHub Pages:** `https://muzphaxx.github.io/designkit/` (após publicar e ativar Pages em Settings → Pages → Deploy from branch → main/(root), ou pelo workflow em `.github/workflows/pages.yml`)
+
 ## Como contribuir / estrutura do repo
 
 ```
