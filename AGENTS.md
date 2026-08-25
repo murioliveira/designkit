@@ -62,6 +62,10 @@ designkit/
 ├── scripts/
 │   ├── smoke-test.py                ← 8 checks de integridade (tokens, HTML, skills...)
 │   └── anti-slop-check.py           ← detector determinístico de AI tells (49 checks)
+├── tokens/
+│   ├── tokens.json                  ← export dos tokens semânticos (por tema/categoria)
+│   ├── tokens.css                   ← cópia do tokens.css (import direto)
+│   └── README.md                    ← doc do export (gera via scripts/export-tokens.py)
 └── templates/                       ← brief.md, critique-report.md, spec-handoff.md
 ```
 

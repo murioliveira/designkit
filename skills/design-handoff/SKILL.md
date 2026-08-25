@@ -1,6 +1,6 @@
 ---
 name: design-handoff
-description: Produz spec de implementação por tela/componente, documentação por componente e export de tokens para os desenvolvedores. Use quando o usuário pedir handoff de design, spec de implementação, documentação de componente, export de tokens, guia para desenvolvedores, ou "como implementar isso". Handoff, implementation spec, component documentation, token export, developer handoff, spec de implementação, documentação de componente. Not for generating the UI itself — input is finished screens and tokens.
+description: Produz spec de implementação por tela/componente, documentação por componente e export de tokens para os desenvolvedores. Use quando o usuário pedir handoff de design, spec de implementação, documentação de componente, export de tokens, guia para desenvolvedores, ou "como implementar isso". Handoff, implementation spec, component documentation, token export, developer handoff, spec de implementação, documentação de componente. O export de tokens tem implementação real: rode `python scripts/export-tokens.py` (gera tokens/tokens.json + tokens/tokens.css). Not for generating the UI itself — input is finished screens and tokens.
 version: 0.1.0
 ---
 
@@ -45,8 +45,10 @@ Se a UI introduziu padrões que não existem no kit:
 
 ### 4. Exportar tokens
 
+O kit tem um export real: **`scripts/export-tokens.py`** gera **`tokens/tokens.json`** (tokens semânticos por tema light/dark e categoria, com `var(--...)` resolvidos) e **`tokens/tokens.css`** (cópia para import direto). Regenera com `python scripts/export-tokens.py` e confira a saída (exportados / resolvidos / não-resolvidos).
+
 Se pedido (ou se a UI usou valores fora do kit):
-- Liste os tokens usados por categoria (cor, tipografia, espaço, raio, sombra, motion, z) — só os que a UI efetivamente usou.
+- Inclua `tokens/tokens.json` no pacote de handoff e liste os tokens usados por categoria (cor, tipografia, espaço, raio, sombra, motion, z) — só os que a UI efetivamente usou (referência: `tokens/tokens.json` + `tokens/README.md`).
 - Para valores fora do kit: proponha nome de token semântico (ex.: `--color-brand-accent`) em vez de espalhar o hex — marque como `[proposta]`.
 - Formato: tabela markdown (nome, valor, uso, tema claro/escuro quando aplicável). Sem criar arquivos CSS no kit (isso é do `design-system-keeper`).
 
