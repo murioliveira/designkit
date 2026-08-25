@@ -1,172 +1,169 @@
-# Design Kit — o setor de design em uma caixa
+# Design Kit: an entire design department in a box
 
-> **v0.9.0** (pré-1.0) · pt-BR · Um pacote que transforma qualquer agente de IA
-> (Claude, Codex, pi) em um setor de design executável: pesquisa, arquitetura de
-> informação, UI, critique, acessibilidade e handoff — sem contratar um setor.
+[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/muzphaxx/designkit/releases/tag/v0.9.0)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![Agents](https://img.shields.io/badge/agents-Claude_Code_%7C_Codex_%7C_pi-orange)
+![Checks](https://img.shields.io/badge/QA-98_anti--slop_checks-success)
 
-**Tagline:** você dá a ideia; o agente faz o design, critica o próprio trabalho
-e só entrega o que passa no controle de qualidade.
+> **v0.9.0** (pre-1.0) · A package that turns any AI agent (Claude, Codex, pi) into a working design department: research, information architecture, UI, critique, accessibility, and developer handoff. No design team required.
+
+**In one line:** you bring the idea. The agent designs it, critiques its own work, and only delivers what passes quality control.
+
+🌐 Leia em português: [README.pt-BR.md](README.pt-BR.md)
 
 ---
 
-## O que é
+## What it is
 
-O **Design Kit** é um pacote de **design system** (tokens + componentes) +
-**skills empacotadas** + **arquivos de onboarding** (`AGENTS.md` / `CLAUDE.md`)
-que transforma qualquer agente-hospedeiro — Claude, Codex, pi, Cursor — em um
-**setor de design inteiro**. Em vez de contratar (ou ser) o designer, o
-programador e o revisor, você conversa com o seu agente e ele executa o ciclo
-completo: de uma ideia em uma frase até telas prontas para desenvolvimento, com
-crítica e auditoria de acessibilidade no meio.
+**Design Kit** is a **design system** (tokens + components) plus **packaged agent skills** plus **onboarding files** (`AGENTS.md` / `CLAUDE.md`) that turns any host agent (Claude, Codex, pi, Cursor) into an **entire design department**. Instead of hiring (or being) the designer, the implementer, and the reviewer, you talk to your agent and it runs the complete cycle: from a one-sentence idea to screens ready for development, with critique and an accessibility audit in between.
 
-O **humano é o diretor**: você decide o que fazer e aprova em dois checkpoints
-obrigatórios (antes das telas e antes do handoff). O **agente é o setor**:
-executa, revisa o próprio trabalho em loops fechados e só avança quando não há
-bloqueadores.
+The **human stays the director**: you decide what gets made and approve at two mandatory checkpoints (before screens are built, and before handoff). The **agent acts as the department**: it executes, reviews its own work in closed loops, and moves forward only when no blockers remain.
 
-Um **limite honesto**: pesquisa primária com pessoas reais (entrevistas, testes
-de usabilidade, dados analíticos) **não é substituída**. O agente estrutura,
-sintetiza e transforma o que você fornece — e marca o que faltar como
-`[assunção]`. O que ele substitui é a *execução* de design.
+One **honest limit**: primary research with real people (interviews, usability tests, analytics data) is **not replaced**. The agent structures, synthesizes, and transforms what you provide, and marks anything missing as `[assumption]`. What it replaces is the *execution* of design.
 
-## Como funciona
+## How it works
 
-O agente percorre o fluxo de um setor de design, em fases, com dois checkpoints
-de aprovação humana:
+The agent walks through a design department workflow, phase by phase, with two human approval checkpoints:
 
 ```
-brief → research → concept/IA → ⏸️ VOCÊ APROVA → UI v1 → critique → refine
-→ a11y/QA → ⏸️ VOCÊ APROVA → handoff
+brief → research → concept/IA → ⏸️ YOU APPROVE → UI v1 → critique → refine
+→ a11y/QA → ⏸️ YOU APPROVE → handoff
 ```
 
-- **Loops fechados de qualidade:** critique e a11y corrigem → re-revisam → seguem
-  (máx. 2 rodadas de refine antes de escalar a você).
-- **Consistência por tokens:** toda UI gerada consome **somente** `var(--...)`
-  de `styles/tokens.css` — nunca cores/espaçamentos/raios mágicos. Padrões novos
-  viram tokens novos no kit.
-- **Qualidade "impeccable":** HTML semântico, contraste WCAG AA, foco visível,
-  teclado, mobile-first, zero lorem ipsum.
+- **Closed quality loops:** critique and a11y fix, then re-review, then move on (max 2 refine rounds before escalating to you).
+- **Consistency by tokens:** every generated UI consumes **only** `var(--...)` from `styles/tokens.css`. No magic colors, spacing, or radii. New patterns become new tokens in the kit.
+- **Anti-slop by default:** `DESIGN.md` encodes the house method (built on the `impeccable` and `design-taste` skills): banned AI tells, three dials set per brief, hard locks on theme/accent/radius, and a final pre-flight checklist.
+- **Impeccable floor:** semantic HTML, WCAG AA contrast, visible focus, keyboard support, mobile-first, zero lorem ipsum.
 
-## O que tem dentro
+## What's inside
 
-| Camada | Conteúdo | Onde |
+| Layer | Contents | Where |
 |---|---|---|
-| **Design system** | 130+ tokens (cor, tipografia, espaçamento, raio, sombra, motion, z-index) claro/escuro; componentes: botões, badges, cards, alerts, formulários, tooltip, modal, tabs, progress, skeleton, avatar, dropdown, breadcrumb, tabela, stepper | `styles/`, `index.html` (showcase vivo com 14 seções) |
-| **6 skills** | `design-researcher`, `information-architect`, `ui-designer`, `design-critic`, `a11y-auditor`, `design-handoff` — as 3 primeiras com SKILL.md + templates/; as 3 wrappers (ui-designer, design-critic, a11y-auditor) com fallback embutido | `skills/` |
-| **3 templates** | `brief.md`, `critique-report.md`, `spec-handoff.md` | `templates/` |
-| **Docs** | Arquitetura do agente, guia de uso (para humanos), docs por grupo de componentes, checklist de distribuição | `docs/` |
-| **Voz do design** | Manual anti-slop do kit: tells da IA, dials, locks e pre-flight (método impeccable + design-taste) | `DESIGN.md` |
-| **Caso real** | Landing page "Lumen" ponta a ponta (brief → UI → critique → refine → aprovação 4.7/5) | `docs/casos/lumen/` |
-| **Portabilidade** | `CLAUDE.md` + `.claude/skills/` (Claude Code), `.codex/README.md` (Codex) | raiz, `.claude/`, `.codex/` |
+| **Design system** | ~150 tokens (color, typography, spacing, radius, shadow, motion, z-index), light/dark; components: buttons, badges, cards, alerts, forms, tooltip, modal, tabs, progress, skeleton, avatar, dropdown, breadcrumb, table, stepper, pagination | `styles/`, `index.html` (live showcase, 14 sections) |
+| **8 skills** | `design-researcher`, `information-architect`, `ui-designer`, `design-redesign`, `design-critic` (enriched scoring + cognitive load), `design-refine`, `a11y-auditor`, `design-handoff`. Original skills ship with SKILL.md + templates; wrappers carry embedded fallbacks so nothing breaks outside pi | `skills/` |
+| **Design voice** | `DESIGN.md`: the kit's anti-slop manual (AI tells, dials, locks, redesign protocol, external design system map, pre-flight checklist) | root |
+| **Deterministic QA** | `smoke-test.py`: 8 integrity checks · `anti-slop-check.py`: 98 mechanical checks across 14 files (em-dash, hardcoded hex, Inter defaults, eyebrow abuse, generic names, banned palettes, scroll cues) | `scripts/` |
+| **Templates** | `brief.md`, `critique-report.md`, `spec-handoff.md` | `templates/` |
+| **Validated cases** | Lumen landing (critique 4.7/5) · Norte dashboard (4.6/5, reuses 12 component groups from the kit) · Brisa (research-to-handoff flow) · Aurora (anti-slop reference, 14/14 checks) · Linha Direta (block library in practice) · Redesign Demo (skill-driven before/after) · Tereza Vilela (Experience mode portfolio) | `docs/casos/` |
+| **Portability** | `CLAUDE.md` + `.claude/skills/` (Claude Code), `.codex/README.md` (Codex) | root, `.claude/`, `.codex/` |
+| **Docs** | Agent architecture, human usage guide, per-component handoff docs, release checklist. Internal docs are currently written in Portuguese (pt-BR) | `docs/` |
 
 ## Quickstart
 
-O pacote é um diretório de skills + um arquivo de onboarding. Você o entrega ao
-seu agente e ele passa a agir como o setor de design. Sem build, sem npm, sem
-instalação.
+The package is a directory of skills plus an onboarding file. Hand it to your agent and it starts acting as the design department. No build step, no npm, no installation.
 
-### No pi (recomendado para começar)
+### In pi (recommended starting point)
 
 ```bash
-# 1. Copie as skills para onde o pi as descobre
+# 1. Copy the skills where pi discovers them
 cp -r skills/ ~/.pi/agent/skills/designkit/
-# 2. Rode o pi dentro do diretório do designkit (ele lê AGENTS.md)
+# 2. Run pi inside the designkit directory (it reads AGENTS.md)
 pi
 ```
 
-### No Claude Code
+### In Claude Code
 
 ```bash
-# Abra o Claude Code na raiz do designkit — ele lê CLAUDE.md e
-# descobre as skills em .claude/skills/ automaticamente
+# Open Claude Code at the designkit root. It reads CLAUDE.md and
+# discovers skills in .claude/skills/ automatically
 claude
 ```
 
-### No Codex (OpenAI)
+### In Codex (OpenAI)
 
 ```bash
-# Abra o Codex na raiz do designkit — ele lê AGENTS.md (formato nativo).
-# As skills ficam em skills/ e são lidas nas etapas do fluxo (ver .codex/README.md)
+# Open Codex at the designkit root. It reads AGENTS.md (native format).
+# Skills live in skills/ and are read during flow steps (see .codex/README.md)
 codex
 ```
 
-> **Portabilidade:** o mesmo diretório de skills funciona nos três agentes; a
-> única adaptação é o arquivo de onboarding (`AGENTS.md` ↔ `CLAUDE.md`). Veja
-> `docs/guia-de-uso.md` para o passo a passo completo.
+> **Portability:** the same skill directory works across all three agents; the only adaptation is the onboarding file (`AGENTS.md` ↔ `CLAUDE.md`). See `docs/guia-de-uso.md` for the full walkthrough.
 
-## Exemplos de prompts
+## Example prompts
 
 ```text
-Crie uma landing page para meu produto: um app de organização de refeições
-para quem mora sozinho. Público: jovens adultos (25–35), que cozinham pouco
-e comem comida entregue. Tom: calmo, acolhedor, nada de "startup hype".
+Create a landing page for my product: a meal-planning app for people who
+live alone. Audience: young adults (25 to 35) who rarely cook and order
+takeout often. Tone: calm and welcoming, none of that startup hype.
 ```
 
 ```text
-Faça critique da minha tela abaixo. Quero saber o que está confuso, o que
-está bom, e uma lista do que corrigir primeiro.
+Critique the screen below. Tell me what is confusing, what works, and give
+me a prioritized list of fixes.
 
-[cole aqui o HTML/CSS ou uma descrição detalhada da tela]
+[paste your HTML/CSS here, or describe the screen in detail]
 ```
 
 ```text
-Audite a acessibilidade deste formulário de cadastro e corrija o que estiver
-em nível AA do WCAG.
+Audit this signup form for accessibility and fix everything below WCAG AA.
 ```
 
 ```text
-Gere o spec de handoff da landing page que aprovamos: o que o dev precisa
-para implementar, componente por componente, usando os tokens do designkit.
+Generate the handoff spec for the landing page we approved: everything the
+developer needs to implement it, component by component, using the
+designkit tokens.
 ```
 
 ## Roadmap
 
-| Fase | Estado |
+| Phase | Status |
 |---|---|
-| **1–2. Fundação + shell** — tokens, base, showcase | ✅ |
-| **3. Arquitetura do agente** — 8 funções do setor → 7 papéis, roadmap A–F | ✅ |
-| **4. Componentes** — A (botões/badges/cards/alerts), B (forms), C (overlays) | ✅ |
-| **A. Prova de conceito** — caso Lumen ponta a ponta, critique aprovado | ✅ |
-| **B. Skills originais** — researcher, information-architect, handoff + wrappers | ✅ |
-| **C. Onboarding + orquestração** — AGENTS.md, CLAUDE.md, .codex, guia de uso | ✅ |
-| **F. Distribuição** — README do pacote + checklist de release (este arquivo + `docs/distribuicao.md`) | ⏳ 0.9.0 |
-| **E. Validação multi-agente** — rodar o fluxo real no Claude Code e Codex | ⬜ (bloqueia 1.0.0) |
-| **Decisões do fundador** — agentes-alvo, escopo de pesquisa, imagens, licença, nome | ⬜ (bloqueiam 1.0.0) |
+| **1–2. Foundation + shell**: tokens, base, showcase | ✅ |
+| **3. Agent architecture**: 8 department functions mapped to roles, roadmap A–F | ✅ |
+| **4. Components**: advanced groups included (dropdown, breadcrumb, table, stepper, pagination) | ✅ |
+| **A. Proof of concept**: Lumen case end-to-end, critique approved | ✅ |
+| **B. Original skills**: researcher, IA, redesign, refine, handoff + wrappers | ✅ |
+| **C. Onboarding + orchestration**: AGENTS.md, DESIGN.md, CLAUDE.md, .codex, usage guide | ✅ |
+| **D. Component docs + block library** | ✅ |
+| **E p1/p2. Multi-agent portability**: validated statically + live on pi | ✅ |
+| **F. Distribution**: published on GitHub, tagged v0.9.0 | ✅ |
+| **E p3. Runtime validation** on Claude Code and Codex | ⬜ (gates 1.0.0) |
+| **Founder decisions**: target agents, research scope, images, license confirmation, product name | ⬜ (gate 1.0.0) |
 
-## Vitrine ao vivo
+## Live showcase
 
-O showcase do design system (tokens, componentes e demonstrações) roda em:
-- **Local:** abra `index.html` no navegador (sem build, sem dependências)
-- **GitHub Pages:** `https://muzphaxx.github.io/designkit/` (após publicar e ativar Pages em Settings → Pages → Deploy from branch → main/(root), ou pelo workflow em `.github/workflows/pages.yml`)
+Run the design system showcase (tokens, components, demos):
+- **Local:** open `index.html` in your browser (no build, no dependencies)
+- **GitHub Pages:** `https://muzphaxx.github.io/designkit/` (after enabling Pages under Settings → Pages → Deploy from branch → main/(root), or via the workflow in `.github/workflows/pages.yml`)
 
-## Como contribuir / estrutura do repo
+## Contributing / repository layout
 
 ```
 designkit/
-├── AGENTS.md / CLAUDE.md      ← onboarding do agente (setor de design)
-├── index.html                 ← showcase vivo do design system (14 seções)
+├── AGENTS.md / CLAUDE.md      ← agent onboarding (the design department)
+├── DESIGN.md                  ← design voice: anti-slop manual
+├── index.html                 ← live showcase (14 sections)
 ├── styles/
-│   ├── tokens.css             ← FONTE DE VERDADE visual (claro/escuro)
-│   ├── base.css               ← reset + utilitários
-│   ├── layout.css             ← shell do showcase
-│   └── components.css         ← componentes (9 seções: A/B/C + avançados)
-├── js/app.js                  ← tema, menu mobile, scrollspy, demos
+│   ├── tokens.css             ← single source of visual truth (light/dark)
+│   ├── base.css               ← reset + utilities
+│   ├── layout.css             ← showcase shell
+│   └── components.css         ← components (9 CSS section groups)
+├── js/app.js                  ← theme, mobile menu, scrollspy, demos
+├── scripts/
+│   ├── smoke-test.py          ← 8 integrity checks
+│   └── anti-slop-check.py     ← deterministic AI-tell detector (98 checks)
 ├── docs/
-│   ├── arquitetura-agente-design.md
-│   ├── guia-de-uso.md
-│   ├── distribuicao.md        ← checklist de release v1.0.0
-│   ├── componentes/           ← handoff por grupo
-│   └── casos/lumen/           ← prova de conceito real
-├── skills/                    ← papéis do setor (SKILL.md + templates)
+│   ├── arquitetura-agente-design.md   ← agent architecture
+│   ├── guia-de-uso.md                 ← human usage guide
+│   ├── distribuicao.md                ← v1.0.0 release checklist
+│   ├── blocos/                        ← block library (compositions + dials)
+│   ├── componentes/                   ← handoff docs per group
+│   ├── casos/                         ← 7 validated real cases
+│   └── trend-critiques.md             ← critique history (department memory)
+├── skills/                    ← the department roles (SKILL.md + templates)
 ├── templates/                 ← brief, critique-report, spec-handoff
-├── .claude/skills/            ← wrappers de descoberta (Claude Code)
-└── .codex/                    ← instruções de portabilidade (Codex)
+├── .claude/skills/            ← discovery wrappers (Claude Code)
+└── .codex/                    ← portability notes (Codex)
 ```
 
-Regras de trabalho (detalhe no `AGENTS.md`): tokens como única fonte de verdade;
-um writer por arquivo; sem build tooling; loops de qualidade fechados.
+Working rules (details in `AGENTS.md`): tokens as the single source of truth; one writer per file; no build tooling; closed quality loops.
 
-## Licença
+> **Language note:** the interface-facing files above are bilingual-ready; deeper internal docs (`docs/`, `skills/`, case studies) are currently written in Brazilian Portuguese.
 
-**MIT** — placeholder, a confirmar pelo fundador antes do v1.0.0 (ver
-`docs/distribuicao.md`).
+## License
+
+**MIT** (placeholder pending founder confirmation before v1.0.0; see `docs/distribuicao.md`).
+
+---
+
+📖 Este projeto também existe em português: [README.pt-BR.md](README.pt-BR.md)

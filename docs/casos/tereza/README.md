@@ -104,7 +104,8 @@ Valores de traço nos SVGs (stroke-width, r dos olhos, delta do menu) são
 constantes de desenho da ilustração, não tokens de design system; o padrão é
 o mesmo dos casos Lumen/Aurora (valores de traço documentados como off-scale
 tolerável). Os hexes `#f8fafc`/`#020617` estão apenas nas metas `theme-color`
-do `<head>` (padrão dos casos, exceção documentada do detector).
+do `<head>` e no favicon data-URI (`%23b45309`, asset de navegador, não cor de
+UI) — padrão dos casos, exceções documentadas do detector.
 
 ## Critique esperado (rodada 1)
 

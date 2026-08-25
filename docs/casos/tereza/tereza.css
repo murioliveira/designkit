@@ -264,6 +264,24 @@ footer[id] {
   margin-top: var(--space-8);
 }
 
+/* Accent único do caso (color lock): terracotta (--color-warning) em vez do índigo
+   do kit. Contraste AA verificado: #b45309 com texto branco = 5.02:1 (≥ 4.5:1);
+   --color-on-primary é branco puro no claro e escuro (tokens.css). Hover escurece
+   via color-mix; fallback = mesma cor (navegador sem color-mix). */
+.tv-btn-accent {
+  background-color: var(--color-warning);
+  color: var(--color-on-primary);
+}
+
+.tv-btn-accent:hover {
+  background-color: color-mix(in srgb, var(--color-warning) 88%, var(--color-text));
+}
+
+.tv-btn-accent:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
 /* --------------------------------------------------------------------------
    Galeria de curadoria (bloco galeria-experience: grid assimétrico)
    -------------------------------------------------------------------------- */
