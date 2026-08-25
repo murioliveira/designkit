@@ -91,13 +91,19 @@ Baseline 8/6/4. Presets: landing mainstream 7/6/4 · agência criativa 9/8/3 · 
 - **i18n**: texto em pt-BR ou no idioma do brief, nunca misturar; algarismos e unidades consistentes.
 - **Ícones**: uma família por página, stroke consistente, sem emoji como ícone em UI de produto (emoji só em tom social/playful pedido pelo brief).
 
+### 4.6 Copy discipline (o que a copy nunca faz)
+- Parágrafos de subtext ≤ 25 palavras por default; nenhum data-dump (listas longas usam outro componente, ver §4.3).
+- Verbos de filler banidos: "elevate", "seamless", "unleash", "transforme sua", "revolucione", "next-gen" — verbos concretos sempre.
+- Números honestos: dados reais do brief, ou marcados `<!-- mock -->`; nunca fake-preciosos (99.99%, 4.1×, 48k) sem origem.
+- Uma intenção por CTA ("Fale conosco" uma vez, não "Contato" + "Vamos conversar" + "Comece um projeto"); label de CTA não quebra em desktop (máx 3 palavras em primário).
+
 ---
 
 ## 5. Como o kit gera insumos (não só UI)
 
 - **Critique** (design-critic): scoring por heurística (clareza, hierarquia, consistência com tokens, affordance, a11y, responsividade, copy) + lista priorizada blocker/major/minor + verificação obrigatória da regra de tokens + **verificação de AI tells** (em-dash, fake screenshots, 3 cards iguais, eyebrow excessivos, Inter, nomes genéricos). Critério de parada: sem blockers, média ≥ 4, nenhuma heurística < 3. Máx 2 rodadas de refine antes de escalar ao humano.
 - **Handoff** (design-handoff): spec por componente (classes exatas, tokens, estados, a11y, pegadinhas) — o que um dev ou outro agente precisa para implementar fiel.
-- **Extract**: padrão novo ausente do kit → propor token/componente novo (via impeccable extract), nunca inventar valor no lugar.
+- **Extract**: padrão novo ausente do kit → propor token/componente novo (via impeccable extract), nunca inventar valor no lugar. Exceções de hex documentadas: `<meta theme-color>` no head e favicon data-URI são assets de navegador, não cores de UI — permitidos com comentário.
 - **Loops fechados**: critique e a11y rodam até não haver blockers; o humano aprova em 2 checkpoints (research→UI, UI→handoff).
 
 ## 5.1 Redesign (o kit como setor de design recebendo redesigns)
@@ -106,6 +112,8 @@ Baseline 8/6/4. Presets: landing mainstream 7/6/4 · agência criativa 9/8/3 · 
 - **Greenfield**: não há site, ou overhaul aprovado. Baseline de dials normal.
 - **Redesign - Preservar**: modernizar sem quebrar a marca. Auditar primeiro, extrair tokens da marca, evoluir gradualmente.
 - **Redesign - Overhaul**: nova linguagem visual sobre conteúdo existente. Tratar como greenfield no visual; PRESERVAR conteúdo e IA.
+
+**Override de marca (obrigatório):** a cor/tipo/logotipo EXISTENTES da marca mandam. Uma marca que já é roxa continua roxa (o anti-lila do §4.1 vale só para accents novos em greenfield). Extrair os tokens da marca ANTES de aplicar as regras de cor; nunca apor a paleta do kit sobre uma identidade existente.
 
 **Auditar antes de tocar** (documentar antes de propor): tokens de marca (cor/tipo/logo/raios), IA (árvore de páginas, nav principal, caminhos de conversão), blocos de conteúdo (o que funciona, o que é filler), padrões a preservar (hero reconhecível, voz de copy, interações assinatura), padrões a aposentar (tells de IA, layouts quebrados, perf traps), leitura de dials do site atual (é o ponto de partida, não o baseline), SEO baseline (páginas ranqueadas, metas, OG — **migração de SEO é o risco nº 1 de redesign**).
 
@@ -130,7 +138,7 @@ O setor de design escolhe a ferramenta certa, não empurra o kit em tudo. Se o b
 
 ## 5.3 Detecção determinística (o diferencial do kit)
 
-O kit tem o que nenhuma skill externa tem: **checks mecânicos executáveis**. Rode `scripts/smoke-test.py` (8 checks de integridade) e, quando aplicável, a varredura anti-slop (em-dash, hex, Inter, eyebrows) antes de shipar. O critique do kit cruza regra de tokens + tells + heurísticas na mesma sessão — as externas tratam isso como dimensões separadas. Este é o motivo pelo qual o kit é substituto viável das duas skills: o método vira código auditável.
+O kit tem o que nenhuma skill externa tem: **checks mecânicos executáveis**. Rode `python scripts/smoke-test.py` (8 checks de integridade: tokens, hex, HTML, CSS, JS, docs, skills, casos) e `python scripts/anti-slop-check.py` (98 checks anti-slop: em-dash, hex, Inter, eyebrows, nomes genéricos, paleta proibida, scroll cues) antes de shipar. O critique do kit cruza regra de tokens + tells + heurísticas na mesma sessão — as externas tratam isso como dimensões separadas. Este é o motivo pelo qual o kit é substituto viável das duas skills: o método vira código auditável.
 
 ---
 
@@ -154,7 +162,7 @@ O kit tem o que nenhuma skill externa tem: **checks mecânicos executáveis**. R
 - [ ] Dark mode definido e testado nos dois modos
 - [ ] CWV plausíveis: LCP < 2.5s (hero pré-carregado ou priority), INP < 200ms, CLS < 0.1 (espaço reservado para imagens); rodar Lighthouse se houver hosting
 - [ ] Micro-gaps: selection/caret/scrollbar, reduced-transparency se houver vidro, i18n coeso, 1 família de ícones
-- [ ] Detector: `python scripts/smoke-test.py` PASS + varredura anti-slop (zero `—`/`–` em texto visível, zero hex fora de tokens)
+- [ ] Detector: `python scripts/smoke-test.py` PASS + `python scripts/anti-slop-check.py` PASS (zero `—`/`–` em texto visível, zero hex fora de tokens e exceções documentadas)
 
 Se um item não pode ser marcado com honestidade, a entrega não está pronta.
 
@@ -162,7 +170,8 @@ Se um item não pode ser marcado com honestidade, a entrega não está pronta.
 
 ## 7. Referências
 
-- Skills do kit: `skills/design-researcher`, `skills/information-architect`, `skills/ui-designer`, `skills/design-critic`, `skills/a11y-auditor`, `skills/design-handoff`
-- Skills externas: `impeccable` (critique/audit/polish/extract — `~/.pi/agent/skills/impeccable/`), `design-taste` (anti-slop, dials, tells — `~/.pi/agent/skills/design-taste/`)
-- Casos reais: `docs/casos/lumen/` (landing, 4.7/5), `docs/casos/norte/` (dashboard, 4.6/5), `docs/casos/brisa/` (fluxo research→handoff)
-- Tokens: `styles/tokens.css` · Componentes: `styles/components.css` · Docs de handoff: `docs/componentes/`
+- Skills do kit (8): `skills/design-researcher`, `skills/information-architect`, `skills/ui-designer`, `skills/design-redesign`, `skills/design-critic`, `skills/design-refine`, `skills/a11y-auditor`, `skills/design-handoff` (espelhos em `.claude/skills/` para Claude Code)
+- Skills externas: `impeccable` (critique/audit/polish/extract — `~/.pi/agent/skills/impeccable/`), `design-taste` (anti-slop, dials, tells — `~/.pi/agent/skills/design-taste/`). Nos outros hospedeiros (Claude Code/Codex), os wrappers do kit trazem fallback embutido.
+- Casos reais: `docs/casos/lumen/` (landing, 4.7/5), `docs/casos/norte/` (dashboard, 4.6/5), `docs/casos/brisa/` (fluxo research→handoff), `docs/casos/aurora/` (anti-slop), `docs/casos/linha-direta/` (block library), `docs/casos/tereza/` (Experience)
+- Detectores: `scripts/smoke-test.py` · `scripts/anti-slop-check.py` · Export de tokens: `scripts/export-tokens.py` + `tokens/`
+- Tokens: `styles/tokens.css` · Componentes: `styles/components.css` · Docs de handoff: `docs/componentes/` · Blocos: `docs/blocos/`
