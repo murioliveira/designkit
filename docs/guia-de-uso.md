@@ -90,8 +90,8 @@ pi
 ```
 
 Pronto. A partir daí, o `pi` sabe usar `design-researcher`,
-`information-architect`, `ui-designer`, `design-critic`, `a11y-auditor` e
-`design-handoff`.
+`information-architect`, `ui-designer`, `design-redesign`, `design-critic`,
+`design-refine`, `a11y-auditor` e `design-handoff`.
 
 ### No Claude Code
 

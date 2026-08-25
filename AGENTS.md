@@ -38,7 +38,7 @@ designkit/
 │   └── components.css               ← componentes (§1-9: botões, badges, cards, alerts, forms, overlays, avançados)
 ├── js/app.js                        ← tema, menu mobile, scrollspy, demos, overlays
 ├── CLAUDE.md                        ← onboarding para Claude Code
-├── .claude/skills/                  ← 6 wrappers de portabilidade (fonte única em skills/)
+├── .claude/skills/                  ← 8 wrappers de portabilidade (fonte única em skills/)
 ├── .codex/README.md                 ← notas de portabilidade para Codex
 ├── docs/
 │   ├── arquitetura-agente-design.md ← arquitetura do agente (8 funções → 7 papéis)
@@ -77,7 +77,7 @@ designkit/
 ## Estado atual do backlog (2026-08-25, pós-QA)
 
 - ✅ Fase 1 — Fundação: tokens.css (~147 tokens), base.css, README
-- ✅ Fase 2 — Shell do showcase: index.html (13 seções), layout.css, app.js (tema/menu/scrollspy)
+- ✅ Fase 2 — Shell do showcase: index.html (14 seções), layout.css, app.js (tema/menu/scrollspy)
 - ✅ Fase 3 — Arquitetura: docs/arquitetura-agente-design.md (7 papéis, roadmap A–F)
 - ✅ Fase 4A — Componentes A: buttons, badges, cards, alerts
 - ✅ Fase 4B — Componentes B: forms (inputs, select, checkbox, radio, toggle, validação)
@@ -87,7 +87,7 @@ designkit/
 - ✅ Caso Brisa — validação das skills em execução (4/4 skills executáveis) + 3 melhorias aplicadas
 - ✅ Smoke test — scripts/smoke-test.py (8 checks automatizados, PASS)
 - ✅ Fase B — Skills originais: researcher, information-architect, design-handoff + wrappers ui-designer/design-critic/a11y-auditor + templates
-- ✅ Fase C — AGENTS.md (este arquivo) + docs/guia-de-uso.md + CLAUDE.md + .claude/skills (6 wrappers) + .codex/README
+- ✅ Fase C — AGENTS.md (este arquivo) + docs/guia-de-uso.md + CLAUDE.md + .claude/skills (8 wrappers) + .codex/README
 - ✅ Fase D — docs/componentes (9 docs de handoff por grupo)
 - ✅ Fase E p1 — Portabilidade multi-agente (CLAUDE.md, .claude/skills, .codex)
 - ✅ Fase F p1 — Distribuição pré-1.0: README reescrito + docs/distribuicao.md

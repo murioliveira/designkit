@@ -2,6 +2,8 @@
 
 > Espelho do `AGENTS.md` adaptado ao Claude Code. A fonte única de verdade é o `AGENTS.md`
 > na raiz — mantenha os dois em sincronia quando algo mudar.
+> **Voz do design:** leia `DESIGN.md` antes de qualquer trabalho de UI — é o manual anti-slop do kit (tells da IA, dials, pre-flight).
+> **DON'TS do fundador:** NÃO usar nada da Liquid nem referenciá-la em nenhum arquivo, copy, skill ou documentação deste projeto. Regra perene.
 
 ## Papel
 
@@ -33,7 +35,9 @@ brief → research → concept/IA → ⏸️ humano aprova → UI v1 → critiqu
 | Estruturar a ideia | `skills/design-researcher/SKILL.md` (brief → problem statement, personas, jornada, scan competitivo) |
 | Sitemap e fluxos | `skills/information-architect/SKILL.md` |
 | Gerar telas | `skills/ui-designer/SKILL.md` (wrapper: usa `web-design-engineer` quando disponível; fallback embutido) |
+| Redesenhar | `skills/design-redesign/SKILL.md` (audit-before-touch, preserve vs overhaul, levers) |
 | Crítica do design | `skills/design-critic/SKILL.md` (wrapper: usa `impeccable critique` quando disponível; fallback embutido) |
+| Refinar pós-critique | `skills/design-refine/SKILL.md` (bolder / quieter / distill) |
 | Acessibilidade | `skills/a11y-auditor/SKILL.md` (wrapper: usa `impeccable audit` quando disponível; fallback embutido) |
 | Spec para dev | `skills/design-handoff/SKILL.md` |
 
@@ -55,25 +59,39 @@ Cada skill tem `templates/` (markdown) para os artefatos de saída.
 ## Estrutura do repositório (resumo)
 
 ```
-AGENTS.md / CLAUDE.md        ← onboarding (este arquivo espelha o AGENTS.md)
-styles/tokens.css            ← FONTE DE VERDADE visual (claro/escuro, semânticos)
-styles/base.css, layout.css, components.css
-js/app.js                    ← tema, menu mobile, scrollspy, demos
-index.html                   ← showcase vivo do design system (13 seções)
-docs/arquitetura-agente-design.md   ← arquitetura do agente (8 funções → 7 papéis)
-docs/guia-de-uso.md          ← como humanos usam (pedir, aprovar, usar)
-docs/casos/lumen/            ← caso real ponta a ponta (landing + critique)
-skills/                      ← FONTE ÚNICA dos papéis (skills + wrappers com fallback)
-templates/                   ← brief.md, critique-report.md, spec-handoff.md
+designkit/
+├── AGENTS.md / CLAUDE.md      ← onboarding (este arquivo espelha o AGENTS.md)
+├── DESIGN.md                  ← VOZ DO DESIGN: manual anti-slop (tells da IA, dials, pre-flight)
+├── README.md                  ← visão, stack, roadmap (pt-BR)
+├── index.html                 ← showcase vivo do design system (14 seções)
+├── styles/
+│   ├── tokens.css             ← FONTE DE VERDADE visual (claro/escuro, semânticos)
+│   ├── base.css / layout.css / components.css
+├── js/app.js                  ← tema, menu mobile, scrollspy, demos
+├── .claude/skills/            ← 8 wrappers de portabilidade (fonte única em skills/)
+├── .codex/README.md           ← notas de portabilidade para Codex
+├── docs/
+│   ├── arquitetura-agente-design.md ← arquitetura do agente (8 funções → 7 papéis)
+│   ├── guia-de-uso.md         ← como humanos usam (pedir, aprovar, usar)
+│   ├── distribuicao.md        ← checklist de release v1.0.0
+│   ├── auditoria-a11y.md      ← auditoria WCAG 2.2 AA + correções aplicadas
+│   ├── auditoria-comparativa.md ← kit vs impeccable/design-taste (superação)
+│   ├── reference/modos.md     ← Persuade/Operate/Read/Experience em profundidade
+│   ├── blocos/                ← block library (6 composições com dials)
+│   ├── componentes/           ← handoff por grupo (9 docs)
+│   └── casos/                 ← lumen, norte, brisa, aurora, linha-direta, redesign-demo, tereza
+├── skills/                    ← FONTE ÚNICA dos papéis (8 skills + wrappers com fallback)
+├── scripts/                   ← smoke-test.py (8 checks) + anti-slop-check.py (detector)
+└── templates/                 ← brief.md, critique-report.md, spec-handoff.md
 ```
 
 ## Estado atual (2026-08-25)
 
 Fases 1–4 (fundação, shell, arquitetura, componentes A/B/C + avançados) ✅ · Caso
-Lumen (Fase A) APROVADO com critique-report-v2 ✅ · Skills (Fase B) ✅ · Guia de uso
+Lumen (Fase A) APROVADO com critique-report-v2 ✅ · Skills (Fase B, 8 skills) ✅ · Guia de uso
 (Fase C) ✅ · Portabilidade (Fase E p1: CLAUDE.md, .claude/skills, .codex) ✅ ·
-Validação real nos agentes-alvo (Fase E p2) pendente de decisão do fundador ·
-Distribuição (Fase F) pendente.
+Validação no pi (Fase E p2 parcial: skills executáveis, caso Brisa) ✅ · Distribuição
+(Fase F p1): publicado no GitHub v0.9.0 com release ✅ · DON'T da Liquid registrado no AGENTS.md.
 
 Decisões em aberto (docs/arquitetura §5): agentes-alvo prioritários, escopo de
 pesquisa, geração de imagens, open-source vs comercial, nome do produto.

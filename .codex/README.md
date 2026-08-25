@@ -17,9 +17,13 @@ as skills do designkit.
      Codex lê o arquivo como qualquer outro markdown do repositório e segue as
      instruções — as skills foram escritas para serem auto-contidas e legíveis.
    - **Caminho B (opcional)**: se o usuário quiser skills nativas do Codex,
-     copie cada `skills/<nome>/SKILL.md` para `.codex/skills/<nome>.md` (ou o
-     diretório que a versão atual do Codex usar para skills) — o conteúdo é o
-     mesmo, sem adaptação.
+     copie cada `skills/<nome>/SKILL.md` para `.codex/skills/<nome>.md` (skills
+     do projeto, caso a sua versão do Codex descubra esse diretório) ou para
+     `~/.codex/skills/<nome>.md` (uso global). **Verifique a versão do Codex em
+     uso** (ex.: `codex --version`): as versões mais recentes suportam
+     descoberta nativa de skills em `.codex/skills/`; em versões anteriores o
+     caminho pode não ser lido automaticamente e o Caminho A é o caminho
+     confiável. O conteúdo copiado é o mesmo, sem adaptação.
 
 3. **Fallback embutido**: as skills `ui-designer`, `design-critic` e
    `a11y-auditor` têm instruções de fallback embutidas no próprio SKILL.md —
