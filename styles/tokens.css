@@ -1,0 +1,329 @@
+/* ==========================================================================
+   Design Tokens — styles/tokens.css
+   --------------------------------------------------------------------------
+   Camada 1 do design system: todos os valores de design como custom
+   properties CSS. Nada aqui depende de componentes.
+
+   Estrutura:
+     1. Paleta bruta            (independente de tema — usada pelas seções 9–10)
+     2. Tipografia              (escala + pesos + famílias)
+     3. Espaçamento             (escala de 4px)
+     4. Raios
+     5. Sombras / elevações
+     6. Motion                  (durações + easings)
+     7. z-index
+     8. Layout                  (container + breakpoints)
+     9. Tokens semânticos — TEMA CLARO (padrão em :root)
+    10. Tokens semânticos — TEMA ESCURO ([data-theme="dark"] +
+        fallback prefers-color-scheme)
+
+   Regra de uso:
+   - Componentes consomem APENAS os tokens semânticos (seções 9–10).
+   - A paleta bruta (seção 1) só é usada para compor os semânticos ou em
+     casos propositalmente fixos (ex.: overlay de cor).
+   - Nunca usar valores "mágicos" fora deste arquivo.
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     1. Paleta bruta — independente de tema
+     ========================================================================== */
+
+  /* Primária: índigo — ação, foco, destaque */
+  --c-primary-50:  #eef2ff;
+  --c-primary-100: #e0e7ff;
+  --c-primary-200: #c7d2fe;
+  --c-primary-300: #a5b4fc;
+  --c-primary-400: #818cf8;
+  --c-primary-500: #6366f1;
+  --c-primary-600: #4f46e5;
+  --c-primary-700: #4338ca;
+  --c-primary-800: #3730a3;
+  --c-primary-900: #312e81;
+
+  /* Neutra: slate — superfícies, texto, bordas */
+  --c-neutral-50:  #f8fafc;
+  --c-neutral-100: #f1f5f9;
+  --c-neutral-200: #e2e8f0;
+  --c-neutral-300: #cbd5e1;
+  --c-neutral-400: #94a3b8;
+  --c-neutral-500: #64748b;
+  --c-neutral-600: #475569;
+  --c-neutral-700: #334155;
+  --c-neutral-800: #1e293b;
+  --c-neutral-900: #0f172a;
+  --c-neutral-950: #020617;
+
+  /* Semânticas bruta (usadas nos tokens semânticos de cada tema) */
+  --c-success-600: #16a34a;
+  --c-warning-600: #b45309;   /* âmbar escuro: contraste AA em fundo claro */
+  --c-error-600:   #dc2626;
+  --c-info-600:    #0369a1;   /* céu escuro: contraste AA em fundo claro */
+
+  --c-success-400: #4ade80;
+  --c-warning-400: #fbbf24;
+  --c-error-400:   #f87171;
+  --c-info-400:    #38bdf8;
+
+  /* Fundos "soft" das cores semânticas (tema claro) */
+  --c-success-soft-l: #dcfce7;
+  --c-warning-soft-l: #fef3c7;
+  --c-error-soft-l:   #fee2e2;
+  --c-info-soft-l:    #e0f2fe;
+
+  /* ==========================================================================
+     2. Tipografia
+     ========================================================================== */
+  --font-family-base: system-ui, -apple-system, "Segoe UI", Roboto,
+                      "Helvetica Neue", Arial, sans-serif;
+  --font-family-heading: var(--font-family-base);
+  --font-family-mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo,
+                      Consolas, "Liberation Mono", monospace;
+
+  /* Escala (1rem = 16px) */
+  --font-size-display: 3.5rem;   /* 56px */
+  --font-size-h1:      2.5rem;   /* 40px */
+  --font-size-h2:      2rem;     /* 32px */
+  --font-size-h3:      1.5rem;   /* 24px */
+  --font-size-h4:      1.25rem;  /* 20px */
+  --font-size-h5:      1.125rem; /* 18px */
+  --font-size-h6:      1rem;     /* 16px */
+  --font-size-body:    1rem;     /* 16px */
+  --font-size-small:   0.875rem; /* 14px */
+  --font-size-caption: 0.75rem;  /* 12px */
+
+  /* Peso */
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:    700;
+
+  /* Altura de linha */
+  --font-line-height-tight:    1.2;
+  --font-line-height-body:     1.6;
+  --font-line-height-relaxed:  1.75;
+
+  /* Espaçamento de letras (leads grandes ficam ligeiramente fechados) */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-wide:   0.08em;
+
+  /* ==========================================================================
+     3. Espaçamento — escala de 4px
+     ========================================================================== */
+  --space-0:  0;
+  --space-1:  0.25rem;  /*  4px */
+  --space-2:  0.5rem;   /*  8px */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+
+  /* ==========================================================================
+     4. Raios
+     ========================================================================== */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+  --radius-full:  9999px;
+
+  /* ==========================================================================
+     5. Sombras / elevações
+     ========================================================================== */
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06),
+               0 1px 3px rgb(15 23 42 / 0.10);
+  --shadow-md: 0 4px 6px -2px rgb(15 23 42 / 0.06),
+               0 2px 4px -2px rgb(15 23 42 / 0.06);
+  --shadow-lg: 0 12px 16px -4px rgb(15 23 42 / 0.10),
+               0 4px 6px -2px rgb(15 23 42 / 0.06);
+  --shadow-xl: 0 24px 48px -12px rgb(15 23 42 / 0.18);
+
+  /* Anel de foco — sobrescrito por tema nas seções 9–10 */
+  --focus-ring-color: rgb(79 70 229 / 0.5);
+  --focus-ring: 0 0 0 3px var(--focus-ring-color);
+
+  /* ==========================================================================
+     6. Motion — durações e easings
+     ========================================================================== */
+  --motion-duration-fast: 120ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 320ms;
+
+  --motion-easing-out:     cubic-bezier(0, 0, 0.2, 1);
+  --motion-easing-in:      cubic-bezier(0.4, 0, 1, 1);
+  --motion-easing-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ==========================================================================
+     7. z-index — camadas canônicas
+     ========================================================================== */
+  --z-base:     0;
+  --z-dropdown: 1000;
+  --z-sticky:   1100;
+  --z-overlay:  1300;
+  --z-modal:    1400;
+  --z-popover:  1500;
+  --z-toast:    1600;
+  --z-tooltip:  1700;
+
+  /* ==========================================================================
+     8. Layout — container e breakpoints (mobile-first)
+     ========================================================================== */
+  --container-sm:  40rem;  /*  640px */
+  --container-md:  48rem;  /*  768px */
+  --container-lg:  64rem;  /* 1024px */
+  --container-xl:  80rem;  /* 1280px */
+  --container-2xl: 96rem;  /* 1536px */
+
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ==========================================================================
+     9. Tokens semânticos — TEMA CLARO (padrão)
+     ========================================================================== */
+
+  /* Superfícies e texto */
+  --color-bg:             var(--c-neutral-50);
+  --color-surface:        #ffffff;
+  --color-surface-muted:  var(--c-neutral-100);
+  --color-text:           var(--c-neutral-900);
+  --color-text-strong:    var(--c-neutral-950);
+  --color-text-muted:     var(--c-neutral-500);
+  --color-border:         var(--c-neutral-200);
+  --color-border-strong:  var(--c-neutral-300);
+
+  /* Ação (primária) */
+  --color-primary:         var(--c-primary-600);
+  --color-primary-hover:   var(--c-primary-700);
+  --color-primary-active:  var(--c-primary-800);
+  --color-on-primary:      #ffffff;
+  --color-primary-soft:    var(--c-primary-50);
+  --color-primary-soft-strong: var(--c-primary-100);
+
+  /* Semânticas — texto/ícone com contraste AA sobre fundo claro */
+  --color-success: var(--c-success-600);
+  --color-warning: var(--c-warning-600);
+  --color-error:   var(--c-error-600);
+  --color-info:    var(--c-info-600);
+
+  /* Semânticas — fundos "soft" */
+  --color-success-soft: var(--c-success-soft-l);
+  --color-warning-soft: var(--c-warning-soft-l);
+  --color-error-soft:   var(--c-error-soft-l);
+  --color-info-soft:    var(--c-info-soft-l);
+
+  /* Sombras do tema claro */
+  --shadow-color: rgb(15 23 42 / 0.10);
+  --focus-ring-color: rgb(79 70 229 / 0.5);
+  --focus-ring: 0 0 0 3px var(--focus-ring-color);
+}
+
+/* ==========================================================================
+   10. Tokens semânticos — TEMA ESCURO
+   --------------------------------------------------------------------------
+   Aplicado de duas formas (fallback em cascata):
+   1. Explícito:  <html data-theme="dark">  (gerenciado pelo app na fase 2)
+   2. Automático: prefers-color-scheme: dark — vale quando NENHUM
+      data-theme está definido, e não sobrescreve um data-theme="light".
+   ========================================================================== */
+
+[data-theme="dark"] {
+  /* Superfícies e texto */
+  --color-bg:             var(--c-neutral-950);
+  --color-surface:        var(--c-neutral-900);
+  --color-surface-muted:  var(--c-neutral-800);
+  --color-text:           var(--c-neutral-100);
+  --color-text-strong:    #ffffff;
+  --color-text-muted:     var(--c-neutral-400);
+  --color-border:         var(--c-neutral-800);
+  --color-border-strong:  var(--c-neutral-700);
+
+  /* Ação (primária) — tons mais claros para contraste em fundo escuro */
+  --color-primary:         var(--c-primary-400);
+  --color-primary-hover:   var(--c-primary-300);
+  --color-primary-active:  var(--c-primary-200);
+  --color-on-primary:      var(--c-neutral-950);
+  --color-primary-soft:    rgb(129 140 248 / 0.15);
+  --color-primary-soft-strong: rgb(129 140 248 / 0.25);
+
+  /* Semânticas — tons claros (400) para contraste em fundo escuro */
+  --color-success: var(--c-success-400);
+  --color-warning: var(--c-warning-400);
+  --color-error:   var(--c-error-400);
+  --color-info:    var(--c-info-400);
+
+  /* Semânticas — fundos "soft" translúcidos */
+  --color-success-soft: rgb(74 222 128 / 0.15);
+  --color-warning-soft: rgb(251 191 36 / 0.15);
+  --color-error-soft:   rgb(248 113 113 / 0.15);
+  --color-info-soft:    rgb(56 189 248 / 0.15);
+
+  /* Sombras do tema escuro — mais profundas, com alpha maior */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.40),
+               0 1px 3px rgb(0 0 0 / 0.45);
+  --shadow-md: 0 4px 6px -2px rgb(0 0 0 / 0.35),
+               0 2px 4px -2px rgb(0 0 0 / 0.35);
+  --shadow-lg: 0 12px 16px -4px rgb(0 0 0 / 0.40),
+               0 4px 6px -2px rgb(0 0 0 / 0.35);
+  --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.55);
+
+  --shadow-color: rgb(0 0 0 / 0.45);
+  --focus-ring-color: rgb(129 140 248 / 0.6);
+  --focus-ring: 0 0 0 3px var(--focus-ring-color);
+}
+
+/* Fallback automático: dark mode do sistema, sem data-theme definido */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Superfícies e texto */
+    --color-bg:             var(--c-neutral-950);
+    --color-surface:        var(--c-neutral-900);
+    --color-surface-muted:  var(--c-neutral-800);
+    --color-text:           var(--c-neutral-100);
+    --color-text-strong:    #ffffff;
+    --color-text-muted:     var(--c-neutral-400);
+    --color-border:         var(--c-neutral-800);
+    --color-border-strong:  var(--c-neutral-700);
+
+    /* Ação (primária) */
+    --color-primary:         var(--c-primary-400);
+    --color-primary-hover:   var(--c-primary-300);
+    --color-primary-active:  var(--c-primary-200);
+    --color-on-primary:      var(--c-neutral-950);
+    --color-primary-soft:    rgb(129 140 248 / 0.15);
+    --color-primary-soft-strong: rgb(129 140 248 / 0.25);
+
+    /* Semânticas */
+    --color-success: var(--c-success-400);
+    --color-warning: var(--c-warning-400);
+    --color-error:   var(--c-error-400);
+    --color-info:    var(--c-info-400);
+
+    --color-success-soft: rgb(74 222 128 / 0.15);
+    --color-warning-soft: rgb(251 191 36 / 0.15);
+    --color-error-soft:   rgb(248 113 113 / 0.15);
+    --color-info-soft:    rgb(56 189 248 / 0.15);
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.40),
+                 0 1px 3px rgb(0 0 0 / 0.45);
+    --shadow-md: 0 4px 6px -2px rgb(0 0 0 / 0.35),
+                 0 2px 4px -2px rgb(0 0 0 / 0.35);
+    --shadow-lg: 0 12px 16px -4px rgb(0 0 0 / 0.40),
+                 0 4px 6px -2px rgb(0 0 0 / 0.35);
+    --shadow-xl: 0 24px 48px -12px rgb(0 0 0 / 0.55);
+
+    --shadow-color: rgb(0 0 0 / 0.45);
+    --focus-ring-color: rgb(129 140 248 / 0.6);
+    --focus-ring: 0 0 0 3px var(--focus-ring-color);
+  }
+}

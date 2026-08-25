@@ -1,0 +1,291 @@
+/* ==========================================================================
+   Base — styles/base.css
+   --------------------------------------------------------------------------
+   Reset moderno, tipografia base, foco acessível, seleção, scrollbar e
+   utilitários. Consome exclusivamente os tokens de styles/tokens.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Reset moderno
+   -------------------------------------------------------------------------- */
+
+/* Box-sizing consistente em tudo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove margens padrão (a margem volta onde fizer sentido, via componente) */
+* {
+  margin: 0;
+}
+
+/* Guarda explícita: atributo hidden sempre oculta, independente de display
+   definido por classe de componente (padrão defensivo do kit; ex.: modal,
+   dropdown__menu, tabs__panel, tbody vazio alternam [hidden]).
+   !important garante a regra mesmo contra .foo { display: block } de
+   componentes que não listam [hidden] no seletor (ex.: .btn[hidden]). */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--font-line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Transição suave entre temas claro/escuro */
+  transition:
+    background-color var(--motion-duration-base) var(--motion-easing-out),
+    color var(--motion-duration-base) var(--motion-easing-out);
+}
+
+/* Mídia: não estoura o container e não vaza espaçamento inline */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Formulários herdam a tipografia e a cor do contexto */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Quebra de palavras segura para títulos e parágrafos longos */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Listas sem classe mantêm o estilo nativo; com classe viram listas limpas */
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. Tipografia base
+   -------------------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+  color: var(--color-text-strong);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+small {
+  font-size: var(--font-size-small);
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   3. Foco acessível — anel visível via tokens (nunca outline padrão sumido)
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   4. Seleção de texto
+   -------------------------------------------------------------------------- */
+
+::selection {
+  background-color: var(--color-primary-soft-strong);
+  color: var(--color-text-strong);
+}
+
+/* --------------------------------------------------------------------------
+   5. Scrollbar discreta
+   -------------------------------------------------------------------------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-strong);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   6. Movimento reduzido — usuários com prefers-reduced-motion: reduce
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body,
+  .site-header,
+  .sidebar,
+  .layout__backdrop,
+  .menu-toggle,
+  .theme-toggle,
+  .menu-toggle__line {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Utilitários básicos
+   -------------------------------------------------------------------------- */
+
+/* Container centralizado com largura máxima e respiro lateral */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  .container {
+    padding-inline: var(--space-6);
+  }
+}
+
+/* Acessível: conteúdo visível apenas para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* sr-only que "volta" quando recebe foco (ex.: link "pular para conteúdo") */
+.sr-only-focusable:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: var(--space-2);
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Flex helpers */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }

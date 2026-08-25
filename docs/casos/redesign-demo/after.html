@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cloudly: plataforma de gestão de tarefas, projetos e times para equipes que precisam de clareza no dia a dia.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Cloudly: gestão de tarefas moderna</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%234f46e5'/><path d='M20 20h24v6H20zm0 10h16v6H20zm0 10h24v6H20z' fill='white'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit): evita flash
+       de tema errado antes do CSS. Lê dk-theme; fallback prefers-color-scheme. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="../../../styles/components.css">
+  <link rel="stylesheet" href="redesign.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho (alavanca 3 e 4: cor do kit + motion de hover; 1 linha, <= 80px)
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <rect x="4" y="4" width="6" height="6" rx="1.5"/>
+          <rect x="14" y="4" width="6" height="6" rx="1.5"/>
+          <rect x="4" y="14" width="6" height="6" rx="1.5"/>
+          <rect x="14" y="14" width="6" height="6" rx="1.5"/>
+        </svg>
+        <span class="site-header__name">Cloudly</span>
+      </a>
+
+      <!-- Nav preservada: mesmos labels, mesma ordem (invioláveis da auditoria) -->
+      <nav id="site-nav" class="site-nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#precos">Preços</a>
+        <a href="#depoimentos">Depoimentos</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <a class="btn btn--primary" href="#cta">Começar grátis</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ==============================================================
+         Hero (alavanca 5: recomposição - split assimétrico, disciplina §4.2)
+         ============================================================== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Gestão de tarefas para times</p>
+          <h1 id="hero-titulo" class="hero__title">Clareza no que cada um faz, hoje.</h1>
+          <p class="hero__sub">Organize tarefas, projetos e reuniões em um só lugar, sem planilha e sem perder o contexto.</p>
+          <div class="hero__ctas">
+            <a class="btn btn--primary" href="#cta">Começar grátis</a>
+            <a class="btn btn--ghost" href="#recursos">Ver recursos</a>
+          </div>
+        </div>
+
+        <!-- Alavanca 6: fake screenshot de div foi SUBSTITUÍDO por um
+             mockup de produto real em SVG (checklist com estados e uma
+             barra de progresso honesta). Não é decoração: é o produto. -->
+        <figure class="hero__visual" aria-label="Prévia do quadro de tarefas do Cloudly">
+          <div class="app-mockup" role="img" aria-label="Quadro de tarefas com três itens: dois concluídos, um em andamento, e 66% do dia planejado">
+            <div class="app-mockup__head">
+              <span class="app-mockup__title">Planejamento da semana</span>
+              <span class="app-mockup__badge">66%</span>
+            </div>
+            <ul class="app-mockup__list">
+              <li class="app-mockup__item app-mockup__item--done">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M3 8l3.5 3.5L13 4.5"/>
+                </svg>
+                <span>Briefing com o time de produto</span>
+              </li>
+              <li class="app-mockup__item app-mockup__item--done">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M3 8l3.5 3.5L13 4.5"/>
+                </svg>
+                <span>Revisar prioridades do sprint</span>
+              </li>
+              <li class="app-mockup__item">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="5.5"/>
+                </svg>
+                <span>Preparar pauta de quinta-feira</span>
+              </li>
+            </ul>
+            <div class="app-mockup__progress" aria-hidden="true">
+              <span class="app-mockup__progress-fill"></span>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Recursos (alavanca 6: 3 cards iguais -> grid assimétrico 2+1;
+         1 eyebrow aqui, hero conta como 1 => 2 <= ceil(5/3)=2)
+         ============================================================== -->
+    <section id="recursos" class="section" aria-labelledby="recursos-titulo">
+      <div class="container">
+        <h2 id="recursos-titulo" class="section__title">O que o Cloudly organiza por você</h2>
+        <div class="features-grid">
+          <article class="feature feature--wide">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M9 5h11M9 12h11M9 19h11"/>
+              <circle cx="4" cy="5" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="19" r="1.5"/>
+            </svg>
+            <h3 class="feature__title">Tarefas com dono e prazo</h3>
+            <p class="feature__text">Cada item tem responsável, data e estado. Ninguém precisa perguntar no chat o que ficou para quem.</p>
+          </article>
+          <article class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            </svg>
+            <h3 class="feature__title">Visão do time em um quadro</h3>
+            <p class="feature__text">Colunas por estado, filtros por pessoa e um olhar para o que está parado.</p>
+          </article>
+          <article class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M12 20V10"/>
+              <path d="M18 20V4"/>
+              <path d="M6 20v-4"/>
+            </svg>
+            <h3 class="feature__title">Relatório semanal simples</h3>
+            <p class="feature__text">O que foi feito, o que atrasou e o que vem a seguir, em uma página de leitura rápida.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Preços (preservados: nomes, valores, ordem; sem eyebrow excedente)
+         ============================================================== -->
+    <section id="precos" class="section section--alt" aria-labelledby="precos-titulo">
+      <div class="container">
+        <h2 id="precos-titulo" class="section__title">Planos simples, sem letra miúda</h2>
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <h3 class="pricing-card__name">Básico</h3>
+            <p class="pricing-card__price">R$ 0 <span>/mês</span></p>
+            <p class="pricing-card__desc">Para uso pessoal</p>
+            <a class="btn btn--ghost" href="#cta">Começar</a>
+          </article>
+          <article class="pricing-card pricing-card--featured">
+            <h3 class="pricing-card__name">Profissional</h3>
+            <p class="pricing-card__price">R$ 29 <span>/mês</span></p>
+            <p class="pricing-card__desc">Para times em crescimento</p>
+            <a class="btn btn--primary" href="#cta">Começar</a>
+          </article>
+          <article class="pricing-card">
+            <h3 class="pricing-card__name">Empresa</h3>
+            <p class="pricing-card__price">R$ 99 <span>/mês</span></p>
+            <p class="pricing-card__desc">Para grandes organizações</p>
+            <a class="btn btn--ghost" href="#cta">Falar com vendas</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Depoimentos (persona real pt-BR; número honesto, sem porcentagem fabricada)
+         ============================================================== -->
+    <section id="depoimentos" class="section" aria-labelledby="depoimentos-titulo">
+      <div class="container container--narrow">
+        <h2 id="depoimentos-titulo" class="section__title">Quem usa o Cloudly</h2>
+        <blockquote class="testimonial">
+          <p class="testimonial__quote">Deixamos de combinar tarefa por chat. A pauta da semana, as pendências e os donos ficam num lugar só, e a reunião de status voltou a ser de 20 minutos.</p>
+          <footer class="testimonial__author">Mariana Duarte, gerente de produto na Plena</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         CTA final (sem gradiente roxo; sólido, sem "10.000 times" falso)
+         ============================================================== -->
+    <section id="cta" class="cta-final" aria-labelledby="cta-titulo">
+      <div class="container">
+        <h2 id="cta-titulo" class="cta-final__title">Monte a lista de hoje em dois minutos</h2>
+        <p class="cta-final__sub">Sem cartão para começar. Importe do jeito que o time já trabalha.</p>
+        <a class="btn btn--inverse" href="#main">Começar grátis</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__meta">© 2026 Cloudly. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Menu colapsável auto-contido (mesmo padrão do kit: .menu-toggle) -->
+  <script>
+    (function () {
+      var toggle = document.getElementById("menu-toggle");
+      var nav = document.getElementById("site-nav");
+      if (!toggle || !nav) return;
+      var mqDesktop = window.matchMedia("(min-width: 768px)");
+
+      var setOpen = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+
+      toggle.addEventListener("click", function () {
+        setOpen(!nav.classList.contains("is-open"));
+      });
+
+      nav.addEventListener("click", function (event) {
+        if (event.target.closest("a")) setOpen(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener("change", function (event) {
+          if (event.matches) setOpen(false);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

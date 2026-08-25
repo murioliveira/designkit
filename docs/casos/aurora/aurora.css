@@ -1,0 +1,626 @@
+/* ==========================================================================
+   Caso Aurora e Cinza - aurora.css
+   --------------------------------------------------------------------------
+   Landing do ateliê de cerâmica artesanal. Consome APENAS os tokens de
+   styles/tokens.css (sem valores mágicos de cor/espaçamento/raio/sombra).
+
+   Família estética: monocromático de pedra (slate) + pop índigo do kit.
+   Deliberadamente NÃO é a paleta bege+latão+oxblood do "premium consumer"
+   (tell nº 2 do DESIGN.md) - a cerâmica usa frio de pedra e um único accent.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Skip-link: alvo principal não fica sob o header sticky
+   -------------------------------------------------------------------------- */
+main[id],
+section[id],
+footer[id] {
+  scroll-margin-top: var(--space-16);
+}
+
+/* --------------------------------------------------------------------------
+   Cabeçalho - sticky, vidro com fallback sólido, altura ≤ 80px
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  border-bottom: 1px solid var(--color-border);
+  /* Vidro: cor de fundo translúcida composta do token de fundo (constante de
+     efeito: alpha 88%, blur 12px) - mesmo padrão adotado no caso Lumen */
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .site-header {
+    background-color: var(--color-bg);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  /* Altura ≤ 80px (regra de nav do DESIGN.md): 4rem = 64px de conteúdo */
+  min-height: var(--space-16);
+  padding-block: var(--space-2);
+}
+
+/* Ordem visual desktop: brand (1) | nav (2) | actions (3). O nav vem DEPOIS
+   das actions no DOM (tabulação chega ao painel do menu pelo teclado); a
+   ordem visual é restaurada por order - não depende da ordem do HTML. */
+.site-header__brand { order: 1; }
+.site-nav { order: 2; }
+.site-header__actions { order: 3; }
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h6);
+}
+
+.site-header__brand:hover {
+  color: var(--color-text-strong);
+  text-decoration: none;
+}
+
+.site-header__mark {
+  width: var(--space-5);
+  height: var(--space-5);
+  color: var(--color-primary);
+}
+
+/* Nav: painel colapsável no mobile (padrão disclosure do APG) */
+.site-nav {
+  display: none;
+}
+
+.site-nav.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  z-index: var(--z-sticky);
+}
+
+.site-nav.is-open a {
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-medium);
+}
+
+.site-nav.is-open a:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface-muted);
+  text-decoration: none;
+}
+
+.site-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Menu hambúrguer (mobile) - vira X quando aberto
+   -------------------------------------------------------------------------- */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.menu-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.menu-toggle__line {
+  transition:
+    transform var(--motion-duration-base) var(--motion-easing-out),
+    opacity var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   Toggle de tema - pill com sol/lua alternados pelo data-theme
+   -------------------------------------------------------------------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.theme-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+  display: none;
+}
+
+/* Lua visível no claro (ação de mudar para escuro), sol no escuro */
+.theme-toggle__icon--moon { display: block; }
+.theme-toggle__icon--sun { display: none; }
+
+[data-theme="dark"] .theme-toggle__icon--moon { display: none; }
+[data-theme="dark"] .theme-toggle__icon--sun { display: block; }
+
+/* Foco em pills: o base.css aplica radius-sm global; pills restauram o raio */
+.menu-toggle:focus-visible,
+.theme-toggle:focus-visible {
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   Hero - split assimétrico (conteúdo | peça), mobile-first
+   -------------------------------------------------------------------------- */
+.hero {
+  /* padding top ≤ 6rem (regra do DESIGN.md): 4rem de respiro, hero no viewport */
+  padding-block: var(--space-16) var(--space-20);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.hero__content {
+  max-width: var(--container-md);
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.hero__title {
+  font-size: var(--font-size-h1);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  /* headline ≤ 2 linhas no desktop: display 56px, texto curto */
+  max-width: 14ch;
+}
+
+.hero__lead {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-h6);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  max-width: var(--container-sm);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+/* Peça do hero: silhueta de vaso em SVG, escala com a célula */
+.hero__visual {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.hero__piece {
+  width: 100%;
+  max-width: 20rem;
+}
+
+/* --------------------------------------------------------------------------
+   Manifesto - editorial: a tipografia é a voz
+   -------------------------------------------------------------------------- */
+.manifesto {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.manifesto__inner {
+  max-width: var(--container-md);
+}
+
+.manifesto__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+}
+
+.manifesto__text {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-h6);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Coleção - grid assimétrico (células de tamanhos variados, sem 3 iguais)
+   -------------------------------------------------------------------------- */
+.colecao {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.colecao__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-10);
+}
+
+.colecao__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.piece {
+  margin: 0;
+}
+
+.piece__media {
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+  overflow: hidden;
+  /* Proporção da célula: constante de geometria da peça (4:3) */
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Célula em retrato: peça alta (3:4) */
+.piece--tall .piece__media {
+  aspect-ratio: 3 / 4;
+}
+
+/* Slot de foto real (ainda sem asset): fundo neutro com hairlines, sem
+   label sobre imagem (banido). O role="img" + aria-label descreve a foto. */
+.piece__media--photo,
+.processo__visual--photo {
+  background-color: var(--color-surface-muted);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.piece figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.piece__name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-h6);
+}
+
+.piece__material {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Processo - grade desalinhada (célula do meio desce), 3 famílias visuais
+   -------------------------------------------------------------------------- */
+.processo {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.processo__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-10);
+}
+
+.processo__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+}
+
+.processo__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.processo__visual {
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.processo__name {
+  font-size: var(--font-size-h4);
+  margin-top: var(--space-2);
+}
+
+.processo__text {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Depoimentos - lista com hairlines (sem cards: a elevação não agrega aqui)
+   -------------------------------------------------------------------------- */
+.depoimentos {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.depoimentos__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: var(--space-10);
+}
+
+.depoimentos__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.quote {
+  margin: 0;
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.quote:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.quote__text {
+  font-size: var(--font-size-h6);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  /* quotes ≤ 3 linhas: max 3, texto curto */
+  max-width: var(--container-sm);
+}
+
+.quote__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.quote__author {
+  font-style: normal;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+.quote__role {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Chamada final - editorial, uma mensagem, um CTA
+   -------------------------------------------------------------------------- */
+.cta {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.cta__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  max-width: var(--container-md);
+}
+
+.cta__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.cta__text {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  max-width: var(--container-sm);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   Rodapé - contato real, sem version footer, sem strip de local
+   -------------------------------------------------------------------------- */
+.site-footer {
+  padding-block: var(--space-12) var(--space-16);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.site-footer__brand p {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.site-footer__nav a {
+  color: var(--color-text);
+  width: fit-content;
+  padding: var(--space-1) 0;
+}
+
+.site-footer__nav a:hover {
+  color: var(--color-primary);
+}
+
+.site-footer__meta {
+  font-size: var(--font-size-small);
+  /* text (não muted): muted sobre surface-muted dá 4.34:1 (falha AA) */
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Breakpoints - desktop
+   -------------------------------------------------------------------------- */
+@media (min-width: var(--breakpoint-md)) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .site-nav a {
+    color: var(--color-text);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-2);
+  }
+
+  .site-nav a:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-16);
+  }
+
+  .hero__title {
+    font-size: var(--font-size-display);
+    max-width: 12ch;
+  }
+
+  .colecao__grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+
+  /* Células de larguras variadas: wide = 4 colunas, padrão = 2 */
+  .piece { grid-column: span 2; }
+  .piece--wide { grid-column: span 4; }
+
+  .processo__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+
+  /* Desalinhamento intencional: a célula do meio desce 2rem (ritmo, não erro) */
+  .processo__cell--offset {
+    margin-top: var(--space-8);
+  }
+
+  .depoimentos__list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-12);
+  }
+
+  .quote:nth-child(even) {
+    border-top-color: transparent;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .site-footer__meta {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Movimento reduzido - colapsa transforms/transitions/scroll
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle,
+  .theme-toggle,
+  .menu-toggle__line,
+  .btn {
+    transition: none;
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1),
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+    transform: none;
+  }
+}

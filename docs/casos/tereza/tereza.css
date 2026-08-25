@@ -1,0 +1,632 @@
+/* ==========================================================================
+   Caso Tereza Vilela - tereza.css
+   --------------------------------------------------------------------------
+   Portfólio de ilustradora editorial (modo Experience). Consome APENAS os
+   tokens de styles/tokens.css (sem valores mágicos de cor/espaçamento/raio/
+   sombra/fonte).
+
+   Família estética: terracotta + slate. O accent da página é --color-warning
+   (âmbar do kit: 5.0:1 AA no claro, 10.7:1 no escuro),
+   usado como "tinta" da ilustradora; os neutros slate do kit são o "papel".
+   Deliberadamente NÃO é a paleta bege+latão+oxblood do premium consumer
+   (tell nº 2 do DESIGN.md) nem o índigo do caso Aurora: a justificativa vem
+   do ofício (tinta editorial sobre papel frio), e o accent é único na página.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Skip-link: alvo principal não fica sob o header sticky
+   -------------------------------------------------------------------------- */
+main[id],
+section[id],
+footer[id] {
+  scroll-margin-top: var(--space-16);
+}
+
+/* --------------------------------------------------------------------------
+   Cabeçalho - sticky, vidro com fallback sólido, altura ≤ 80px
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  border-bottom: 1px solid var(--color-border);
+  /* Vidro: cor translúcida composta do token de fundo (constante de efeito:
+     alpha 88%, blur 12px) - mesmo padrão dos casos Lumen e Aurora */
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .site-header {
+    background-color: var(--color-bg);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  /* Altura ≤ 80px (regra de nav do DESIGN.md): 4rem = 64px de conteúdo */
+  min-height: var(--space-16);
+  padding-block: var(--space-2);
+}
+
+/* Ordem visual desktop: brand (1) | nav (2) | actions (3). O nav vem DEPOIS
+   das actions no DOM (tabulação chega ao painel do menu pelo teclado); a
+   ordem visual é restaurada por order - não depende da ordem do HTML. */
+.site-header__brand { order: 1; }
+.site-nav { order: 2; }
+.site-header__actions { order: 3; }
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h6);
+}
+
+.site-header__brand:hover {
+  color: var(--color-text-strong);
+  text-decoration: none;
+}
+
+.site-header__mark {
+  width: var(--space-5);
+  height: var(--space-5);
+  color: var(--color-warning);
+}
+
+/* Nav: painel colapsável no mobile (padrão disclosure do APG) */
+.site-nav {
+  display: none;
+}
+
+.site-nav.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  z-index: var(--z-sticky);
+}
+
+.site-nav.is-open a {
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-medium);
+}
+
+.site-nav.is-open a:hover {
+  color: var(--color-warning);
+  background-color: var(--color-surface-muted);
+  text-decoration: none;
+}
+
+.site-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Menu hambúrguer (mobile) - vira X quando aberto
+   -------------------------------------------------------------------------- */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.menu-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.menu-toggle__line {
+  transition:
+    transform var(--motion-duration-base) var(--motion-easing-out),
+    opacity var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   Toggle de tema - pill com sol/lua alternados pelo data-theme
+   -------------------------------------------------------------------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.theme-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+  display: none;
+}
+
+/* Lua visível no claro (ação de mudar para escuro), sol no escuro */
+.theme-toggle__icon--moon { display: block; }
+.theme-toggle__icon--sun { display: none; }
+
+[data-theme="dark"] .theme-toggle__icon--moon { display: none; }
+[data-theme="dark"] .theme-toggle__icon--sun { display: block; }
+
+/* Foco em pills: o base.css aplica radius-sm global; pills restauram o raio */
+.menu-toggle:focus-visible,
+.theme-toggle:focus-visible {
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   Hero manifesto: o primeiro viewport é a OBRA
+   -------------------------------------------------------------------------- */
+.hero {
+  padding-block: var(--space-16) var(--space-20);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.hero__piece {
+  margin: 0;
+}
+
+.hero__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero__caption {
+  max-width: var(--container-sm);
+}
+
+.eyebrow {
+  color: var(--color-warning);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.hero__title {
+  font-size: var(--font-size-display);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  font-weight: var(--font-weight-bold);
+  max-width: 12ch;
+}
+
+.hero__lead {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-h5);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  max-width: var(--container-sm);
+}
+
+.hero__caption .btn {
+  margin-top: var(--space-8);
+}
+
+/* --------------------------------------------------------------------------
+   Galeria de curadoria (bloco galeria-experience: grid assimétrico)
+   -------------------------------------------------------------------------- */
+.galeria {
+  padding-block: var(--space-20) var(--space-24);
+  border-top: 1px solid var(--color-border);
+}
+
+.galeria__titulo {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  max-width: 16ch;
+}
+
+.galeria__intro {
+  margin-top: var(--space-4);
+  max-width: var(--container-sm);
+  color: var(--color-text);
+}
+
+.galeria__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.peça {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+}
+
+.peça__media svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.peça__legenda {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-6);
+  background: linear-gradient(to top, var(--color-bg) 0%, transparent 100%);
+  color: var(--color-text-strong);
+}
+
+.peça__titulo {
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-semibold);
+}
+
+.peça__meta {
+  font-size: var(--font-size-caption);
+  color: var(--color-text);
+}
+
+/* Hover/foco: zoom sutil na peça (MOTION 4, só transform) */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .peça:hover .peça__media svg {
+    transform: scale(1.03);
+  }
+  .peça:focus-within .peça__media svg {
+    transform: scale(1.03);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Ensaios: transição entre peças (destaques, sem zigzag repetido)
+   -------------------------------------------------------------------------- */
+.ensaios {
+  padding-block: var(--space-20) var(--space-24);
+  border-top: 1px solid var(--color-border);
+}
+
+.ensaios__titulo {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+}
+
+.ensaio {
+  margin-top: var(--space-12);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.ensaio__media {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface-muted);
+}
+
+.ensaio__media svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ensaio__corpo {
+  max-width: var(--container-sm);
+}
+
+.ensaio__nome {
+  font-size: var(--font-size-h3);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+}
+
+.ensaio__texto {
+  margin-top: var(--space-4);
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+}
+
+.ensaio__nota {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* Ensaios em layouts DIFERENTES (diversidade de família, sem zigzag): o
+   destaque usa peça grande + corpo por baixo; a companhia usa 2 colunas no
+   desktop com peça à direita (ordem visual distinta da primeira). */
+
+/* --------------------------------------------------------------------------
+   Sobre (manifesto curto, editorial, tipografia como voz)
+   -------------------------------------------------------------------------- */
+.sobre {
+  padding-block: var(--space-24);
+  border-top: 1px solid var(--color-border);
+}
+
+.sobre__inner {
+  max-width: var(--container-md);
+}
+
+.sobre__titulo {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  max-width: 18ch;
+}
+
+.sobre__texto {
+  margin-top: var(--space-8);
+  display: grid;
+  gap: var(--space-6);
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+}
+
+.sobre__texto p {
+  margin: 0;
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Contato (CTA único e discreto)
+   -------------------------------------------------------------------------- */
+.contato {
+  padding-block: var(--space-24);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.contato__titulo {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+}
+
+.contato__texto {
+  margin: var(--space-4) auto 0;
+  max-width: var(--container-sm);
+  color: var(--color-text);
+}
+
+.contato__inner .btn {
+  margin-top: var(--space-8);
+}
+
+/* --------------------------------------------------------------------------
+   Rodapé mínimo
+   -------------------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-12);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.site-footer__marca {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.site-footer__nav a {
+  color: var(--color-text);
+  font-size: var(--font-size-small);
+}
+
+.site-footer__nav a:hover {
+  color: var(--color-warning);
+  text-decoration: none;
+}
+
+.site-footer__meta {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Revelação suave entre peças (MOTION 4): .is-visible adicionado pelo
+   IntersectionObserver; só transform/opacity (regra §4.4).
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--space-6));
+  transition:
+    opacity var(--motion-duration-slow) var(--motion-easing-out),
+    transform var(--motion-duration-slow) var(--motion-easing-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: colapsa transições, zoom e revelação para o estado final
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle__line,
+  .peça__media svg,
+  .reveal {
+    transition: none;
+  }
+  .peça__media svg {
+    transform: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop (breakpoints do kit)
+   -------------------------------------------------------------------------- */
+@media (min-width: var(--breakpoint-md)) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .site-nav a {
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+
+  .site-nav a:hover {
+    color: var(--color-warning);
+    background-color: var(--color-surface-muted);
+    text-decoration: none;
+  }
+
+  /* Hero: obra à esquerda (dominante), legenda à direita */
+  .hero__inner {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--space-16);
+  }
+
+  .hero__piece {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hero__caption {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* Galeria: grade assimétrica (VARIANCE 8) */
+  .galeria__grid {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: start;
+  }
+
+  .peça--livro {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+
+  .peça--ensaio {
+    grid-column: 2;
+  }
+
+  .peça--alta {
+    grid-column: 2;
+  }
+
+  .peça--larga {
+    grid-column: 1 / -1;
+  }
+
+  .peça--retrato {
+    grid-column: 1;
+    grid-row: span 1;
+  }
+
+  /* Ensaios: layouts distintos (sem zigzag repetido) */
+  .ensaio--destaque {
+    grid-template-columns: 1fr;
+  }
+
+  .ensaio--companhia {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+
+  .ensaio--companhia .ensaio__media {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .ensaio--companhia .ensaio__corpo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Rodapé: marca + nav numa linha, meta abaixo */
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .site-footer__meta {
+    grid-column: 1 / -1;
+  }
+}

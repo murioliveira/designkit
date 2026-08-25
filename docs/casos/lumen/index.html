@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lumen: assistente de foco e bem-estar digital com IA. Planeje seu dia em blocos de foco, silencie distrações e meça sua energia.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Lumen: Foco profundo, energia medida</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%234f46e5'/><circle cx='32' cy='32' r='14' fill='none' stroke='white' stroke-width='5'/><path d='M32 24v8l5 4' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit): evita flash
+       de tema errado antes do CSS. Lê dk-theme; fallback prefers-color-scheme. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="lumen.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="8"/>
+          <path d="M12 8v4l3 2"/>
+        </svg>
+        <span class="site-header__name">Lumen</span>
+      </a>
+
+      <div class="site-header__actions">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <a class="btn btn--primary btn--sm" href="#cta-final">Começar grátis</a>
+      </div>
+
+      <!-- Nav após .site-header__actions no DOM: o foco de Tab chega ao painel do menu
+           (padrão disclosure do APG); a ordem visual é restaurada por order no CSS. -->
+      <nav id="site-nav" class="site-nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#depoimentos">Depoimentos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ==============================================================
+         Hero
+         ============================================================== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="eyebrow">Assistente de foco com IA</p>
+          <h1 id="hero-titulo" class="hero__title">Foco profundo. Energia medida. Distrações em silêncio.</h1>
+          <p class="hero__lead">
+            O Lumen planeja seu dia em blocos de foco, silencia o que tira sua atenção
+            e usa IA para acompanhar sua energia, para você terminar o dia com a
+            sensação de que o que importa foi feito.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#cta-final">Planejar meu primeiro bloco</a>
+            <a class="btn btn--secondary btn--lg" href="#como-funciona">Ver como funciona</a>
+          </div>
+          <ul class="hero__points" aria-label="Benefícios em resumo">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Blocos de 50 a 90 minutos, montados pelo seu ritmo
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Notificações silenciadas por contexto
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Curva de energia atualizada em tempo real
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero__visual" role="img"
+             aria-label="Prévia do app Lumen: bloco de foco das 9h às 10h30, 42 minutos decorridos, energia em 72%, 14 distrações silenciadas, pausa sugerida em 12 minutos">
+          <div class="app-card">
+            <div class="app-card__top">
+              <span class="app-card__label">Bloco de foco</span>
+              <span class="app-card__time">09:00 - 10:30</span>
+            </div>
+
+            <div class="app-card__ring-wrap">
+              <svg class="app-card__ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                <circle class="app-card__ring-bg" cx="60" cy="60" r="52"/>
+                <circle class="app-card__ring-fg" cx="60" cy="60" r="52"/>
+              </svg>
+              <div class="app-card__ring-text">
+                <strong>42</strong>
+                <span>min</span>
+              </div>
+            </div>
+
+            <div class="app-card__energy">
+              <span class="app-card__energy-label">Energia agora</span>
+              <strong class="app-card__energy-value">72%</strong>
+              <svg class="app-card__spark" viewBox="0 0 105 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="0,20 15,16 30,18 45,10 60,13 75,7 90,10 105,4"/>
+              </svg>
+            </div>
+
+            <div class="app-card__foot">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+                <line x1="22" y1="9" x2="16" y2="15"/>
+                <line x1="16" y1="9" x2="22" y2="15"/>
+              </svg>
+              <span>14 distrações silenciadas</span>
+            </div>
+          </div>
+
+          <div class="app-card app-card--float">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+              <line x1="6" y1="2" x2="6" y2="4"/>
+              <line x1="10" y1="2" x2="10" y2="4"/>
+              <line x1="14" y1="2" x2="14" y2="4"/>
+            </svg>
+            <span>
+              <strong>Pausa sugerida</strong>
+              em 12 min
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Recursos
+         ============================================================== -->
+    <section id="recursos" class="section" aria-labelledby="recursos-titulo">
+      <div class="container">
+        <header class="section__head">
+          <h2 id="recursos-titulo" class="section__title">Tudo o que um dia de trabalho precisa, sem peso.</h2>
+          <p class="section__lead">
+            O Lumen não adiciona mais um painel para vigiar. Ele organiza o seu tempo
+            para você poder esquecê-lo e mergulhar no que importa.
+          </p>
+        </header>
+
+        <div class="feature-grid">
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Blocos de foco</h3>
+            <p class="feature__text">
+              Monte seu dia em sessões dedicadas, com começo, meio e fim, e espaço de
+              sobra para o que realmente importa.
+            </p>
+          </article>
+
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+                <line x1="22" y1="9" x2="16" y2="15"/>
+                <line x1="16" y1="9" x2="22" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Silêncio inteligente</h3>
+            <p class="feature__text">
+              O Lumen silencia notificações por contexto: reunião, escrita, leitura.
+              O mundo espera até o próximo intervalo.
+            </p>
+          </article>
+
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Energia com IA</h3>
+            <p class="feature__text">
+              Acompanhe sua energia ao longo do dia e receba sugestões de horários em
+              que seu foco rende mais.
+            </p>
+          </article>
+
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                <line x1="6" y1="2" x2="6" y2="4"/>
+                <line x1="10" y1="2" x2="10" y2="4"/>
+                <line x1="14" y1="2" x2="14" y2="4"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Pausas no momento certo</h3>
+            <p class="feature__text">
+              Nada de alarmes agressivos: o Lumen sugere pausas curtas quando sua
+              atenção começa a cair.
+            </p>
+          </article>
+
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Relatório semanal</h3>
+            <p class="feature__text">
+              Veja onde seu tempo foi de verdade: blocos concluídos, distrações evitadas
+              e a curva de energia da semana.
+            </p>
+          </article>
+
+          <article class="card feature">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            </div>
+            <h3 class="feature__title">Integrações leves</h3>
+            <p class="feature__text">
+              Conecta seu calendário e suas ferramentas favoritas sem abrir mão da
+              simplicidade.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Como funciona
+         ============================================================== -->
+    <section id="como-funciona" class="section section--tinted" aria-labelledby="como-titulo">
+      <div class="container">
+        <header class="section__head">
+          <h2 id="como-titulo" class="section__title">Três passos até o foco.</h2>
+        </header>
+
+        <ol class="steps">
+          <li class="step card">
+            <span class="step__num" aria-hidden="true">1</span>
+            <h3 class="step__title">Conte seu plano</h3>
+            <p class="step__text">
+              Digite o que precisa fazer hoje. Uma frase basta: o Lumen entende contexto
+              e prioridade.
+            </p>
+          </li>
+          <li class="step card">
+            <span class="step__num" aria-hidden="true">2</span>
+            <h3 class="step__title">Receba seus blocos</h3>
+            <p class="step__text">
+              Ele monta blocos de 50 a 90 minutos, agenda pausas e silencia distrações
+              automaticamente.
+            </p>
+          </li>
+          <li class="step card">
+            <span class="step__num" aria-hidden="true">3</span>
+            <h3 class="step__title">Foque e observe</h3>
+            <p class="step__text">
+              Você trabalha; o Lumen mede energia e ajusta os próximos blocos com base
+              no seu ritmo real.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Depoimentos
+         ============================================================== -->
+    <section id="depoimentos" class="section" aria-labelledby="depoimentos-titulo">
+      <div class="container">
+        <header class="section__head">
+          <h2 id="depoimentos-titulo" class="section__title">Quem passa o dia focado recomenda.</h2>
+        </header>
+
+        <div class="testimonial-grid">
+          <figure class="card testimonial">
+            <p class="testimonial__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </p>
+            <blockquote class="testimonial__quote">
+              "Eu achava que multitarefa era produtividade. Com o Lumen, meu dia tem
+              blocos claros, e a ansiedade com notificações simplesmente sumiu."
+            </blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">MD</span>
+              <span>
+                <strong class="testimonial__name">Marina Duarte</strong>
+                <span class="testimonial__role">Design Lead em estúdio de produto</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="card testimonial">
+            <p class="testimonial__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </p>
+            <blockquote class="testimonial__quote">
+              "Pela primeira vez em anos, termino a sexta-feira sem a sensação de que a
+              semana me venceu. Os relatórios de energia mudaram como eu me organizo."
+            </blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">RC</span>
+              <span>
+                <strong class="testimonial__name">Rafael Costa</strong>
+                <span class="testimonial__role">Engenheiro de software, time remoto</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="card testimonial">
+            <p class="testimonial__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </p>
+            <blockquote class="testimonial__quote">
+              "O Lumen não me deixa trabalhar até esgotar: ele sugere a pausa na hora
+              certa. Meu foco profundo quase dobrou em dois meses."
+            </blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">CF</span>
+              <span>
+                <strong class="testimonial__name">Camila Fernandes</strong>
+                <span class="testimonial__role">Redatora e estrategista de conteúdo</span>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         CTA final
+         ============================================================== -->
+    <section id="cta-final" class="section" aria-labelledby="cta-titulo">
+      <div class="container">
+        <div class="final-cta">
+          <p class="eyebrow">Comece hoje</p>
+          <h2 id="cta-titulo" class="final-cta__title">Seu próximo bloco de foco começa agora.</h2>
+          <p class="final-cta__text">
+            Crie sua conta gratuita e veja seu dia se transformar em blocos de foco:
+            sem instaladores, sem curva de aprendizado.
+          </p>
+          <div class="final-cta__actions">
+            <a class="btn btn--primary btn--lg" href="#cadastro">Começar grátis</a>
+            <a class="btn btn--secondary btn--lg" href="#recursos">Conhecer os recursos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Cadastro (placeholder de conversão, Fase A)
+         ============================================================== -->
+    <section id="cadastro" class="section section--tinted" aria-labelledby="cadastro-titulo">
+      <div class="container">
+        <div class="final-cta">
+          <h2 id="cadastro-titulo" class="final-cta__title">Crie sua conta gratuita.</h2>
+          <p class="final-cta__text">
+            O formulário de cadastro entra aqui na próxima iteração. Nesta prova de
+            conceito, o destino de conversão fica documentado.
+          </p>
+          <div class="final-cta__actions">
+            <a class="btn btn--primary btn--lg" href="#cta-final">Voltar ao início</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============================================================
+       Rodapé
+       ============================================================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__brand">
+        <svg class="site-footer__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="8"/>
+          <path d="M12 8v4l3 2"/>
+        </svg>
+        Lumen: foco e bem-estar digital com IA.
+      </p>
+      <nav class="site-footer__nav" aria-label="Rodapé">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#depoimentos">Depoimentos</a>
+      </nav>
+      <p class="site-footer__meta">
+        © 2026 Lumen. Feito com calma e intenção. ·
+        HTML, CSS e JS puros sobre o design system Design Kit.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Menu colapsável auto-contido (mesmo padrão do kit: .menu-toggle) -->
+  <script>
+    (function () {
+      var toggle = document.getElementById("menu-toggle");
+      var nav = document.getElementById("site-nav");
+      if (!toggle || !nav) return;
+      // 768px = --breakpoint-md do tokens.css (matchMedia não aceita var())
+      var mqDesktop = window.matchMedia("(min-width: 768px)");
+
+      var setOpen = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+
+      toggle.addEventListener("click", function () {
+        setOpen(!nav.classList.contains("is-open"));
+      });
+
+      // Fecha ao escolher uma seção (mobile)
+      nav.addEventListener("click", function (event) {
+        if (event.target.closest("a")) setOpen(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      // Ao voltar para o desktop, garante o estado fechado
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener("change", function (event) {
+          if (event.matches) setOpen(false);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

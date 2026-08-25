@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Linha Direta: estúdio de design estratégico para fundadores e CMOs. Posicionamento, identidade e produto. Pequeno, feroz e decisivo.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Linha Direta: estúdio de design estratégico</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230f172a'/><path d='M10 44 L54 20' stroke='%23b45309' stroke-width='6' stroke-linecap='round'/><circle cx='54' cy='20' r='5' fill='%23fbbf24'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit): evita flash
+       de tema errado antes do CSS. Lê dk-theme; fallback prefers-color-scheme. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="../../../styles/components.css">
+  <link rel="stylesheet" href="linha-direta.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho (nav em 1 linha, altura <= 80px)
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <path d="M4 17 L20 7"/>
+          <circle cx="20" cy="7" r="2.5" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="site-header__name">Linha Direta</span>
+      </a>
+
+      <div class="site-header__actions">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <a class="btn ld-btn-accent btn--sm" href="#contato">Pedir proposta</a>
+      </div>
+
+      <!-- Nav após .site-header__actions no DOM: o foco de Tab chega ao painel do menu
+           (padrão disclosure do APG); a ordem visual é restaurada por order no CSS. -->
+      <nav id="site-nav" class="site-nav" aria-label="Navegação principal">
+        <a href="#servicos">Serviços</a>
+        <a href="#metodo">Método</a>
+        <a href="#casos">Casos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ==============================================================
+         Hero split assimétrico (bloco: hero-split-assimetrico)
+         ============================================================== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="eyebrow">Estúdio de design estratégico</p>
+          <h1 id="hero-titulo" class="hero__title">Design que decide.</h1>
+          <p class="hero__lead">
+            Posicionamento, identidade e produto para fundadores e CMOs
+            que querem decisão, não mais opções.
+          </p>
+          <div class="hero__actions">
+            <a class="btn ld-btn-accent btn--lg" href="#contato">Pedir proposta</a>
+            <a class="btn btn--ghost ld-btn-ghost btn--lg" href="#metodo">Ver o método</a>
+          </div>
+        </div>
+
+        <div class="hero__visual" role="img"
+             aria-label="Peça gráfica: uma reta diagonal corta um quadrado quase preto e termina num ponto âmbar, o ponto de decisão">
+          <svg class="hero__piece" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true" focusable="false">
+            <rect x="40" y="40" width="280" height="280" rx="18"
+                  fill="var(--color-surface-muted)" stroke="var(--color-border-strong)" stroke-width="2"/>
+            <path d="M76 292 L284 68" stroke="var(--color-warning)" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="284" cy="68" r="14" fill="var(--color-warning)"/>
+            <circle cx="284" cy="68" r="26" fill="var(--color-warning-soft)"/>
+            <path d="M76 292 h-8" stroke="var(--color-text-muted)" stroke-width="3" stroke-linecap="round"/>
+            <text x="76" y="312" fill="var(--color-text-muted)" font-size="14" font-weight="600"
+                  letter-spacing="2">SAÍDA: DECISÃO</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Marquee (bloco: marquee, máx 1 por página)
+         ============================================================== -->
+    <section class="marquee" aria-label="Termos do posicionamento do estúdio">
+      <div class="marquee__track">
+        <ul class="marquee__list">
+          <li>POSICIONAMENTO</li>
+          <li>IDENTIDADE</li>
+          <li>PRODUTO</li>
+          <li>LANÇAMENTO</li>
+          <li>ESTRATÉGIA</li>
+          <li>MARCA</li>
+        </ul>
+        <ul class="marquee__list" aria-hidden="true">
+          <li>POSICIONAMENTO</li>
+          <li>IDENTIDADE</li>
+          <li>PRODUTO</li>
+          <li>LANÇAMENTO</li>
+          <li>ESTRATÉGIA</li>
+          <li>MARCA</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Manifesto (editorial: a tipografia é a voz)
+         ============================================================== -->
+    <section class="manifesto" aria-labelledby="manifesto-titulo">
+      <div class="container manifesto__inner">
+        <h2 id="manifesto-titulo" class="manifesto__title">
+          A marca não é o que você diz. É a decisão que você toma e mantém.
+        </h2>
+        <p class="manifesto__text">
+          A Linha Direta existe para um só trabalho: transformar hesitação em
+          direção. Antes de qualquer logo, antes de qualquer tela, a gente
+          resolve o ponto de apoio: quem é a sua marca, para quem ela fala e
+          que promessa ela não abre mão. O resto é execução disciplinada.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Bento grid (bloco: bento-grid, 6 células, N itens = N células)
+         ============================================================== -->
+    <section id="servicos" class="bento" aria-labelledby="bento-titulo">
+      <div class="container">
+        <p class="eyebrow">Serviços</p>
+        <h2 id="bento-titulo" class="bento__title">O que a gente faz, com um ponto de vista</h2>
+        <div class="bento__grid">
+          <article class="card bento__cell bento__cell--hero">
+            <h3 class="card__title">Posicionamento</h3>
+            <p class="card__text">
+              Uma frase que diz quem você é e por que você existe, testada
+              contra o mercado antes de virar arte.
+            </p>
+            <div class="bento__visual" aria-hidden="true">
+              <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <path d="M30 96 L100 30 L170 96" stroke="var(--color-warning)" stroke-width="4"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="100" cy="30" r="7" fill="var(--color-warning)"/>
+                <path d="M30 96 h140" stroke="var(--color-border-strong)" stroke-width="2"/>
+              </svg>
+            </div>
+          </article>
+
+          <article class="card bento__cell bento__cell--tinted">
+            <h3 class="card__title">Identidade</h3>
+            <p class="card__text">
+              Nome, símbolo e sistema visual que sustentam a decisão em toda
+              superfície, do cartão ao produto.
+            </p>
+          </article>
+
+          <article class="card bento__cell">
+            <h3 class="card__title">Produto</h3>
+            <p class="card__text">
+              Interface e jornada que fazem a promessa da marca ser vivida,
+              não só anunciada.
+            </p>
+          </article>
+
+          <article class="card bento__cell">
+            <h3 class="card__title">Lançamento</h3>
+            <p class="card__text">
+              O momento em que a decisão encontra o público, com a peça e o
+              tom certos para cada praça.
+            </p>
+          </article>
+
+          <article class="card bento__cell bento__cell--cta">
+            <h3 class="card__title">Marca nova?</h3>
+            <p class="card__text">
+              Se a decisão está travada, o primeiro passo é uma conversa de
+              trinta minutos, sem custo e sem reunião de salão.
+            </p>
+            <div class="card__footer">
+              <a class="btn ld-btn-accent btn--sm" href="#contato">Pedir proposta</a>
+            </div>
+          </article>
+
+          <article class="card bento__cell bento__cell--wide">
+            <p class="bento__quote">
+              "A Linha Direta nos obrigou a decidir em três semanas o que a
+              gente adiava há três anos."
+            </p>
+            <div class="card__footer">
+              <span class="bento__author">Helena Furtado</span>
+              <span class="bento__role">CMO, Mercado Beira</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Sticky stack (bloco: sticky-stack, casos que pinam e empilham)
+         ============================================================== -->
+    <section id="casos" class="stack" aria-labelledby="stack-titulo">
+      <div class="container">
+        <h2 id="stack-titulo" class="stack__title">Casos: decisões que viraram marca</h2>
+        <div class="stack__cards">
+
+          <article class="card stack__card">
+            <p class="stack__tag">Mercado Beira · empório de bairro</p>
+            <h3 class="stack__card-title">Do açougue da esquina ao destino de fim de semana</h3>
+            <p class="stack__card-text">
+              Reposicionamos a marca em torno do frescor de origem: nova
+              linguagem, nova loja, novo jeito de contar a origem de cada
+              prateleira. O empório virou ponto de encontro, não só de compra.
+            </p>
+            <div class="card__footer">
+              <a class="btn btn--ghost ld-btn-ghost btn--sm" href="#contato">Um caso parecido com o seu</a>
+            </div>
+          </article>
+
+          <article class="card stack__card">
+            <p class="stack__tag">Atlas Cargo · logística B2B</p>
+            <h3 class="stack__card-title">Confiança que cabe numa cor só</h3>
+            <p class="stack__card-text">
+              Um setor inteiro fala com a mesma voz genérica. A gente trocou a
+              voz por um sistema: uma cor de decisão, uma tipografia dura e
+              um tom direto. O manual virou ferramenta de venda.
+            </p>
+            <div class="card__footer">
+              <a class="btn btn--ghost ld-btn-ghost btn--sm" href="#contato">Um caso parecido com o seu</a>
+            </div>
+          </article>
+
+          <article class="card stack__card">
+            <p class="stack__tag">Vereda · moda feminina</p>
+            <h3 class="stack__card-title">A coleção começa na posição, não no tecido</h3>
+            <p class="stack__card-text">
+              Definimos o território de marca antes da coleção nova: para quem
+              a Vereda fala e por que ela não compete com a fast fashion. A
+              coleção saiu com identidade, não com decoração.
+            </p>
+            <div class="card__footer">
+              <a class="btn btn--ghost ld-btn-ghost btn--sm" href="#contato">Um caso parecido com o seu</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Método (editorial em duas colunas, sem cards)
+         ============================================================== -->
+    <section id="metodo" class="metodo" aria-labelledby="metodo-titulo">
+      <div class="container metodo__grid">
+        <h2 id="metodo-titulo" class="metodo__title">O método é curto de propósito</h2>
+        <ol class="metodo__list">
+          <li>
+            <h3 class="metodo__step">Ouvir a decisão que falta</h3>
+            <p class="metodo__text">Uma semana de conversas com quem manda e com quem usa. Sem perguntas de salão.</p>
+          </li>
+          <li>
+            <h3 class="metodo__step">Escrever o ponto de apoio</h3>
+            <p class="metodo__text">Uma frase de posicionamento, dura o bastante para ser recusada e melhorada.</p>
+          </li>
+          <li>
+            <h3 class="metodo__step">Executar em três frentes</h3>
+            <p class="metodo__text">Identidade, produto e lançamento nascem do mesmo ponto de apoio, nunca separados.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Chamada final (uma mensagem, um CTA)
+         ============================================================== -->
+    <section class="cta" aria-labelledby="cta-titulo">
+      <div class="container cta__inner">
+        <h2 id="cta-titulo" class="cta__title">Vamos decidir o próximo passo da sua marca?</h2>
+        <p class="cta__text">
+          Conte a decisão que está travada. A gente devolve um caminho em
+          até cinco dias úteis, sem custo e sem enrolação.
+        </p>
+        <div class="cta__actions">
+          <a class="btn ld-btn-accent btn--lg" href="mailto:ola@linhadireta.design">Pedir proposta</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============================================================
+       Rodapé (contato real, sem version footer)
+       ============================================================== -->
+  <footer id="contato" class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <p>Linha Direta, estúdio de design estratégico. São Paulo, Brasil.</p>
+        <p><a href="mailto:ola@linhadireta.design">ola@linhadireta.design</a></p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Rodapé">
+        <a href="#servicos">Serviços</a>
+        <a href="#metodo">Método</a>
+        <a href="#casos">Casos</a>
+      </nav>
+      <p class="site-footer__meta">
+        © 2026 Linha Direta. Decisão primeiro, forma depois. HTML, CSS e JS puros
+        sobre o design system Design Kit.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Menu colapsável auto-contido (mesmo padrão do kit: .menu-toggle) -->
+  <script>
+    (function () {
+      var toggle = document.getElementById("menu-toggle");
+      var nav = document.getElementById("site-nav");
+      if (!toggle || !nav) return;
+      // 768px = --breakpoint-md do tokens.css (matchMedia não aceita var())
+      var mqDesktop = window.matchMedia("(min-width: 768px)");
+
+      var setOpen = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+
+      toggle.addEventListener("click", function () {
+        setOpen(!nav.classList.contains("is-open"));
+      });
+
+      // Fecha ao escolher uma seção (mobile)
+      nav.addEventListener("click", function (event) {
+        if (event.target.closest("a")) setOpen(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      // Ao voltar para o desktop, garante o estado fechado
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener("change", function (event) {
+          if (event.matches) setOpen(false);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Norte — dashboard de gestão financeira
+   Layout específico do caso. Componentes (btn, badge, card, alert, tabs,
+   table, dropdown, breadcrumb, stepper, pagination, modal) vêm de
+   ../../../styles/components.css. Cor/raio/sombra/fonte/espaçamento:
+   SOMENTE var(--...) de styles/tokens.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Alvos do skip-link e âncoras: compensam o header sticky
+   -------------------------------------------------------------------------- */
+main[id],
+section[id],
+footer[id] {
+  scroll-margin-top: calc(var(--space-16) + var(--space-4));
+}
+
+/* --------------------------------------------------------------------------
+   Shell mínimo do caso (o layout.css da raiz não é carregado aqui)
+   -------------------------------------------------------------------------- */
+
+.skip-link {
+  z-index: var(--z-toast);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  /* 88%: alpha do vidro translúcido — valor de efeito, fora da escala */
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  /* 12px: blur do vidro — valor de efeito, fora da escala de espaçamento */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .site-header {
+    background-color: var(--color-bg);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--space-16);
+  padding-block: var(--space-2);
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h6);
+}
+
+.site-header__brand:hover {
+  color: var(--color-text-strong);
+  text-decoration: none;
+}
+
+.site-header__mark {
+  width: var(--space-6);
+  height: var(--space-6);
+  color: var(--color-primary);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    border-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+}
+
+.theme-toggle svg {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.theme-toggle__icon--sun {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle__icon--sun {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle__icon--moon {
+  display: none;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   Cabeçalho da página: breadcrumb + ações
+   -------------------------------------------------------------------------- */
+
+.dash {
+  padding-block: var(--space-6) var(--space-16);
+}
+
+.dash-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dash__title {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.dash__intro {
+  margin-top: var(--space-2);
+  max-width: 34rem;   /* largura de leitura do parágrafo (constante) */
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+/* --------------------------------------------------------------------------
+   Alertas da página
+   -------------------------------------------------------------------------- */
+
+.dash-alerts {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   Métricas
+   -------------------------------------------------------------------------- */
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: var(--breakpoint-lg)) {
+  .metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric {
+  padding: var(--space-5);
+}
+
+.metric__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+.metric__value {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.metric__delta {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+}
+
+.metric__delta--up {
+  color: var(--color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.metric__delta--down {
+  color: var(--color-error);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* --------------------------------------------------------------------------
+   Painéis (gráfico, transações, onboarding)
+   -------------------------------------------------------------------------- */
+
+.panel {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.panel__head h2 {
+  font-size: var(--font-size-h5);
+}
+
+.panel__sub {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+}
+
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   Gráfico
+   -------------------------------------------------------------------------- */
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 16rem;   /* limite do gráfico (constante) */
+}
+
+.chart__legend {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+}
+
+.chart__dot {
+  display: inline-block;
+  width: var(--space-2);
+  height: var(--space-2);
+  margin-inline: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  vertical-align: middle;
+}
+
+.chart__dot--in {
+  background-color: var(--color-primary);
+}
+
+.chart__dot--out {
+  background-color: var(--color-text-muted);
+}
+
+.chart__dot--soft {
+  background-color: var(--color-primary-soft-strong);
+}
+
+/* --------------------------------------------------------------------------
+   Ferramentas da tabela (busca)
+   -------------------------------------------------------------------------- */
+
+.table-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Stepper (onboarding) — nota sob a lista
+   -------------------------------------------------------------------------- */
+
+.stepper__note {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+/* --------------------------------------------------------------------------
+   Detalhes do modal (definition list)
+   -------------------------------------------------------------------------- */
+
+.det {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.det__row {
+  display: grid;
+  grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-block: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.det__row:last-child {
+  border-bottom: 0;
+}
+
+.det__row dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.det__row dd {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-small);
+}
+
+.det__valor {
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Redução de movimento
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle svg {
+    transition: none;
+  }
+}

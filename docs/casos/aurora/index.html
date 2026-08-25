@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aurora e Cinza: louças utilitárias e peças decorativas de porcelana e cerâmica, feitas à mão em Ouro Preto em pequenos lotes.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Aurora e Cinza: cerâmica feita à mão em Ouro Preto</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%234f46e5'/><path d='M22 14h20l-4 30a6 6 0 0 1-6 4 6 6 0 0 1-6-4z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit): evita flash
+       de tema errado antes do CSS. Lê dk-theme; fallback prefers-color-scheme. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="../../../styles/components.css">
+  <link rel="stylesheet" href="aurora.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M8 3h8l-3 14a3 3 0 0 1-2 2 3 3 0 0 1-2-2z"/>
+        </svg>
+        <span class="site-header__name">Aurora e Cinza</span>
+      </a>
+
+      <div class="site-header__actions">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <a class="btn btn--primary btn--sm" href="#colecao">Ver a coleção</a>
+      </div>
+
+      <!-- Nav após .site-header__actions no DOM: o foco de Tab chega ao painel do menu
+           (padrão disclosure do APG); a ordem visual é restaurada por order no CSS. -->
+      <nav id="site-nav" class="site-nav" aria-label="Navegação principal">
+        <a href="#colecao">Coleção</a>
+        <a href="#processo">Processo</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ==============================================================
+         Hero
+         ============================================================== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="eyebrow">Ateliê de cerâmica artesanal</p>
+          <h1 id="hero-titulo" class="hero__title">Cerâmica que nasce da mão, não da máquina.</h1>
+          <p class="hero__lead">
+            Louças utilitárias e peças decorativas, feitas à mão em Ouro Preto
+            em pequenos lotes.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#colecao">Ver a coleção</a>
+            <a class="btn btn--secondary btn--lg" href="#processo">Conhecer o processo</a>
+          </div>
+        </div>
+
+        <div class="hero__visual" role="img"
+             aria-label="Vaso de porcelana de cor cinza clara, com boca larga e corpo que alarga na base, sobre fundo neutro">
+          <svg class="hero__piece" viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true" focusable="false">
+            <path d="M100 76h120l-10 60a60 60 0 0 0 12 36l48 96a60 60 0 0 1-52 32H102a60 60 0 0 1-52-32l48-96a60 60 0 0 0 12-36z"
+                  fill="var(--color-primary-soft)"/>
+            <ellipse cx="160" cy="76" rx="60" ry="14" fill="var(--color-surface)"
+                     stroke="var(--color-border-strong)" stroke-width="2"/>
+            <path d="M104 90c-8 40-8 96 8 128" stroke="var(--color-border-strong)"
+                  stroke-width="2" stroke-linecap="round"/>
+            <path d="M216 90c8 40 8 96-8 128" stroke="var(--color-border-strong)"
+                  stroke-width="2" stroke-linecap="round"/>
+            <path d="M118 332h84" stroke="var(--color-border-strong)" stroke-width="2"
+                  stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Manifesto
+         ============================================================== -->
+    <section class="manifesto" aria-labelledby="manifesto-titulo">
+      <div class="container manifesto__inner">
+        <h2 id="manifesto-titulo" class="manifesto__title">A beleza mora na superfície que o dedo sente.</h2>
+        <p class="manifesto__text">
+          A gente acredita que uma peça boa se reconhece antes do olhar, no relevo do esmalte,
+          no peso da argila, na curva que a mão deixou. Cada lote é pequeno, cada peça é única,
+          e nada sai do ateliê sem antes passar pela mesa onde a gente come.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Coleção
+         ============================================================== -->
+    <section class="colecao" aria-labelledby="colecao-titulo">
+      <div class="container">
+        <p class="eyebrow">Peças de agora</p>
+        <h2 id="colecao-titulo" class="colecao__title">A coleção da estação</h2>
+
+        <div class="colecao__grid">
+          <figure class="piece piece--wide">
+            <div class="piece__media">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <path d="M90 60h220l-14 150a40 40 0 0 1-38 34H142a40 40 0 0 1-38-34z"
+                      fill="var(--color-primary-soft)"/>
+                <ellipse cx="200" cy="60" rx="110" ry="20" fill="var(--color-surface)"
+                         stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M96 84c-10 60-6 140 8 180" stroke="var(--color-border-strong)"
+                      stroke-width="2" stroke-linecap="round"/>
+                <path d="M304 84c10 60 6 140-8 180" stroke="var(--color-border-strong)"
+                      stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="piece__name">Vaso Aurora</span>
+              <span class="piece__material">Porcelana, esmalte cinza pedra</span>
+            </figcaption>
+          </figure>
+
+          <figure class="piece">
+            <div class="piece__media">
+              <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <path d="M40 120a110 110 0 0 0 220 0c0-24-8-42-24-60l-24 24c-14-14-26-22-44-22s-30 8-44 22l-24-24c-16 18-24 36-24 60z"
+                      fill="var(--color-surface-muted)"/>
+                <path d="M150 30a90 90 0 0 1 60 22" stroke="var(--color-border-strong)"
+                      stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="piece__name">Tigela Menezes</span>
+              <span class="piece__material">Cerâmica, esmalte verde argila</span>
+            </figcaption>
+          </figure>
+
+          <figure class="piece piece--tall">
+            <!-- TODO: foto real do bule Aroeira em fundo neutro (retrato, 3:4) -->
+            <div class="piece__media piece__media--photo" role="img"
+                 aria-label="Bule Aroeira, porcelana com esmalte cinza claro (foto em breve)"></div>
+            <figcaption>
+              <span class="piece__name">Bule Aroeira</span>
+              <span class="piece__material">Porcelana, esmalte cinza claro</span>
+            </figcaption>
+          </figure>
+
+          <figure class="piece">
+            <div class="piece__media">
+              <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <path d="M30 130c0-40 20-72 120-72s120 32 120 72-20 62-120 62S30 170 30 130z"
+                      fill="var(--color-surface-muted)"/>
+                <ellipse cx="150" cy="130" rx="120" ry="28" fill="var(--color-surface)"
+                         stroke="var(--color-border-strong)" stroke-width="2"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="piece__name">Prato Sereno</span>
+              <span class="piece__material">Porcelana, borda em esmalte azul</span>
+            </figcaption>
+          </figure>
+
+          <figure class="piece">
+            <!-- TODO: foto real da cumbuca Duarte (paisagem, 4:3) -->
+            <div class="piece__media piece__media--photo" role="img"
+                 aria-label="Cumbuca Duarte, cerâmica com esmalte fosco (foto em breve)"></div>
+            <figcaption>
+              <span class="piece__name">Cumbuca Duarte</span>
+              <span class="piece__material">Cerâmica, esmalte fosco grafite</span>
+            </figcaption>
+          </figure>
+
+          <figure class="piece piece--wide">
+            <div class="piece__media">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <path d="M120 60h160l-12 150a34 34 0 0 1-30 28H162a34 34 0 0 1-30-28z"
+                      fill="var(--color-primary-soft)"/>
+                <ellipse cx="200" cy="60" rx="80" ry="16" fill="var(--color-surface)"
+                         stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M196 76l30-10" stroke="var(--color-border-strong)" stroke-width="2"
+                      stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="piece__name">Jarra Serrana</span>
+              <span class="piece__material">Porcelana, alça em corda</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Processo
+         ============================================================== -->
+    <section class="processo" aria-labelledby="processo-titulo">
+      <div class="container">
+        <h2 id="processo-titulo" class="processo__title">O caminho de cada peça</h2>
+        <div class="processo__grid">
+          <article class="processo__cell processo__cell--offset">
+            <div class="processo__visual">
+              <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <ellipse cx="100" cy="120" rx="80" ry="18" fill="var(--color-surface-muted)"/>
+                <path d="M60 120C60 60 140 60 140 120" fill="var(--color-primary-soft)"/>
+                <path d="M70 110c14-6 46-6 60 0" stroke="var(--color-border-strong)"
+                      stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="processo__name">Moldar</h3>
+            <p class="processo__text">
+              Cada peça começa no torno, com a argila que a gente mesmo prepara.
+              Uma peça grande leva dois dias até a forma sair do jeito.
+            </p>
+          </article>
+
+          <article class="processo__cell">
+            <div class="processo__visual">
+              <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect x="50" y="30" width="100" height="110" rx="6" fill="var(--color-surface-muted)"
+                      stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M80 80l40 20M80 100l40-20" stroke="var(--color-warning)"
+                      stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="processo__name">Queimar</h3>
+            <p class="processo__text">
+              Duas queimas, a segunda acima de mil e duzentos graus. A lenha vem
+              de poda urbana, o calor é de verdade.
+            </p>
+          </article>
+
+          <article class="processo__cell">
+            <!-- TODO: foto real da etapa de esmaltação no ateliê (retrato, 3:4) -->
+            <div class="processo__visual processo__visual--photo" role="img"
+                 aria-label="Etapa de esmaltação no ateliê (foto em breve)"></div>
+            <h3 class="processo__name">Esmaltar</h3>
+            <p class="processo__text">
+              Os esmaltes saem de cinza de madeira, quartzo e argila local.
+              O tom final só aparece depois do forno.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Depoimentos
+         ============================================================== -->
+    <section class="depoimentos" aria-labelledby="depoimentos-titulo">
+      <div class="container">
+        <h2 id="depoimentos-titulo" class="depoimentos__title">Quem já tem uma peça em casa</h2>
+        <div class="depoimentos__list">
+          <blockquote class="quote">
+            <p class="quote__text">
+              A tigela Menezes mudou a forma como eu sirvo a mesa. A textura é viva,
+              cada peça tem uma história própria.
+            </p>
+            <footer class="quote__footer">
+              <cite class="quote__author">Renata Duarte</cite>
+              <span class="quote__role">Arquiteta, Belo Horizonte</span>
+            </footer>
+          </blockquote>
+
+          <blockquote class="quote">
+            <p class="quote__text">
+              Tenho dez peças do ateliê. A constância do esmalte me impressiona
+              mais do que a novidade.
+            </p>
+            <footer class="quote__footer">
+              <cite class="quote__author">Thiago Andrade</cite>
+              <span class="quote__role">Colecionador, São Paulo</span>
+            </footer>
+          </blockquote>
+
+          <blockquote class="quote">
+            <p class="quote__text">
+              Uso o prato Sereno no restaurante há dois anos. Nunca lascou,
+              nunca perdeu a cor.
+            </p>
+            <footer class="quote__footer">
+              <cite class="quote__author">Olívia Prado</cite>
+              <span class="quote__role">Chef, Ouro Preto</span>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Chamada final
+         ============================================================== -->
+    <section class="cta" aria-labelledby="cta-titulo">
+      <div class="container cta__inner">
+        <h2 id="cta-titulo" class="cta__title">Quer uma mesa que conte histórias?</h2>
+        <p class="cta__text">
+          Fale com o ateliê para conhecer o lote atual e reservar peças antes
+          de irem para a loja.
+        </p>
+        <div class="cta__actions">
+          <a class="btn btn--primary btn--lg" href="mailto:ola@auroracinza.com.br">Falar com o ateliê</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============================================================
+       Rodapé
+       ============================================================== -->
+  <footer id="contato" class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <p>Aurora e Cinza, ateliê de cerâmica em Ouro Preto, Minas Gerais.</p>
+        <p><a href="mailto:ola@auroracinza.com.br">ola@auroracinza.com.br</a></p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Rodapé">
+        <a href="#colecao">Coleção</a>
+        <a href="#processo">Processo</a>
+        <a href="#depoimentos">Depoimentos</a>
+      </nav>
+      <p class="site-footer__meta">
+        © 2026 Aurora e Cinza. Feito à mão, um lote por vez. HTML, CSS e JS puros
+        sobre o design system Design Kit.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Menu colapsável auto-contido (mesmo padrão do kit: .menu-toggle) -->
+  <script>
+    (function () {
+      var toggle = document.getElementById("menu-toggle");
+      var nav = document.getElementById("site-nav");
+      if (!toggle || !nav) return;
+      // 768px = --breakpoint-md do tokens.css (matchMedia não aceita var())
+      var mqDesktop = window.matchMedia("(min-width: 768px)");
+
+      var setOpen = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+
+      toggle.addEventListener("click", function () {
+        setOpen(!nav.classList.contains("is-open"));
+      });
+
+      // Fecha ao escolher uma seção (mobile)
+      nav.addEventListener("click", function (event) {
+        if (event.target.closest("a")) setOpen(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      // Ao voltar para o desktop, garante o estado fechado
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener("change", function (event) {
+          if (event.matches) setOpen(false);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

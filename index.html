@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design Kit: sistema de design de referência, tokens, componentes acessíveis e documentação viva em HTML, CSS e JavaScript puros, sem build.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Design Kit: Showcase e Documentação</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%234f46e5'/><text x='32' y='45' font-family='system-ui' font-size='36' font-weight='700' text-anchor='middle' fill='white'>D</text></svg>">
+
+  <!-- Bootstrap do tema: evita flash de tema errado antes do app.js -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-header__left">
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="sidebar"
+          aria-label="Abrir menu de navegação"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+        <a class="site-header__brand" href="#visao-geral">
+          <span class="site-header__logo" aria-hidden="true">D</span>
+          <span class="site-header__name">Design Kit</span>
+          <span class="site-header__version">v0.9.0</span>
+        </a>
+      </div>
+
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-pressed="false"
+        aria-label="Ativar tema escuro"
+      >
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true" focusable="false">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav id="sidebar" class="sidebar" aria-label="Navegação principal">
+      <span class="sidebar__label">Navegação</span>
+      <ul class="sidebar__list">
+        <li><a class="sidebar__link" href="#visao-geral">Visão geral</a></li>
+        <li><a class="sidebar__link" href="#tokens">Tokens</a></li>
+        <li><a class="sidebar__link" href="#botoes">Botões</a></li>
+        <li><a class="sidebar__link" href="#badges">Badges</a></li>
+        <li><a class="sidebar__link" href="#cards">Cards</a></li>
+        <li><a class="sidebar__link" href="#alertas">Alertas</a></li>
+        <li><a class="sidebar__link" href="#formularios">Formulários</a></li>
+        <li><a class="sidebar__link" href="#overlays">Overlays</a></li>
+        <li><a class="sidebar__link" href="#dropdowns">Dropdowns</a></li>
+        <li><a class="sidebar__link" href="#breadcrumb">Breadcrumb</a></li>
+        <li><a class="sidebar__link" href="#tabela">Tabela</a></li>
+        <li><a class="sidebar__link" href="#stepper">Stepper</a></li>
+        <li><a class="sidebar__link" href="#paginacao">Paginação</a></li>
+        <li><a class="sidebar__link" href="#docs">Docs</a></li>
+      </ul>
+    </nav>
+
+    <div class="layout__backdrop" aria-hidden="true"></div>
+
+    <main id="main" class="layout__content" tabindex="-1">
+      <!-- ==============================================================
+           Visão geral
+           ============================================================== -->
+      <section id="visao-geral" class="section" aria-labelledby="titulo-visao-geral">
+        <div class="hero">
+          <p class="hero__eyebrow">Design system kit</p>
+          <h1 id="titulo-visao-geral" class="hero__title">Uma base de design sólida, pronta para crescer.</h1>
+          <p class="hero__lead">
+            Tokens semânticos, componentes acessíveis e documentação viva, tudo em
+            HTML, CSS e JavaScript puros, sem build e sem dependências.
+          </p>
+          <div class="hero__actions">
+            <a class="hero__cta" href="#tokens">Explorar tokens</a>
+            <a class="hero__link" href="#botoes">Ver componentes</a>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <h2 id="titulo-status">Status da build</h2>
+          <ul class="status-card__list">
+            <li class="status status--done">Fundação: tokens e base</li>
+            <li class="status status--done">Shell do showcase: navegação e tema</li>
+            <li class="status status--done">Componentes A: botões, badges, cards, alertas</li>
+            <li class="status status--done">Componentes B: formulários</li>
+            <li class="status status--done">Componentes C: overlays e feedback</li>
+            <li class="status status--done">Componentes avançados: dropdown, breadcrumb, tabela, stepper</li>
+            <li class="status status--done">Docs, critique do caso Lumen e auditoria a11y</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Tokens
+           ============================================================== -->
+      <section id="tokens" class="section" aria-labelledby="titulo-tokens">
+        <h2 id="titulo-tokens">Tokens</h2>
+        <p class="section__intro">
+          Cores, tipografia, espaçamento, raios, sombras e motion: a linguagem
+          visual do kit, disponível como custom properties em <code>styles/tokens.css</code>.
+        </p>
+        <div class="placeholder" role="note">Referência visual dos tokens: em breve (próximas fases)</div>
+      </section>
+
+      <!-- ==============================================================
+           Botões
+           ============================================================== -->
+      <section id="botoes" class="section" aria-labelledby="titulo-botoes">
+        <h2 id="titulo-botoes">Botões</h2>
+        <p class="section__intro">Variantes, tamanhos, estados e exemplos de uso.</p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Variantes</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary">Primário</button>
+              <button type="button" class="btn btn--secondary">Secundário</button>
+              <button type="button" class="btn btn--ghost">Fantasma</button>
+              <button type="button" class="btn btn--danger">Perigo</button>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Tamanhos</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary btn--sm">Pequeno</button>
+              <button type="button" class="btn btn--primary">Médio</button>
+              <button type="button" class="btn btn--primary btn--lg">Grande</button>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Estados</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary" disabled>Desabilitado</button>
+              <button type="button" class="btn btn--danger" disabled>Perigo desabilitado</button>
+              <button type="button" class="btn btn--ghost" disabled>Fantasma desabilitado</button>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Com ícone</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Baixar
+              </button>
+              <button type="button" class="btn btn--secondary">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Adicionar
+              </button>
+              <a class="btn btn--ghost" href="#botoes">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+                Continuar
+              </a>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Carregamento (simulado, clique)</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary" data-demo-loading>
+                <span class="btn__spinner" aria-hidden="true"></span>
+                <span class="btn__label">Salvar alterações</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Badges
+           ============================================================== -->
+      <section id="badges" class="section" aria-labelledby="titulo-badges">
+        <h2 id="titulo-badges">Badges</h2>
+        <p class="section__intro">Rótulos compactos de status, categoria e contagem.</p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Status semântico</p>
+            <div class="demo__row">
+              <span class="badge badge--neutral">Neutro</span>
+              <span class="badge badge--primary">Primário</span>
+              <span class="badge badge--success">Sucesso</span>
+              <span class="badge badge--warning">Aviso</span>
+              <span class="badge badge--error">Erro</span>
+              <span class="badge badge--info">Info</span>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Contador</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--secondary">
+                Notificações
+                <span class="badge badge--counter">3</span>
+              </button>
+              <span class="badge badge--counter">12</span>
+              <span class="badge badge--counter-soft">9+</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Cards
+           ============================================================== -->
+      <section id="cards" class="section" aria-labelledby="titulo-cards">
+        <h2 id="titulo-cards">Cards</h2>
+        <p class="section__intro">Superfícies de conteúdo com hierarquia e elevação.</p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Básico</p>
+            <div class="demo__grid">
+              <article class="card">
+                <h3 class="card__title">Card simples</h3>
+                <p class="card__text">
+                  Um cartão de conteúdo básico com título e texto, o
+                  bloco de construção mais simples de uma superfície.
+                </p>
+              </article>
+
+              <article class="card">
+                <header class="card__header">
+                  <h3 class="card__title">Com cabeçalho e rodapé</h3>
+                  <span class="badge badge--success">Ativo</span>
+                </header>
+                <p class="card__text">
+                  Cabeçalho com título e badge, corpo descritivo e ações
+                  ancoradas no rodapé, separadas por uma borda.
+                </p>
+                <footer class="card__footer">
+                  <button type="button" class="btn btn--ghost btn--sm">Abrir</button>
+                  <button type="button" class="btn btn--primary btn--sm">Salvar</button>
+                </footer>
+              </article>
+
+              <a class="card card--interactive" href="#cards">
+                <p class="card__eyebrow">Interativo</p>
+                <h3 class="card__title">Card clicável</h3>
+                <p class="card__text">
+                  No hover, o cartão se eleva com sombra e borda mais
+                  forte, indicando que é clicável.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Alertas
+           ============================================================== -->
+      <section id="alertas" class="section" aria-labelledby="titulo-alertas">
+        <h2 id="titulo-alertas">Alertas</h2>
+        <p class="section__intro">Feedback contextual: sucesso, aviso, erro e informação.</p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Variantes semânticas</p>
+            <div class="demo__stack">
+              <div class="alert alert--success" role="status">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <div class="alert__content">
+                  <p class="alert__title">Alterações salvas</p>
+                  <p class="alert__text">Seu perfil foi atualizado com sucesso.</p>
+                </div>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="alert alert--error" role="alert">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="15" y1="9" x2="9" y2="15"/>
+                  <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+                <div class="alert__content">
+                  <p class="alert__title">Falha ao salvar</p>
+                  <p class="alert__text">Verifique sua conexão e tente novamente.</p>
+                </div>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="alert alert--warning" role="alert">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div class="alert__content">
+                  <p class="alert__title">Atenção</p>
+                  <p class="alert__text">Você tem alterações não salvas neste formulário.</p>
+                </div>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="alert alert--info" role="status">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <div class="alert__content">
+                  <p class="alert__title">Novidade</p>
+                  <p class="alert__text">O tema escuro agora segue o sistema operacional.</p>
+                </div>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Com título e ação</p>
+            <div class="demo__stack">
+              <div class="alert alert--warning" role="alert">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <div class="alert__content">
+                  <p class="alert__title">Sessão expirando</p>
+                  <p class="alert__text">Você será desconectado em 2 minutos. Continue trabalhando para manter a sessão ativa.</p>
+                  <div class="alert__actions">
+                    <button type="button" class="btn btn--primary btn--sm">Continuar sessão</button>
+                    <button type="button" class="btn btn--ghost btn--sm">Sair agora</button>
+                  </div>
+                </div>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Compacto</p>
+            <div class="demo__stack">
+              <div class="alert alert--success" role="status">
+                <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <p class="alert__text">Sincronizado agora.</p>
+                <button type="button" class="alert__close" aria-label="Fechar alerta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Formulários
+           ============================================================== -->
+      <section id="formularios" class="section" aria-labelledby="titulo-formularios">
+        <h2 id="titulo-formularios">Formulários</h2>
+        <p class="section__intro">Inputs, select, checkbox, radio, toggle e estados de validação.</p>
+
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Formulário real: Criar conta</p>
+
+            <form class="form-grid form-grid--2" id="demo-signup" novalidate>
+              <div class="field">
+                <label class="field__label" for="f-nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" type="text" id="f-nome" name="nome" autocomplete="name"
+                       placeholder="Maria Silva" required
+                       aria-describedby="hint-nome err-nome" data-validate>
+                <p class="field__hint" id="hint-nome">Como você quer ser chamado(a).</p>
+                <p class="field__error" id="err-nome" role="alert"></p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+                <input class="input" type="email" id="f-email" name="email" autocomplete="email"
+                       placeholder="maria@exemplo.com" required
+                       aria-describedby="hint-email err-email" data-validate>
+                <p class="field__hint" id="hint-email">Usado para login e recuperação.</p>
+                <p class="field__error" id="err-email" role="alert"></p>
+              </div>
+
+              <div class="field field--full">
+                <label class="field__label" for="f-senha">Senha <span class="req" aria-hidden="true">*</span></label>
+                <div class="input-wrap">
+                  <input class="input input--with-action" type="password" id="f-senha" name="senha"
+                         autocomplete="new-password" placeholder="Mínimo de 8 caracteres" required
+                         aria-describedby="hint-senha err-senha" data-validate>
+                  <button class="input-wrap__action" type="button"
+                          data-password-toggle aria-controls="f-senha"
+                          aria-label="Mostrar senha" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+                <p class="field__hint" id="hint-senha">Use letras, números e símbolos.</p>
+                <p class="field__error" id="err-senha" role="alert"></p>
+              </div>
+
+              <fieldset class="fieldset fieldset--bordered">
+                <legend class="fieldset__legend">Plano</legend>
+                <div class="fieldset__options">
+                  <label class="radio">
+                    <input type="radio" name="plano" value="starter" checked>
+                    <span class="radio__dot" aria-hidden="true"></span>
+                    <span>Starter: gratuito, até 3 projetos.</span>
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="plano" value="pro">
+                    <span class="radio__dot" aria-hidden="true"></span>
+                    <span>Pro: R$ 49/mês, projetos ilimitados.</span>
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="plano" value="equipe">
+                    <span class="radio__dot" aria-hidden="true"></span>
+                    <span>Equipe: R$ 129/mês, colaboradores.</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="field field--full">
+                <label class="check" for="f-termos">
+                  <input type="checkbox" id="f-termos" name="termos" required aria-describedby="err-termos">
+                  <span class="check__box" aria-hidden="true">
+                    <svg class="check__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg class="check__minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </span>
+                  <span>Li e aceito os termos de uso e a política de privacidade.</span>
+                </label>
+                <p class="field__error" id="err-termos" role="alert"></p>
+              </div>
+
+              <div class="field field--full">
+                <label class="toggle" for="f-notificacoes">
+                  <input type="checkbox" id="f-notificacoes" name="notificacoes" checked>
+                  <span class="toggle__track" aria-hidden="true"></span>
+                  <span>
+                    <strong>Receber novidades</strong>
+                    <span class="form-note">Dicas de design e atualizações do kit.</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn--primary">Criar conta</button>
+                <button type="reset" class="btn btn--ghost">Limpar</button>
+              </div>
+            </form>
+
+            <div class="alert alert--success form-status" id="form-status" role="status" hidden>
+              <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <div class="alert__content">
+                <p class="alert__title">Conta criada</p>
+                <p class="alert__text">Validação concluída: formulário de demonstração (nada foi enviado).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Estados isolados</p>
+            <div class="demo__grid">
+              <div class="field field--error">
+                <label class="field__label" for="f-email-erro">E-mail</label>
+                <input class="input" type="email" id="f-email-erro" value="maria@exemplo" aria-invalid="true"
+                       aria-describedby="err-email-erro">
+                <p class="field__error" id="err-email-erro" role="alert">Formato de e-mail inválido.</p>
+              </div>
+
+              <div class="field field--success">
+                <label class="field__label" for="f-senha-ok">Senha</label>
+                <input class="input" type="password" id="f-senha-ok" value="seguranca123">
+                <p class="field__success">Força suficiente.</p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-select-off">País</label>
+                <div class="select-wrap">
+                  <select class="select" id="f-select-off" disabled>
+                    <option>Brasil</option>
+                    <option>Portugal</option>
+                  </select>
+                </div>
+                <p class="field__hint">Desabilitado.</p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-readonly">Identificador</label>
+                <input class="input" type="text" id="f-readonly" value="dk-8f3a" readonly>
+                <p class="field__hint">Somente leitura.</p>
+              </div>
+
+              <label class="check" for="f-indeterminate">
+                <input type="checkbox" id="f-indeterminate" data-indeterminate>
+                <span class="check__box" aria-hidden="true">
+                  <svg class="check__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg class="check__minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+                <span>Selecionar todas (indeterminado)</span>
+              </label>
+
+              <div class="field">
+                <label class="toggle" for="f-toggle-off">
+                  <input type="checkbox" id="f-toggle-off">
+                  <span class="toggle__track" aria-hidden="true"></span>
+                  <span>Notificações push</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Campos variados</p>
+            <div class="demo__grid">
+              <div class="field">
+                <label class="field__label" for="f-busca">Busca</label>
+                <div class="input-wrap">
+                  <svg class="input-wrap__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input class="input input--with-icon" type="search" id="f-busca" placeholder="Buscar componentes…">
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-pais">País</label>
+                <div class="select-wrap">
+                  <select class="select" id="f-pais">
+                    <option>Brasil</option>
+                    <option>Portugal</option>
+                    <option>Moçambique</option>
+                    <option>Angola</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field field--full">
+                <label class="field__label" for="f-mensagem">Mensagem</label>
+                <textarea class="textarea" id="f-mensagem" rows="3"
+                          placeholder="Escreva sua mensagem…" aria-describedby="hint-mensagem"></textarea>
+                <p class="field__hint" id="hint-mensagem">Máximo de 500 caracteres.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Overlays
+           ============================================================== -->
+      <section id="overlays" class="section" aria-labelledby="h-overlays">
+        <h2 id="h-overlays">Overlays</h2>
+        <p class="section__intro">Tooltip, modal, tabs, progress, skeleton e avatar: camadas de sobreposição e feedback de carregamento.</p>
+
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Tooltip: 4 posições</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--secondary" data-tooltip="Dica de contexto no topo." data-tooltip-pos="top">Topo</button>
+              <button type="button" class="btn btn--secondary" data-tooltip="Dica de contexto embaixo." data-tooltip-pos="bottom">Base</button>
+              <button type="button" class="btn btn--secondary" data-tooltip="Dica de contexto à esquerda." data-tooltip-pos="left">Esquerda</button>
+              <button type="button" class="btn btn--secondary" data-tooltip="Dica de contexto à direita." data-tooltip-pos="right">Direita</button>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Modal: diálogo com backdrop e foco</p>
+            <div class="demo__row">
+              <button type="button" class="btn btn--primary" data-modal-open="#demo-modal">Abrir modal</button>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Tabs: setas + Home/End no teclado</p>
+            <div class="tabs">
+              <div class="tabs__list" role="tablist" aria-label="Exemplo de abas">
+                <button class="tabs__tab" id="tab-visao" role="tab" aria-selected="true" aria-controls="panel-visao">Visão geral</button>
+                <button class="tabs__tab" id="tab-detalhes" role="tab" aria-selected="false" aria-controls="panel-detalhes" tabindex="-1">Detalhes</button>
+                <button class="tabs__tab" id="tab-acessibilidade" role="tab" aria-selected="false" aria-controls="panel-acessibilidade" tabindex="-1">Acessibilidade</button>
+              </div>
+              <div class="tabs__panel" id="panel-visao" role="tabpanel" aria-labelledby="tab-visao" tabindex="0">
+                <p>Visão geral do componente: uso típico, quando aplicar e o que ele resolve.</p>
+              </div>
+              <div class="tabs__panel" id="panel-detalhes" role="tabpanel" aria-labelledby="tab-detalhes" tabindex="0" hidden>
+                <p>Detalhes: estados, variantes e tokens consumidos pelo componente.</p>
+              </div>
+              <div class="tabs__panel" id="panel-acessibilidade" role="tabpanel" aria-labelledby="tab-acessibilidade" tabindex="0" hidden>
+                <p>Acessibilidade: contraste AA, foco visível e navegação por teclado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Progress: determinado e indeterminado</p>
+            <div class="demo__stack">
+              <div class="progress" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso: 50 por cento">
+                <!-- Largura é dado (50%), não token de design -->
+                <div class="progress__bar" style="width: 50%"></div>
+              </div>
+              <div class="progress progress--indeterminate" role="progressbar" aria-label="Carregando conteúdo">
+                <div class="progress__bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Skeleton: carregamento</p>
+            <div class="demo__grid">
+              <div class="card" aria-hidden="true">
+                <div class="skeleton">
+                  <div class="skeleton__item skeleton__item--avatar"></div>
+                  <div class="skeleton__item skeleton__item--text" style="width: 70%"></div>
+                  <div class="skeleton__item skeleton__item--text"></div>
+                  <div class="skeleton__item skeleton__item--text" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="card" aria-hidden="true">
+                <div class="skeleton">
+                  <div class="skeleton__item skeleton__item--rect"></div>
+                  <div class="skeleton__item skeleton__item--text" style="width: 60%"></div>
+                  <div class="skeleton__item skeleton__item--text" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Avatar: imagem, iniciais e status</p>
+            <div class="demo__row">
+              <span class="avatar">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23e0e7ff'/%3E%3Ccircle cx='32' cy='26' r='10' fill='%234f46e5'/%3E%3Cpath d='M15 54c2-10 10-15 17-15s15 5 17 15z' fill='%234f46e5'/%3E%3C/svg%3E" alt="Ilustração de pessoa">
+              </span>
+              <span class="avatar avatar--primary">BR</span>
+              <span class="avatar avatar--neutral">JD</span>
+              <span class="avatar avatar--lg">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23e0e7ff'/%3E%3Ccircle cx='32' cy='26' r='10' fill='%234f46e5'/%3E%3Cpath d='M15 54c2-10 10-15 17-15s15 5 17 15z' fill='%234f46e5'/%3E%3C/svg%3E" alt="Ilustração de pessoa">
+                <span class="avatar__status" aria-hidden="true"></span>
+              </span>
+              <span class="avatar avatar--sm avatar--primary">MC</span>
+              <span class="avatar avatar--sm avatar--neutral">
+                <span class="avatar__status avatar__status--away" aria-hidden="true"></span>
+                RS
+              </span>
+              <span class="avatar avatar--xl avatar--neutral">
+                <span class="avatar__status avatar__status--offline" aria-hidden="true"></span>
+                DK
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal de demonstração: aberto por [data-modal-open],
+             fechado por [data-modal-close], Esc ou clique no backdrop -->
+        <div class="modal" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title" aria-describedby="demo-modal-desc" hidden>
+          <div class="modal__backdrop" data-modal-close></div>
+          <div class="modal__dialog">
+            <header class="modal__header">
+              <h3 class="modal__title" id="demo-modal-title">Excluir projeto?</h3>
+              <button type="button" class="modal__close" data-modal-close aria-label="Fechar diálogo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </header>
+            <div class="modal__body" id="demo-modal-desc">
+              <p>Esta ação remove o projeto “Lumen” do seu espaço de trabalho. Essa operação não pode ser desfeita.</p>
+            </div>
+            <footer class="modal__footer">
+              <button type="button" class="btn btn--ghost" data-modal-close>Cancelar</button>
+              <button type="button" class="btn btn--danger" data-modal-close>Excluir projeto</button>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Dropdowns
+           ============================================================== -->
+      <section id="dropdowns" class="section" aria-labelledby="titulo-dropdowns">
+        <h2 id="titulo-dropdowns">Dropdowns</h2>
+        <p class="section__intro">
+          Menus de ações e seleção em popup: fecha com Esc, clique fora ou
+          escolha; navegação por setas (↑↓) e Home/End no teclado.
+        </p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Menu de ações</p>
+            <div class="demo__row">
+              <div class="dropdown">
+                <button type="button" class="btn btn--secondary dropdown__trigger" data-dropdown
+                        aria-haspopup="menu" aria-expanded="false" aria-controls="menu-acoes">
+                  Ações
+                  <svg class="dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       aria-hidden="true" focusable="false">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div class="dropdown__menu" id="menu-acoes" role="menu" aria-label="Ações do projeto" hidden>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="0">Renomear</button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">Duplicar</button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">Arquivar</button>
+                  <div class="dropdown__separator" role="separator"></div>
+                  <button type="button" class="dropdown__item dropdown__item--danger" role="menuitem" tabindex="-1">Excluir</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Menu de ações com ícone (⋯): alinhado à direita</p>
+            <div class="demo__row">
+              <div class="dropdown dropdown--align-end">
+                <button type="button" class="btn btn--ghost dropdown__trigger" data-dropdown
+                        aria-haspopup="menu" aria-expanded="false" aria-controls="menu-icone"
+                        aria-label="Mais opções">
+                  <svg class="dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="5" r="1"/>
+                    <circle cx="12" cy="12" r="1"/>
+                    <circle cx="12" cy="19" r="1"/>
+                  </svg>
+                </button>
+                <div class="dropdown__menu" id="menu-icone" role="menu" aria-label="Mais opções" hidden>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="0">Editar</button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">Compartilhar</button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">Exportar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Select-like com checkmark</p>
+            <div class="demo__row">
+              <div class="dropdown">
+                <button type="button" class="btn btn--secondary dropdown__trigger" data-dropdown
+                        aria-haspopup="menu" aria-expanded="false" aria-controls="menu-plano">
+                  <span class="dropdown__value">Starter</span>
+                  <svg class="dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       aria-hidden="true" focusable="false">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div class="dropdown__menu" id="menu-plano" role="menu" aria-label="Escolha o plano" data-select-like hidden>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="0" aria-current="true">
+                    Starter
+                    <svg class="dropdown__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true" focusable="false">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">
+                    Pro
+                    <svg class="dropdown__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true" focusable="false">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="dropdown__item" role="menuitem" tabindex="-1">
+                    Equipe
+                    <svg class="dropdown__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true" focusable="false">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Breadcrumb
+           ============================================================== -->
+      <section id="breadcrumb" class="section" aria-labelledby="titulo-breadcrumb">
+        <h2 id="titulo-breadcrumb">Breadcrumb</h2>
+        <p class="section__intro">
+          Trilha de navegação com separador via CSS (não textual) e item
+          atual destacado com <code>aria-current="page"</code>.
+        </p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Trilha simples</p>
+            <nav class="breadcrumb" aria-label="Trilha de navegação">
+              <ol class="breadcrumb__list">
+                <li class="breadcrumb__item"><a class="breadcrumb__link" href="#visao-geral">Início</a></li>
+                <li class="breadcrumb__item"><a class="breadcrumb__link" href="#docs">Documentação</a></li>
+                <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">Botões</span></li>
+              </ol>
+            </nav>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Com link truncado</p>
+            <nav class="breadcrumb" aria-label="Trilha com link truncado">
+              <ol class="breadcrumb__list">
+                <li class="breadcrumb__item">
+                  <a class="breadcrumb__link breadcrumb__link--truncated" href="#visao-geral"
+                     title="Design Kit: Showcase e Documentação">
+                    Design Kit: Showcase e Documentação
+                  </a>
+                </li>
+                <li class="breadcrumb__item"><a class="breadcrumb__link" href="#docs">Componentes</a></li>
+                <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">Overlays</span></li>
+              </ol>
+            </nav>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Nível único (página raiz)</p>
+            <nav class="breadcrumb" aria-label="Trilha da página raiz">
+              <ol class="breadcrumb__list">
+                <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">Visão geral</span></li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Tabela
+           ============================================================== -->
+      <section id="tabela" class="section" aria-labelledby="titulo-tabela">
+        <h2 id="titulo-tabela">Tabela</h2>
+        <p class="section__intro">
+          Dados tabulares com zebra, alinhamento numérico, header fixo e
+          estado vazio, com container de rolagem horizontal no mobile.
+        </p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Dados com zebra e números tabulares</p>
+            <div class="table-wrap">
+              <table class="table table--zebra">
+                <caption class="table__caption">Projetos ativos: horas por semana</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Projeto</th>
+                    <th scope="col">Responsável</th>
+                    <th scope="col" class="table__num">Horas</th>
+                    <th scope="col" class="table__num">Progresso</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Lumen</th>
+                    <td>Ana Souza</td>
+                    <td class="table__num">128</td>
+                    <td class="table__num">76%</td>
+                    <td><span class="badge badge--success">Ativo</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Atlas</th>
+                    <td>Bruno Lima</td>
+                    <td class="table__num">96</td>
+                    <td class="table__num">54%</td>
+                    <td><span class="badge badge--warning">Em revisão</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Cobalt</th>
+                    <td>Carla Mendes</td>
+                    <td class="table__num">42</td>
+                    <td class="table__num">31%</td>
+                    <td><span class="badge badge--neutral">Planejado</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Nuvem</th>
+                    <td>Diego Rocha</td>
+                    <td class="table__num">213</td>
+                    <td class="table__num">92%</td>
+                    <td><span class="badge badge--error">Bloqueado</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Header fixo (rolagem vertical)</p>
+            <div class="table-wrap table-wrap--sticky">
+              <table class="table" aria-label="Registros de auditoria: mais recentes primeiro">
+                <thead>
+                  <tr>
+                    <th scope="col">Evento</th>
+                    <th scope="col">Usuário</th>
+                    <th scope="col" class="table__num">ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Login</th><td>ana.souza</td><td class="table__num">4821</td></tr>
+                  <tr><th scope="row">Exportar</th><td>bruno.lima</td><td class="table__num">4820</td></tr>
+                  <tr><th scope="row">Editar</th><td>carla.mendes</td><td class="table__num">4819</td></tr>
+                  <tr><th scope="row">Login</th><td>diego.rocha</td><td class="table__num">4818</td></tr>
+                  <tr><th scope="row">Upload</th><td>ana.souza</td><td class="table__num">4817</td></tr>
+                  <tr><th scope="row">Compartilhar</th><td>bruno.lima</td><td class="table__num">4816</td></tr>
+                  <tr><th scope="row">Excluir</th><td>carla.mendes</td><td class="table__num">4815</td></tr>
+                  <tr><th scope="row">Login</th><td>diego.rocha</td><td class="table__num">4814</td></tr>
+                  <tr><th scope="row">Login</th><td>ana.souza</td><td class="table__num">4813</td></tr>
+                  <tr><th scope="row">Editar</th><td>bruno.lima</td><td class="table__num">4812</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Estado vazio</p>
+            <div class="table-wrap">
+              <table class="table">
+                <caption class="sr-only">Resultados da busca</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Projeto</th>
+                    <th scope="col">Responsável</th>
+                    <th scope="col" class="table__num">Horas</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table__empty" colspan="4">Nenhum projeto encontrado para os filtros aplicados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Stepper
+           ============================================================== -->
+      <section id="stepper" class="section" aria-labelledby="titulo-stepper">
+        <h2 id="titulo-stepper">Stepper</h2>
+        <p class="section__intro">
+          Progresso por etapas com conector visual: passo ativo marcado
+          com <code>aria-current="step"</code>. Variantes horizontal e vertical.
+        </p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Horizontal</p>
+            <ol class="stepper" aria-label="Progresso da inscrição">
+              <li class="stepper__step stepper__step--done">
+                <span class="stepper__marker" aria-hidden="true">
+                  <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <span class="stepper__label">Conta</span>
+              </li>
+              <li class="stepper__step stepper__step--done">
+                <span class="stepper__marker" aria-hidden="true">
+                  <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <span class="stepper__label">Plano</span>
+              </li>
+              <li class="stepper__step stepper__step--active" aria-current="step">
+                <span class="stepper__marker" aria-hidden="true">3</span>
+                <span class="stepper__label">Pagamento</span>
+              </li>
+              <li class="stepper__step">
+                <span class="stepper__marker" aria-hidden="true">4</span>
+                <span class="stepper__label">Confirmação</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Vertical</p>
+            <ol class="stepper stepper--vertical" aria-label="Etapas do pedido">
+              <li class="stepper__step stepper__step--done">
+                <span class="stepper__marker" aria-hidden="true">
+                  <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <span class="stepper__label">Carrinho</span>
+              </li>
+              <li class="stepper__step stepper__step--done">
+                <span class="stepper__marker" aria-hidden="true">
+                  <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <span class="stepper__label">Endereço</span>
+              </li>
+              <li class="stepper__step stepper__step--active" aria-current="step">
+                <span class="stepper__marker" aria-hidden="true">3</span>
+                <span class="stepper__label">Pagamento</span>
+              </li>
+              <li class="stepper__step">
+                <span class="stepper__marker" aria-hidden="true">4</span>
+                <span class="stepper__label">Confirmação</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Paginação
+           ============================================================== -->
+      <section id="paginacao" class="section" aria-labelledby="titulo-paginacao">
+        <h2 id="titulo-paginacao">Paginação</h2>
+        <p class="section__intro">
+          Navegação entre páginas de listagens: página atual marcada com
+          <code>aria-current="page"</code>, reticiências para intervalos longos,
+          setas anterior/próxima e variante compacta.
+        </p>
+        <div class="demo">
+          <div class="demo__group">
+            <p class="demo__caption">Completa (7 páginas, página atual 4)</p>
+            <nav class="pagination" aria-label="Paginação de projetos">
+              <ul class="pagination__list" data-pagination-demo data-total="7">
+                <li class="pagination__item">
+                  <a class="pagination__link" href="#paginacao" aria-label="Página anterior" aria-disabled="true">
+                    <svg class="pagination__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true" focusable="false">
+                      <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                  </a>
+                </li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="1">1</a></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="2">2</a></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="3">3</a></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="4" aria-current="page">4</a></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="5">5</a></li>
+                <li class="pagination__item"><span class="pagination__ellipsis" aria-hidden="true">…</span></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="7">7</a></li>
+                <li class="pagination__item">
+                  <a class="pagination__link" href="#paginacao" aria-label="Próxima página" data-page="5">
+                    <svg class="pagination__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true" focusable="false">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+              <p class="pagination__status" id="pag-status" aria-live="polite">Página 4 de 7</p>
+            </nav>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Compacta (sm): rodapé de tabela</p>
+            <nav class="pagination pagination--sm" aria-label="Paginação de resultados">
+              <ul class="pagination__list" data-pagination-demo data-total="12">
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="1">1</a></li>
+                <li class="pagination__item"><span class="pagination__ellipsis" aria-hidden="true">…</span></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="11">11</a></li>
+                <li class="pagination__item"><a class="pagination__link" href="#paginacao" data-page="12" aria-current="page">12</a></li>
+              </ul>
+              <p class="pagination__status" aria-live="polite">Página 12 de 12</p>
+            </nav>
+          </div>
+
+          <div class="demo__group">
+            <p class="demo__caption">Uso</p>
+            <p class="demo__note">
+              Cada página é um link real (<code>&lt;a&gt;</code>); use URLs verdadeiras em produção.
+              A página atual carrega <code>aria-current="page"</code>; o item sem ação usa
+              <code>aria-disabled="true"</code>. As reticências são um <code>&lt;span&gt;</code>
+              não interativo (<code>aria-hidden="true"</code>), fora da ordem de Tab. A demo acima
+              atualiza o estado ao clicar (padrão do showcase, não do componente).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================================
+           Docs
+           ============================================================== -->
+      <section id="docs" class="section" aria-labelledby="titulo-docs">
+        <h2 id="titulo-docs">Docs</h2>
+        <p class="section__intro">Notas de uso, acessibilidade e boas práticas por componente.</p>
+        <div class="docs-grid">
+          <p>Documentação de handoff completa em <a href="docs/componentes/README.md">docs/componentes</a>: 8 guias por grupo de componente.</p>
+          <ul class="docs-grid__list">
+            <li><a href="docs/componentes/botoes.md">Botões</a></li>
+            <li><a href="docs/componentes/badges-cards-alerts.md">Badges, cards e alertas</a></li>
+            <li><a href="docs/componentes/formularios.md">Formulários</a></li>
+            <li><a href="docs/componentes/overlays.md">Overlays</a></li>
+            <li><a href="docs/componentes/dropdown.md">Dropdown</a></li>
+            <li><a href="docs/componentes/breadcrumb.md">Breadcrumb</a></li>
+            <li><a href="docs/componentes/tabela.md">Tabela</a></li>
+            <li><a href="docs/componentes/stepper.md">Stepper</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p>Design Kit v0.9.0: tokens, componentes e documentação viva.</p>
+        <p>HTML · CSS · JS puros, sem dependências.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

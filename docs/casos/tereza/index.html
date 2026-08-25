@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tereza Vilela, ilustradora editorial. Capas de livro, ensaios e murais para editoras e revistas.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Tereza Vilela, ilustradora editorial</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23b45309'/><path d='M20 44V22a6 6 0 0 1 6-6h18M26 32h14M26 40h10' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit): evita flash
+       de tema errado antes do CSS. Lê dk-theme; fallback prefers-color-scheme. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="../../../styles/components.css">
+  <link rel="stylesheet" href="tereza.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho mínimo (Experience: chrome mínimo, navegação discreta)
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 44V22a6 6 0 0 1 6-6h18M26 32h14M26 40h10"/>
+        </svg>
+        <span class="site-header__name">Tereza Vilela</span>
+      </a>
+
+      <div class="site-header__actions">
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <svg class="menu-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <line class="menu-toggle__line" x1="3" y1="6" x2="21" y2="6"/>
+            <line class="menu-toggle__line" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="menu-toggle__line" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Nav após .site-header__actions no DOM (tabulação chega ao painel
+           pelo teclado); ordem visual restaurada por order no CSS. -->
+      <nav id="site-nav" class="site-nav" aria-label="Navegação principal">
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#ensaios">Ensaios</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ==============================================================
+         Hero manifesto: o primeiro viewport é a OBRA
+         ============================================================== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="container hero__inner">
+        <figure class="hero__piece" role="img"
+                aria-label="Ilustração de capa: mulher lendo sob uma árvore com pássaros, sol terracota ao fundo, em estilo editorial de tinta plana">
+          <svg class="hero__art" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true" focusable="false">
+            <!-- céu e chão -->
+            <rect x="0" y="0" width="800" height="500" fill="var(--color-surface)"/>
+            <ellipse cx="640" cy="150" rx="90" ry="90" fill="var(--color-warning-soft)"/>
+            <circle cx="640" cy="150" r="44" fill="var(--color-warning)"/>
+            <!-- tronco -->
+            <path d="M300 500V260a60 60 0 0 1 120 0v240" fill="var(--color-surface-muted)"/>
+            <path d="M330 280c-60 10-96 56-108 130M470 280c60 10 96 56 108 130M360 210c-70-6-120 34-140 110M440 210c70-6 120 34 140 110"
+                  stroke="var(--color-border-strong)" stroke-width="3" stroke-linecap="round"/>
+            <!-- copa -->
+            <path d="M222 210c0-70 56-120 178-120s178 50 178 120c0 44-24 74-70 92-18 44-60 66-108 66s-90-22-108-66c-46-18-70-48-70-92z"
+                  fill="var(--color-primary-soft)"/>
+            <path d="M276 214c-10 34 0 62 26 82M524 214c10 34 0 62-26 82"
+                  stroke="var(--color-border-strong)" stroke-width="2" stroke-linecap="round"/>
+            <!-- leitora -->
+            <path d="M392 500v-84a46 46 0 0 1 92 0v84" fill="var(--color-surface-muted)"/>
+            <circle cx="438" cy="352" r="34" fill="var(--color-surface-muted)"/>
+            <path d="M404 352c0-20 16-34 34-34s34 14 34 34" fill="var(--color-surface)"/>
+            <path d="M432 386c-18 0-30 12-34 34h68c-4-22-16-34-34-34z" fill="var(--color-warning)"/>
+            <!-- livro -->
+            <path d="M410 430c10-6 20-6 30 0v34c-10-6-20-6-30 0z" fill="var(--color-text)"/>
+            <!-- pássaros -->
+            <path d="M150 120c8 8 20 8 28 0M180 96c8 8 20 8 28 0M120 150c6 6 16 6 22 0"
+                  stroke="var(--color-text-strong)" stroke-width="3" stroke-linecap="round"/>
+            <!-- linha de chão -->
+            <path d="M60 470h680" stroke="var(--color-border)" stroke-width="2"/>
+          </svg>
+        </figure>
+
+        <div class="hero__caption">
+          <p class="eyebrow">Portfólio</p>
+          <h1 id="hero-titulo" class="hero__title">Tereza Vilela</h1>
+          <p class="hero__lead">
+            Ilustração editorial para livros, revistas e muros.
+          </p>
+          <a class="btn btn--primary btn--lg" href="#trabalhos">Ver trabalhos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Galeria de curadoria (bloco galeria-experience: grid assimétrico)
+         ============================================================== -->
+    <section id="trabalhos" class="galeria" aria-labelledby="galeria-titulo">
+      <div class="container">
+        <h2 id="galeria-titulo" class="galeria__titulo">Trabalhos</h2>
+        <p class="galeria__intro">
+          Uma seleção de capas, ensaios e murais. Cada peça sustenta o olhar
+          sozinha; o resto da página é só a moldura.
+        </p>
+
+        <div class="galeria__grid">
+          <figure class="peça peça--livro reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 400 520" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect x="20" y="20" width="360" height="480" rx="10" fill="var(--color-surface)"/>
+                <rect x="20" y="20" width="360" height="480" rx="10" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <circle cx="200" cy="180" r="92" fill="var(--color-warning)"/>
+                <path d="M120 460V320a60 60 0 0 1 66-58 60 60 0 0 1 68 58v140" fill="var(--color-surface-muted)"/>
+                <circle cx="188" cy="238" r="30" fill="var(--color-surface)"/>
+                <path d="M158 238c0-18 14-30 30-30s30 12 30 30" fill="var(--color-surface)"/>
+                <path d="M184 268c-16 0-26 10-30 30h60c-4-20-14-30-30-30z" fill="var(--color-text)"/>
+                <path d="M132 420h116M132 448h76" stroke="var(--color-border-strong)" stroke-width="3" stroke-linecap="round"/>
+                <path d="M200 196v-26M178 206l12-10M222 206l-12-10" stroke="var(--color-surface)" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">O Inventário das Coisas Vivas</span>
+              <span class="peça__meta">Capa · Editora Caboré, 2025</span>
+            </figcaption>
+          </figure>
+
+          <figure class="peça peça--ensaio reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect width="400" height="320" fill="var(--color-surface)"/>
+                <!-- toldos da feira -->
+                <path d="M30 90h130l-14 36H44z" fill="var(--color-warning)"/>
+                <path d="M160 70h120l-12 56H172z" fill="var(--color-warning-soft)"/>
+                <path d="M280 100h96l-10 46H290z" fill="var(--color-surface-muted)"/>
+                <!-- barracas -->
+                <rect x="44" y="126" width="102" height="74" fill="var(--color-surface-muted)"/>
+                <rect x="172" y="126" width="104" height="74" fill="var(--color-surface-muted)"/>
+                <rect x="290" y="146" width="76" height="54" fill="var(--color-surface-muted)"/>
+                <!-- frutas -->
+                <circle cx="80" cy="200" r="10" fill="var(--color-warning)"/>
+                <circle cx="104" cy="196" r="9" fill="var(--color-warning)"/>
+                <circle cx="128" cy="200" r="8" fill="var(--color-warning)"/>
+                <circle cx="208" cy="204" r="9" fill="var(--color-text-muted)"/>
+                <circle cx="228" cy="198" r="8" fill="var(--color-text-muted)"/>
+                <circle cx="248" cy="204" r="9" fill="var(--color-text-muted)"/>
+                <path d="M318 178c10 8 20 8 28 0" stroke="var(--color-text-strong)" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="336" cy="172" r="6" fill="var(--color-warning)"/>
+                <!-- pessoas -->
+                <path d="M150 310v-52a22 22 0 0 1 44 0v52" fill="var(--color-surface-muted)"/>
+                <circle cx="172" cy="224" r="16" fill="var(--color-surface-muted)"/>
+                <path d="M156 224c0-10 8-16 16-16s16 6 16 16" fill="var(--color-surface)"/>
+                <path d="M262 310v-52a22 22 0 0 1 44 0v52" fill="var(--color-surface-muted)"/>
+                <circle cx="284" cy="224" r="16" fill="var(--color-surface-muted)"/>
+                <path d="M268 224c0-10 8-16 16-16s16 6 16 16" fill="var(--color-surface)"/>
+                <path d="M282 246c-10 0-17 6-20 18h40c-3-12-10-18-20-18z" fill="var(--color-warning)"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">Feira</span>
+              <span class="peça__meta">Ensaio · Revista Foz, 2024</span>
+            </figcaption>
+          </figure>
+
+          <figure class="peça peça--livro peça--alta reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 360 520" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect x="16" y="16" width="328" height="488" rx="10" fill="var(--color-surface)"/>
+                <rect x="16" y="16" width="328" height="488" rx="10" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M180 470V170a66 66 0 0 1 132 0v300" fill="var(--color-warning-soft)"/>
+                <path d="M180 470V170a66 66 0 0 0-132 0v300" fill="var(--color-surface-muted)"/>
+                <path d="M48 170a66 66 0 0 1 132 0M312 170a66 66 0 0 0-132 0" fill="var(--color-warning)"/>
+                <rect x="136" y="140" width="88" height="76" fill="var(--color-warning)"/>
+                <path d="M180 140v76" stroke="var(--color-surface)" stroke-width="4"/>
+                <path d="M136 178h88" stroke="var(--color-surface)" stroke-width="4"/>
+                <path d="M60 420h240M60 452h196" stroke="var(--color-border-strong)" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="300" cy="120" r="26" fill="var(--color-warning)"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">Casa de Barro</span>
+              <span class="peça__meta">Capa · Editora Caboré, 2023</span>
+            </figcaption>
+          </figure>
+
+          <figure class="peça peça--ensaio peça--larga reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect width="520" height="320" fill="var(--color-surface)"/>
+                <circle cx="440" cy="84" r="40" fill="var(--color-warning)"/>
+                <path d="M30 220c90-40 180-40 260 0s140 40 200 0" fill="var(--color-primary-soft)"/>
+                <path d="M60 240c80-30 160-30 240 0" fill="var(--color-surface-muted)"/>
+                <path d="M30 220c90-40 180-40 260 0s140 40 200 0" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <!-- canoa -->
+                <path d="M180 150c60-14 120-10 170 12l-30 26c-44-16-96-18-146-6z" fill="var(--color-warning)"/>
+                <path d="M180 150c60-14 120-10 170 12" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M260 150l-16 30M312 154l-14 26" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <path d="M300 96c10 10 24 10 34 0M340 120c8 8 18 8 26 0" stroke="var(--color-text-strong)" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">O Rio</span>
+              <span class="peça__meta">Ensaio · Caderno do Litoral, 2022</span>
+            </figcaption>
+          </figure>
+
+          <figure class="peça peça--mural peça--larga reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 520 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect width="520" height="300" fill="var(--color-surface-muted)"/>
+                <!-- prateleiras -->
+                <path d="M60 90h400M60 180h400" stroke="var(--color-border-strong)" stroke-width="4"/>
+                <path d="M60 90h400M60 180h400" stroke="var(--color-border)" stroke-width="2" transform="translate(0 4)"/>
+                <!-- livros (lombadas) -->
+                <rect x="80" y="38" width="26" height="50" rx="3" fill="var(--color-warning)"/>
+                <rect x="110" y="30" width="30" height="58" rx="3" fill="var(--color-surface)"/>
+                <rect x="144" y="42" width="24" height="46" rx="3" fill="var(--color-text)"/>
+                <rect x="172" y="34" width="28" height="54" rx="3" fill="var(--color-warning-soft)"/>
+                <rect x="96" y="128" width="26" height="50" rx="3" fill="var(--color-surface)"/>
+                <rect x="126" y="120" width="30" height="58" rx="3" fill="var(--color-warning)"/>
+                <rect x="160" y="132" width="24" height="46" rx="3" fill="var(--color-text)"/>
+                <rect x="188" y="124" width="28" height="54" rx="3" fill="var(--color-warning-soft)"/>
+                <!-- leitora -->
+                <path d="M330 300v-70a34 34 0 0 1 68 0v70" fill="var(--color-surface)"/>
+                <circle cx="364" cy="192" r="24" fill="var(--color-surface)"/>
+                <path d="M340 192c0-14 12-24 24-24s24 10 24 24" fill="var(--color-surface)"/>
+                <path d="M360 216c-12 0-20 8-24 22h48c-4-14-12-22-24-22z" fill="var(--color-warning)"/>
+                <path d="M334 260c10-8 20-8 30 0" fill="var(--color-text)"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">Muro das Histórias</span>
+              <span class="peça__meta">Mural · Biblioteca do Bairro, 2024</span>
+            </figcaption>
+          </figure>
+
+          <figure class="peça peça--retrato reveal">
+            <div class="peça__media">
+              <svg viewBox="0 0 360 420" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   aria-hidden="true" focusable="false">
+                <rect x="12" y="12" width="336" height="396" rx="10" fill="var(--color-surface)"/>
+                <rect x="12" y="12" width="336" height="396" rx="10" stroke="var(--color-border-strong)" stroke-width="2"/>
+                <circle cx="180" cy="170" r="56" fill="var(--color-warning-soft)"/>
+                <circle cx="180" cy="170" r="38" fill="var(--color-surface)"/>
+                <path d="M142 170c0-24 18-40 38-40s38 16 38 40" fill="var(--color-surface)"/>
+                <path d="M178 170c8-26 24-40 44-44" stroke="var(--color-border-strong)" stroke-width="3" stroke-linecap="round"/>
+                <path d="M140 210c6 30 24 46 40 46s34-16 40-46" fill="var(--color-warning)"/>
+                <!-- ombros -->
+                <path d="M108 408c8-64 34-96 72-96s64 32 72 96z" fill="var(--color-surface-muted)"/>
+                <!-- gato -->
+                <path d="M250 330c26-4 44 8 50 34l4 44h-56z" fill="var(--color-warning-soft)"/>
+                <path d="M248 330l-10-22 20 8M304 330l10-22-20 8" fill="var(--color-warning-soft)"/>
+                <circle cx="264" cy="330" r="3" fill="var(--color-text)"/>
+                <circle cx="288" cy="330" r="3" fill="var(--color-text)"/>
+              </svg>
+            </div>
+            <figcaption class="peça__legenda">
+              <span class="peça__titulo">Autorretrato com gato</span>
+              <span class="peça__meta">Série pessoal, 2021</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Ensaios: transição entre peças (destaques que alternam, sem zigzag)
+         ============================================================== -->
+    <section id="ensaios" class="ensaios" aria-labelledby="ensaios-titulo">
+      <div class="container">
+        <h2 id="ensaios-titulo" class="ensaios__titulo">Ensaios</h2>
+
+        <article class="ensaio ensaio--destaque reveal">
+          <div class="ensaio__media">
+            <svg viewBox="0 0 720 420" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true" focusable="false">
+              <rect width="720" height="420" fill="var(--color-surface)"/>
+              <circle cx="580" cy="110" r="70" fill="var(--color-warning-soft)"/>
+              <circle cx="580" cy="110" r="34" fill="var(--color-warning)"/>
+              <path d="M120 420V240a90 90 0 0 1 180 0v180" fill="var(--color-surface-muted)"/>
+              <circle cx="210" cy="196" r="48" fill="var(--color-surface)"/>
+              <path d="M162 196c0-28 22-48 48-48s48 20 48 48" fill="var(--color-surface)"/>
+              <path d="M196 244c-20 0-34 12-42 34h92c-8-22-22-34-42-34z" fill="var(--color-text)"/>
+              <path d="M170 318c30-16 60-16 80 0" stroke="var(--color-warning)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M380 420V220a50 50 0 0 1 100 0v200" fill="var(--color-primary-soft)"/>
+              <circle cx="430" cy="170" r="26" fill="var(--color-surface)"/>
+              <path d="M404 170c0-16 12-26 26-26s26 10 26 26" fill="var(--color-surface)"/>
+              <path d="M528 420V200a44 44 0 0 1 88 0v220" fill="var(--color-warning-soft)"/>
+              <circle cx="572" cy="156" r="22" fill="var(--color-surface)"/>
+              <path d="M550 156c0-12 10-22 22-22s22 10 22 22" fill="var(--color-surface)"/>
+              <path d="M60 380h600" stroke="var(--color-border)" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="ensaio__corpo">
+            <h3 class="ensaio__nome">Ainda é preciso desenhar o medo</h3>
+            <p class="ensaio__texto">
+              Três figuras de pé no mesmo chão, cada uma guardando um medo
+              diferente. A série nasceu de uma conversa sobre o que se leva
+              quando se sai de casa. Em andamento, em diálogo com a Editora
+              Caboré para uma edição de bolso.
+            </p>
+            <p class="ensaio__nota">Série em andamento, 2025</p>
+          </div>
+        </article>
+
+        <article class="ensaio ensaio--companhia reveal">
+          <div class="ensaio__media">
+            <svg viewBox="0 0 520 380" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true" focusable="false">
+              <rect width="520" height="380" fill="var(--color-surface)"/>
+              <path d="M40 320c90-50 180-50 270 0s140 40 190 0" fill="var(--color-primary-soft)"/>
+              <circle cx="400" cy="110" r="40" fill="var(--color-warning)"/>
+              <!-- varal -->
+              <path d="M60 120h400" stroke="var(--color-border-strong)" stroke-width="3"/>
+              <!-- camisa -->
+              <path d="M140 122l-14 90h60l-14-90z" fill="var(--color-warning-soft)"/>
+              <path d="M140 122c8-12 22-12 30 0" stroke="var(--color-border-strong)" stroke-width="2"/>
+              <!-- calça -->
+              <path d="M260 124l-10 88h44l-10-88z" fill="var(--color-surface-muted)"/>
+              <!-- lençol -->
+              <path d="M360 122v92c-6 6-16 6-22 0v-92z" fill="var(--color-surface)"/>
+              <path d="M360 122v92c-6 6-16 6-22 0v-92" stroke="var(--color-border-strong)" stroke-width="2"/>
+              <!-- cadeira -->
+              <path d="M96 320v-60M150 320v-60M96 272h54M104 320h34" stroke="var(--color-border-strong)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M70 220c14-16 34-20 56-12M470 180c-10 22-26 34-48 36" stroke="var(--color-border-strong)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="ensaio__corpo">
+            <h3 class="ensaio__nome">Verão interior</h3>
+            <p class="ensaio__texto">
+              Quintais, varal e o calor que fica na pele. Uma série sobre o
+              tempo lento das casas do interior, publicada como encarte na
+              Revista Foz em dois verões seguidos.
+            </p>
+            <p class="ensaio__nota">Série · Revista Foz, 2023</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Sobre (manifesto curto, editorial, tipografia como voz)
+         ============================================================== -->
+    <section id="sobre" class="sobre" aria-labelledby="sobre-titulo">
+      <div class="container sobre__inner">
+        <h2 id="sobre-titulo" class="sobre__titulo">Ilustrar é dar rosto ao que ainda é só texto.</h2>
+        <div class="sobre__texto">
+          <p>
+            Trabalho com editoras e redações desde 2014, entre Belo Horizonte
+            e o que couber na mesa de luz. Desenho capas, abro ensaios e pinto
+            muros em bibliotecas de bairro. Uso tinta plana, papel e um só
+            vermelho, e acredito que a imagem de um livro começa na capa e
+            termina na memória de quem o leu.
+          </p>
+          <p>
+            Os prazos são combinados com antecedência, porque cada capa passa
+            por três versões antes de seguir para o fechamento.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================================
+         Contato (CTA único e discreto)
+         ============================================================== -->
+    <section id="contato" class="contato" aria-labelledby="contato-titulo">
+      <div class="container contato__inner">
+        <h2 id="contato-titulo" class="contato__titulo">Vamos desenhar a sua capa?</h2>
+        <p class="contato__texto">
+          Portfólio completo por área de atuação, disponível sob pedido.
+        </p>
+        <a class="btn btn--primary btn--lg" href="mailto:tereza@terezavilela.art.br">Solicitar portfólio</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==============================================================
+       Rodapé mínimo
+       ============================================================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__marca">Tereza Vilela, ilustração editorial.</p>
+      <nav class="site-footer__nav" aria-label="Rodapé">
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#ensaios">Ensaios</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <p class="site-footer__meta">
+        © 2026 Tereza Vilela. HTML, CSS e JS puros sobre o design system Design Kit.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Menu colapsável auto-contido (mesmo padrão do kit: .menu-toggle) -->
+  <script>
+    (function () {
+      var toggle = document.getElementById("menu-toggle");
+      var nav = document.getElementById("site-nav");
+      if (!toggle || !nav) return;
+      // 768px = --breakpoint-md do tokens.css (matchMedia não aceita var())
+      var mqDesktop = window.matchMedia("(min-width: 768px)");
+
+      var setOpen = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+
+      toggle.addEventListener("click", function () {
+        setOpen(!nav.classList.contains("is-open"));
+      });
+
+      nav.addEventListener("click", function (event) {
+        if (event.target.closest("a")) setOpen(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      if (mqDesktop.addEventListener) {
+        mqDesktop.addEventListener("change", function (event) {
+          if (event.matches) setOpen(false);
+        });
+      }
+    })();
+  </script>
+
+  <!-- Revelação suave entre peças (MOTION 4): IntersectionObserver adiciona
+       .is-visible; CSS anima só transform/opacity; reduced-motion colapsa. -->
+  <script>
+    (function () {
+      var items = document.querySelectorAll(".reveal");
+      if (!items.length) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        for (var i = 0; i < items.length; i++) items[i].classList.add("is-visible");
+        return;
+      }
+      if (!("IntersectionObserver" in window)) {
+        for (var j = 0; j < items.length; j++) items[j].classList.add("is-visible");
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        for (var k = 0; k < entries.length; k++) {
+          if (entries[k].isIntersecting) {
+            entries[k].target.classList.add("is-visible");
+            observer.unobserve(entries[k].target);
+          }
+        }
+      }, { threshold: 0.15 });
+      for (var m = 0; m < items.length; m++) observer.observe(items[m]);
+    })();
+  </script>
+</body>
+</html>

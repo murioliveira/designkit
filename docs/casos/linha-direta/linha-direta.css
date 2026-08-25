@@ -1,0 +1,764 @@
+/* ==========================================================================
+   Caso Linha Direta - linha-direta.css
+   --------------------------------------------------------------------------
+   Landing do estúdio de design estratégico. Consome APENAS os tokens de
+   styles/tokens.css (sem valores mágicos de cor/espaçamento/raio/sombra).
+
+   Família estética: monocromático de grafite frio (slate do kit) + pop
+   âmbar (--color-warning). Deliberadamente NÃO é bege+latão+oxblood (tell
+   nº 2 do DESIGN.md) e não é o índigo default do kit: a agência "pequena e
+   feroz" usa o quente de decisão (âmbar) contra o frio institucional.
+
+   Blocos da block library usados (docs/blocos/):
+   - hero-split-assimetrico.md  (hero, VARIANCE 9: colunas 1.4fr/1fr)
+   - marquee.md                 (banda de termos, máx 1 por página)
+   - bento-grid.md              (6 células, 2 com variação visual)
+   - sticky-stack.md            (casos que pinam, CSS puro position: sticky)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Skip-link: alvo principal não fica sob o header sticky
+   -------------------------------------------------------------------------- */
+main[id],
+section[id],
+footer[id] {
+  scroll-margin-top: var(--space-16);
+}
+
+/* --------------------------------------------------------------------------
+   Cabeçalho - sticky, vidro com fallback sólido, altura <= 80px
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  border-bottom: 1px solid var(--color-border);
+  /* Vidro: cor de fundo translúcida composta do token de fundo (constante de
+     efeito: alpha 88%, blur 12px) - mesmo padrão dos casos Lumen e Aurora */
+  background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .site-header {
+    background-color: var(--color-bg);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background-color: var(--color-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  /* Altura <= 80px (regra de nav do DESIGN.md): 4rem = 64px de conteúdo */
+  min-height: var(--space-16);
+  padding-block: var(--space-2);
+}
+
+/* Ordem visual desktop: brand (1) | nav (2) | actions (3). O nav vem DEPOIS
+   das actions no DOM (tabulação chega ao painel do menu pelo teclado); a
+   ordem visual é restaurada por order - não depende da ordem do HTML. */
+.site-header__brand { order: 1; }
+.site-nav { order: 2; }
+.site-header__actions { order: 3; }
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h6);
+}
+
+.site-header__brand:hover {
+  color: var(--color-text-strong);
+  text-decoration: none;
+}
+
+.site-header__mark {
+  width: var(--space-5);
+  height: var(--space-5);
+  color: var(--color-warning);
+}
+
+/* Nav: painel colapsável no mobile (padrão disclosure do APG) */
+.site-nav {
+  display: none;
+}
+
+.site-nav.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  z-index: var(--z-sticky);
+}
+
+.site-nav.is-open a {
+  color: var(--color-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-weight-medium);
+}
+
+.site-nav.is-open a:hover {
+  color: var(--color-warning);
+  background-color: var(--color-surface-muted);
+  text-decoration: none;
+}
+
+.site-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Menu hambúrguer (mobile) - vira X quando aberto
+   -------------------------------------------------------------------------- */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.menu-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.menu-toggle__line {
+  transition:
+    transform var(--motion-duration-base) var(--motion-easing-out),
+    opacity var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   Toggle de tema - pill com sol/lua alternados pelo data-theme
+   -------------------------------------------------------------------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.theme-toggle__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+  display: none;
+}
+
+/* Lua visível no claro (ação de mudar para escuro), sol no escuro */
+.theme-toggle__icon--moon { display: block; }
+.theme-toggle__icon--sun { display: none; }
+
+[data-theme="dark"] .theme-toggle__icon--moon { display: none; }
+[data-theme="dark"] .theme-toggle__icon--sun { display: block; }
+
+/* Foco em pills: o base.css aplica radius-sm global; pills restauram o raio */
+.menu-toggle:focus-visible,
+.theme-toggle:focus-visible {
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   Botão de accent (âmbar de decisão). Consome tokens: --color-warning +
+   --color-on-primary (contraste AA nos dois temas: 5.0:1 claro, ~10:1 escuro).
+   Override local do .btn do kit, mesma intenção semântica de ação.
+   -------------------------------------------------------------------------- */
+.ld-btn-accent {
+  background-color: var(--color-warning);
+  border-color: transparent;
+  color: var(--color-on-primary);
+}
+
+.ld-btn-accent:hover {
+  /* constante de efeito: escurece o âmbar compondo com o fundo (padrão Lumen) */
+  background-color: color-mix(in srgb, var(--color-warning) 88%, var(--color-bg));
+  color: var(--color-on-primary);
+}
+
+.ld-btn-accent:active {
+  transform: translateY(var(--space-1));
+}
+
+.ld-btn-accent:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* --------------------------------------------------------------------------
+   Ghost em âmbar (color lock: 1 accent = âmbar). Override local do .btn--ghost
+   do kit (que é índigo) para o accent da página. Mesma semântica ghost.
+   -------------------------------------------------------------------------- */
+.ld-btn-ghost {
+  color: var(--color-warning);
+}
+
+.ld-btn-ghost:hover {
+  background-color: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.ld-btn-ghost:active {
+  background-color: color-mix(in srgb, var(--color-warning) 20%, var(--color-bg));
+}
+
+/* --------------------------------------------------------------------------
+   Hero - split assimétrico (bloco hero-split-assimetrico, VARIANCE 9)
+   Colunas 1.4fr/1fr + peça deslocada para baixo (assimetria deliberada).
+   -------------------------------------------------------------------------- */
+.hero {
+  /* padding top <= 6rem (regra do DESIGN.md): 4rem de respiro */
+  padding-block: var(--space-16) var(--space-20);
+  min-height: 100dvh;          /* nunca h-screen: §4.1 */
+  display: flex;
+  align-items: center;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.hero__content {
+  max-width: var(--container-md);
+}
+
+.eyebrow {
+  color: var(--color-warning);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.hero__title {
+  font-size: var(--font-size-h1);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  /* headline curta: display 56px no desktop cabe em 1 linha */
+  max-width: 14ch;
+}
+
+.hero__lead {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-h6);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  max-width: var(--container-sm);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+/* Peça do hero: reta diagonal + ponto de decisão, escala com a célula */
+.hero__visual {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.hero__piece {
+  width: 100%;
+  max-width: 22rem;
+}
+
+/* --------------------------------------------------------------------------
+   Marquee (bloco marquee.md, máx 1 por página) - banda de termos
+   -------------------------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  padding-block: var(--space-6);
+  border-block: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  /* Loop: -50% do TRACK (duas listas idênticas) = uma lista inteira.
+     Se a animação ficasse na lista (-50% relativo à lista = meia lista),
+     a costura apareceria no ciclo. O percentual é relativo ao track. */
+  animation: marquee-scroll 22s linear infinite;
+}
+
+.marquee__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding-right: var(--space-12);
+  list-style: none;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.marquee__list li {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-strong);
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   Manifesto - editorial: a tipografia é a voz
+   -------------------------------------------------------------------------- */
+.manifesto {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.manifesto__inner {
+  max-width: var(--container-md);
+}
+
+.manifesto__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  max-width: 22ch;
+}
+
+.manifesto__text {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-h6);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text);
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Bento grid (bloco bento-grid.md) - 6 células, 2 com variação visual real
+   -------------------------------------------------------------------------- */
+.bento {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.bento__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  margin-bottom: var(--space-10);
+  max-width: var(--container-sm);
+}
+
+.bento__grid {
+  display: grid;
+  grid-template-columns: 1fr;   /* mobile-first: empilha */
+  gap: var(--space-4);
+}
+
+.bento__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 12rem;
+}
+
+/* Variação visual real: célula herói com SVG + célula tinted de âmbar */
+.bento__cell--tinted {
+  background-color: var(--color-warning-soft);
+  border-color: color-mix(in srgb, var(--color-warning) 30%, var(--color-border));
+}
+
+/* Mini-CTA "Marca nova?": fecha a grade (r3,c2) e usa o accent no botão */
+.bento__cell--cta {
+  justify-content: space-between;
+}
+
+.bento__visual {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-md);
+}
+
+.bento__quote {
+  font-size: var(--font-size-h5);
+  line-height: var(--font-line-height-relaxed);
+  color: var(--color-text-strong);
+  max-width: var(--container-sm);
+  margin: 0;
+}
+
+.bento__author {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+.bento__role {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+
+.card__footer {
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Sticky stack (bloco sticky-stack.md) - casos que pinam e empilham
+   O pin é CSS puro (position: sticky), sem JS de scroll (§4.1).
+   -------------------------------------------------------------------------- */
+.stack {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.stack__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  margin-bottom: var(--space-10);
+  max-width: var(--container-sm);
+}
+
+.stack__cards {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.stack__card {
+  /* Pin abaixo do header sticky (~64px = --space-16) + respiro */
+  position: sticky;
+  top: var(--space-16);
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-10) var(--space-10);
+}
+
+.stack__card:not(:last-child) {
+  box-shadow: var(--shadow-lg);
+}
+
+.stack__tag {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-warning);
+  margin: 0;
+}
+
+.stack__card-title {
+  font-size: var(--font-size-h3);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  max-width: 24ch;
+}
+
+.stack__card-text {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Método - editorial em duas colunas (família de layout própria, sem cards)
+   -------------------------------------------------------------------------- */
+.metodo {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.metodo__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.metodo__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--font-line-height-tight);
+  max-width: var(--container-sm);
+}
+
+.metodo__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-6);
+}
+
+.metodo__list li {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+}
+
+/* Os passos não usam número de etapa genérico (tell): o verbo é o label */
+.metodo__step {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.metodo__text {
+  margin-top: var(--space-2);
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  max-width: var(--container-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Chamada final - editorial, uma mensagem, um CTA
+   -------------------------------------------------------------------------- */
+.cta {
+  padding-block: var(--space-20);
+  border-top: 1px solid var(--color-border);
+}
+
+.cta__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  max-width: var(--container-md);
+}
+
+.cta__title {
+  font-size: var(--font-size-h2);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.cta__text {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  max-width: var(--container-sm);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   Rodapé - contato real, sem version footer, sem strip de local
+   -------------------------------------------------------------------------- */
+.site-footer {
+  padding-block: var(--space-12) var(--space-16);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.site-footer__brand p {
+  color: var(--color-text);
+  line-height: var(--font-line-height-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.site-footer__nav a {
+  color: var(--color-text);
+  width: fit-content;
+  padding: var(--space-1) 0;
+}
+
+.site-footer__nav a:hover {
+  color: var(--color-warning);
+}
+
+.site-footer__meta {
+  font-size: var(--font-size-small);
+  /* text (não muted): muted sobre surface-muted dá 4.34:1 (falha AA) */
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Breakpoints - desktop (mobile-first)
+   -------------------------------------------------------------------------- */
+@media (min-width: var(--breakpoint-md)) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .site-nav a {
+    color: var(--color-text);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-2);
+  }
+
+  .site-nav a:hover {
+    color: var(--color-warning);
+    text-decoration: none;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-16);
+  }
+
+  .hero__title {
+    font-size: var(--font-size-display);
+    max-width: 12ch;
+  }
+
+  /* Assimetria deliberada (VARIANCE 9): a peça desce meio bloco */
+  .hero__visual {
+    margin-top: var(--space-16);
+  }
+
+  .bento__grid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  /* 6 células: herói ocupa 2 linhas na coluna 1; wide cruza a base */
+  .bento__cell--hero { grid-row: span 2; }
+  .bento__cell--wide { grid-column: 1 / -1; }
+
+  .metodo__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: var(--space-16);
+  }
+
+  .metodo__title {
+    position: sticky;
+    top: var(--space-16);
+    align-self: start;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .site-footer__meta {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Sticky stack em telas pequenas: sem pin, empilhamento normal */
+@media (max-width: 480px) {
+  .stack__card {
+    position: static;
+    min-height: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Movimento reduzido - colapsa marquee, pin e transições
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle,
+  .theme-toggle,
+  .menu-toggle__line,
+  .btn,
+  .card--interactive {
+    transition: none;
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1),
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+    transform: none;
+  }
+
+  /* Marquee estático: rolagem manual se precisar */
+  .marquee__track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
+  }
+
+  /* Sticky stack vira scroll normal: o conteúdo nunca depende do pin */
+  .stack__card {
+    position: static;
+    min-height: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Micro-gaps (DESIGN.md §4.5): seleção de texto coerente
+   -------------------------------------------------------------------------- */
+::selection {
+  background-color: var(--color-primary-soft-strong);
+  color: var(--color-text-strong);
+}

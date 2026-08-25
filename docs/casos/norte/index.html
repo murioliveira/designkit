@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Norte: dashboard de gestão financeira para pequenas empresas. Contas a pagar e receber, fluxo de caixa e transações em um só lugar.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Norte: Financeiro · Fluxo de caixa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%234f46e5'/><path d='M20 44V28l8-6 8 6v16' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='44' cy='38' r='6' fill='white'/></svg>">
+
+  <!-- Bootstrap do tema (auto-contido, mesmo mecanismo do kit: dk-theme).
+       Evita flash de tema errado antes do CSS. -->
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) { /* file:// pode bloquear */ }
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../../styles/tokens.css">
+  <link rel="stylesheet" href="../../../styles/base.css">
+  <link rel="stylesheet" href="../../../styles/components.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ==============================================================
+       Cabeçalho
+       ============================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__brand" href="#main">
+        <svg class="site-header__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M3 21h18"/>
+          <path d="M5 21V10l7-6 7 6v11"/>
+          <path d="M10 21v-6h4v6"/>
+        </svg>
+        <span class="site-header__name">Norte</span>
+      </a>
+
+      <div class="site-header__actions">
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="container dash">
+
+      <!-- ============================================================
+           Cabeçalho da página: breadcrumb + ações
+           ============================================================ -->
+      <div class="dash-head">
+        <nav aria-label="Trilha de navegação">
+          <ol class="breadcrumb__list">
+            <li class="breadcrumb__item">
+              <a class="breadcrumb__link" href="#main">Navegação</a>
+            </li>
+            <li class="breadcrumb__item">
+              <a class="breadcrumb__link" href="#transacoes">Financeiro</a>
+            </li>
+            <li class="breadcrumb__item">
+              <span class="breadcrumb__current" aria-current="page">Fluxo de caixa</span>
+            </li>
+          </ol>
+        </nav>
+
+        <div class="dropdown dropdown--align-end">
+          <button
+            id="acc-actions"
+            class="btn btn--ghost btn--sm dropdown__trigger"
+            type="button"
+            data-dropdown
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="menu-acc-actions"
+          >
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="5" r="1"/>
+              <circle cx="12" cy="12" r="1"/>
+              <circle cx="12" cy="19" r="1"/>
+            </svg>
+            Ações
+            <svg class="dropdown__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div id="menu-acc-actions" class="dropdown__menu" role="menu" aria-label="Ações do relatório" hidden>
+            <button class="dropdown__item" type="button" role="menuitem">
+              <svg class="dropdown__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M20 6 9 17l-5-5"/>
+              </svg>
+              Exportar CSV
+            </button>
+            <button class="dropdown__item" type="button" role="menuitem">Exportar PDF</button>
+            <div class="dropdown__separator" role="separator"></div>
+            <button class="dropdown__item" type="button" role="menuitem">Imprimir</button>
+            <button class="dropdown__item dropdown__item--danger" type="button" role="menuitem">Arquivar</button>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="dash__title">Fluxo de caixa</h1>
+      <p class="dash__intro">
+        Acompanhe o dinheiro que entra e sai. Dados de agosto de 2026,
+        atualizados há 12 minutos.
+      </p>
+
+      <!-- ============================================================
+           Alertas
+           ============================================================ -->
+      <div class="dash-alerts">
+        <div class="alert alert--error" role="alert">
+          <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4"/><path d="M12 16h.01"/>
+          </svg>
+          <div class="alert__content">
+            <p class="alert__title">Fatura #4817 vencida há 3 dias</p>
+            <p class="alert__text">
+              A conta de energia de julho (R$ 312,00) não foi paga. Regularize até
+              sexta para evitar multa de 2% ao mês e suspensão do serviço.
+            </p>
+            <div class="alert__actions">
+              <button class="btn btn--sm btn--danger" type="button">Pagar agora</button>
+              <button class="btn btn--sm btn--ghost" type="button">Adiar 7 dias</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert--info" role="status">
+          <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <div class="alert__content">
+            <p class="alert__title">Importação concluída</p>
+            <p class="alert__text">
+              214 transações de maio foram sincronizadas com a sua conta bancária.
+              Nenhuma pendência de conferência.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           Métricas
+           ============================================================ -->
+      <section class="metrics" aria-labelledby="titulo-metricas">
+        <h2 id="titulo-metricas" class="sr-only">Indicadores financeiros</h2>
+        <div class="card metric">
+          <p class="metric__label">Saldo disponível</p>
+          <p class="metric__value">R$ 48.230,00</p>
+          <p class="metric__delta metric__delta--up">▲ 8,4% vs. julho</p>
+        </div>
+        <div class="card metric">
+          <p class="metric__label">A receber <span class="badge badge--success">12</span></p>
+          <p class="metric__value">R$ 12.845,00</p>
+          <p class="metric__delta">Previsto até 31/08</p>
+        </div>
+        <div class="card metric">
+          <p class="metric__label">A pagar <span class="badge badge--warning">7</span></p>
+          <p class="metric__value">R$ 7.310,00</p>
+          <p class="metric__delta">2 vencendo esta semana</p>
+        </div>
+        <div class="card metric">
+          <p class="metric__label">Inadimplência <span class="badge badge--error">2,4%</span></p>
+          <p class="metric__value">R$ 2.140,00</p>
+          <p class="metric__delta metric__delta--down">▼ 1,1 p.p. vs. julho</p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           Gráfico com abas (Semana / Mês / Trimestre)
+           ============================================================ -->
+      <section class="panel" aria-labelledby="titulo-fluxo">
+        <div class="panel__head">
+          <div>
+            <h2 id="titulo-fluxo">Fluxo de caixa</h2>
+            <p class="panel__sub">Entradas e saídas acumuladas</p>
+          </div>
+          <div class="tabs__list" role="tablist" aria-label="Período do gráfico">
+            <button class="tabs__tab" role="tab" id="tab-semana" aria-controls="painel-semana"
+                    aria-selected="false" tabindex="-1" type="button">Semana</button>
+            <button class="tabs__tab" role="tab" id="tab-mes" aria-controls="painel-mes"
+                    aria-selected="true" tabindex="0" type="button">Mês</button>
+            <button class="tabs__tab" role="tab" id="tab-trimestre" aria-controls="painel-trimestre"
+                    aria-selected="false" tabindex="-1" type="button">Trimestre</button>
+          </div>
+        </div>
+
+        <div class="tabs__panel" role="tabpanel" id="painel-semana" aria-labelledby="tab-semana" hidden>
+          <svg class="chart" viewBox="0 0 640 240" role="img" aria-label="Fluxo de caixa da semana: entradas de R$ 18,4 mil">
+            <title>Fluxo de caixa da semana</title>
+            <g stroke="var(--color-border)" stroke-width="1" aria-hidden="true">
+              <line x1="0" y1="200" x2="640" y2="200"/>
+              <line x1="0" y1="140" x2="640" y2="140"/>
+              <line x1="0" y1="80" x2="640" y2="80"/>
+              <line x1="0" y1="20" x2="640" y2="20"/>
+            </g>
+            <g aria-hidden="true">
+              <rect x="30"  y="150" width="46" height="50" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="120" y="120" width="46" height="80" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="210" y="90"  width="46" height="110" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="300" y="70"  width="46" height="130" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="390" y="100" width="46" height="100" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="480" y="60"  width="46" height="140" rx="6" fill="var(--color-primary-soft-strong)"/>
+              <rect x="570" y="80"  width="46" height="120" rx="6" fill="var(--color-primary-soft-strong)"/>
+            </g>
+            <g fill="var(--color-text-strong)" font-size="12" font-family="var(--font-family-base)" text-anchor="middle" aria-hidden="true">
+              <text x="53"  y="218">Seg</text><text x="143" y="218">Ter</text>
+              <text x="233" y="218">Qua</text><text x="323" y="218">Qui</text>
+              <text x="413" y="218">Sex</text><text x="503" y="218">Sáb</text>
+              <text x="593" y="218">Dom</text>
+            </g>
+          </svg>
+          <p class="chart__legend"><span class="chart__dot chart__dot--soft"></span> Entradas R$ 18,4 mil</p>
+        </div>
+
+        <div class="tabs__panel" role="tabpanel" id="painel-mes" aria-labelledby="tab-mes">
+          <svg class="chart" viewBox="0 0 640 240" role="img" aria-label="Fluxo de caixa de março a agosto de 2026: entradas em alta de R$ 30,2 mil para R$ 38,9 mil, saídas estáveis em torno de R$ 27 mil">
+            <title>Fluxo de caixa mensal</title>
+            <g stroke="var(--color-border)" stroke-width="1" aria-hidden="true">
+              <line x1="0" y1="200" x2="640" y2="200"/>
+              <line x1="0" y1="140" x2="640" y2="140"/>
+              <line x1="0" y1="80" x2="640" y2="80"/>
+              <line x1="0" y1="20" x2="640" y2="20"/>
+            </g>
+            <polyline points="40,150 140,132 240,112 340,96 440,72 600,44" fill="none"
+                      stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                      aria-hidden="true"/>
+            <polyline points="40,176 140,170 240,164 340,156 440,150 600,142" fill="none"
+                      stroke="var(--color-text-muted)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                      aria-hidden="true"/>
+            <g aria-hidden="true">
+              <circle cx="40" cy="150" r="5" fill="var(--color-primary)"/>
+              <circle cx="140" cy="132" r="5" fill="var(--color-primary)"/>
+              <circle cx="240" cy="112" r="5" fill="var(--color-primary)"/>
+              <circle cx="340" cy="96" r="5" fill="var(--color-primary)"/>
+              <circle cx="440" cy="72" r="5" fill="var(--color-primary)"/>
+              <circle cx="600" cy="44" r="5" fill="var(--color-primary)"/>
+            </g>
+            <g fill="var(--color-text-strong)" font-size="12" font-family="var(--font-family-base)" text-anchor="middle" aria-hidden="true">
+              <text x="40" y="218">Mar</text><text x="140" y="218">Abr</text>
+              <text x="240" y="218">Mai</text><text x="340" y="218">Jun</text>
+              <text x="440" y="218">Jul</text><text x="600" y="218">Ago</text>
+            </g>
+          </svg>
+          <p class="chart__legend"><span class="chart__dot chart__dot--in"></span> Entradas R$ 38,9 mil · <span class="chart__dot chart__dot--out"></span> Saídas R$ 27,1 mil</p>
+        </div>
+
+        <div class="tabs__panel" role="tabpanel" id="painel-trimestre" aria-labelledby="tab-trimestre" hidden>
+          <svg class="chart" viewBox="0 0 640 240" role="img" aria-label="Fluxo de caixa por trimestre: Q1 de R$ 86 mil, Q2 de R$ 102 mil e Q3 parcial de R$ 66 mil">
+            <title>Fluxo de caixa trimestral</title>
+            <g stroke="var(--color-border)" stroke-width="1" aria-hidden="true">
+              <line x1="0" y1="200" x2="640" y2="200"/>
+              <line x1="0" y1="140" x2="640" y2="140"/>
+              <line x1="0" y1="80" x2="640" y2="80"/>
+              <line x1="0" y1="20" x2="640" y2="20"/>
+            </g>
+            <g aria-hidden="true">
+              <rect x="120" y="108" width="120" height="92" rx="8" fill="var(--color-primary-soft-strong)"/>
+              <rect x="280" y="70"  width="120" height="130" rx="8" fill="var(--color-primary-soft-strong)"/>
+              <rect x="440" y="128" width="120" height="72" rx="8" fill="var(--color-primary-soft-strong)"/>
+            </g>
+            <g fill="var(--color-text-strong)" font-size="12" font-family="var(--font-family-base)" text-anchor="middle" aria-hidden="true">
+              <text x="180" y="218">Q1 · R$ 86 mil</text>
+              <text x="340" y="218">Q2 · R$ 102 mil</text>
+              <text x="500" y="218">Q3 · R$ 66 mil*</text>
+            </g>
+          </svg>
+          <p class="chart__legend">* Q3 parcial até agosto.</p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           Tabela de transações + paginação
+           ============================================================ -->
+      <section id="transacoes" class="panel" aria-labelledby="titulo-transacoes">
+        <div class="panel__head">
+          <div>
+            <h2 id="titulo-transacoes">Transações</h2>
+            <p class="panel__sub">Últimos lançamentos de agosto</p>
+          </div>
+          <div class="table-tools">
+            <label class="sr-only" for="f-busca">Filtrar transações</label>
+            <div class="input-wrap">
+              <svg class="input-wrap__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input id="f-busca" class="input input--with-icon" type="search" placeholder="Buscar por cliente ou número">
+            </div>
+            <button id="btn-limpar" class="btn btn--sm btn--ghost" type="button" hidden>Limpar filtro</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table table--zebra" aria-describedby="desc-transacoes">
+            <caption id="desc-transacoes" class="table__caption">
+              Página 1 de 5 · 6 de 28 transações · valores em reais (R$)
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Nº</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Vencimento</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="table__num">Valor</th>
+                <th scope="col"><span class="sr-only">Ações</span></th>
+              </tr>
+            </thead>
+            <tbody id="corpo-transacoes">
+              <tr>
+                <td>#4821</td>
+                <td>Fornecedora Aurora Ltda · insumos</td>
+                <td>12/08/2026</td>
+                <td><span class="badge badge--success">Pago</span></td>
+                <td class="table__num">3.240,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4821" data-descricao="Fornecedora Aurora Ltda · insumos"
+                        data-vencimento="12/08/2026" data-valor="R$ 3.240,00"
+                        data-status="Pago" data-status-class="badge--success"
+                        data-categoria="Compras · estoque" data-metodo="Pix · Banco Aurora S.A.">Detalhes</button></td>
+              </tr>
+              <tr>
+                <td>#4820</td>
+                <td>Bella Moda · nota 8842</td>
+                <td>11/08/2026</td>
+                <td><span class="badge badge--success">Recebido</span></td>
+                <td class="table__num">1.890,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4820" data-descricao="Bella Moda · nota 8842"
+                        data-vencimento="11/08/2026" data-valor="R$ 1.890,00"
+                        data-status="Recebido" data-status-class="badge--success"
+                        data-categoria="Vendas · atacado" data-metodo="TED · Itaú">Detalhes</button></td>
+              </tr>
+              <tr>
+                <td>#4819</td>
+                <td>Impostos DAS · competência julho</td>
+                <td>10/08/2026</td>
+                <td><span class="badge badge--warning">Pendente</span></td>
+                <td class="table__num">980,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4819" data-descricao="Impostos DAS · competência julho"
+                        data-vencimento="10/08/2026" data-valor="R$ 980,00"
+                        data-status="Pendente" data-status-class="badge--warning"
+                        data-categoria="Tributos · federal" data-metodo="Débito automático">Detalhes</button></td>
+              </tr>
+              <tr>
+                <td>#4818</td>
+                <td>Casa Nova Construções · nota 8815</td>
+                <td>09/08/2026</td>
+                <td><span class="badge badge--success">Recebido</span></td>
+                <td class="table__num">4.520,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4818" data-descricao="Casa Nova Construções · nota 8815"
+                        data-vencimento="09/08/2026" data-valor="R$ 4.520,00"
+                        data-status="Recebido" data-status-class="badge--success"
+                        data-categoria="Vendas · obras" data-metodo="Boleto · 21 dias">Detalhes</button></td>
+              </tr>
+              <tr>
+                <td>#4817</td>
+                <td>Energia Sul · conta de julho</td>
+                <td>08/08/2026</td>
+                <td><span class="badge badge--error">Vencido</span></td>
+                <td class="table__num">312,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4817" data-descricao="Energia Sul · conta de julho"
+                        data-vencimento="08/08/2026" data-valor="R$ 312,00"
+                        data-status="Vencido" data-status-class="badge--error"
+                        data-categoria="Utilidades · energia" data-metodo="Boleto · débito em conta">Detalhes</button></td>
+              </tr>
+              <tr>
+                <td>#4816</td>
+                <td>Trilha Verde · nota 8789</td>
+                <td>07/08/2026</td>
+                <td><span class="badge badge--error">Atrasado</span></td>
+                <td class="table__num">2.140,00</td>
+                <td><button class="btn btn--sm btn--ghost" type="button" data-modal-open="#modal-transacao"
+                        data-numero="#4816" data-descricao="Trilha Verde · nota 8789"
+                        data-vencimento="07/08/2026" data-valor="R$ 2.140,00"
+                        data-status="Atrasado" data-status-class="badge--error"
+                        data-categoria="Vendas · e-commerce" data-metodo="Pix · inter">Detalhes</button></td>
+              </tr>
+            </tbody>
+            <tbody id="estado-vazio" hidden>
+              <tr>
+                <td class="table__empty" colspan="6">Nenhuma transação encontrada para este filtro.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <nav class="pagination pagination--sm" aria-label="Paginação da tabela de transações">
+          <ul class="pagination__list">
+            <li class="pagination__item">
+              <a class="pagination__link" href="#transacoes" aria-disabled="true" aria-label="Página anterior">
+                <svg class="pagination__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+              </a>
+            </li>
+            <li class="pagination__item"><a class="pagination__link" href="#transacoes" aria-current="page">1</a></li>
+            <li class="pagination__item"><a class="pagination__link" href="#transacoes">2</a></li>
+            <li class="pagination__item"><a class="pagination__link" href="#transacoes">3</a></li>
+            <li class="pagination__item"><a class="pagination__link" href="#transacoes">4</a></li>
+            <li class="pagination__item"><a class="pagination__link" href="#transacoes">5</a></li>
+            <li class="pagination__item">
+              <a class="pagination__link" href="#transacoes" aria-label="Próxima página">
+                <svg class="pagination__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+
+      <!-- ============================================================
+           Onboarding (stepper): ativação do plano
+           ============================================================ -->
+      <section class="panel" aria-labelledby="titulo-onboarding">
+        <div class="panel__head">
+          <div>
+            <h2 id="titulo-onboarding">Ativar plano anual</h2>
+            <p class="panel__sub">Etapa 3 de 4 · você está quase lá</p>
+          </div>
+        </div>
+        <ol class="stepper stepper--vertical">
+          <li class="stepper__step stepper__step--done">
+            <span class="stepper__marker">
+              <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M20 6 9 17l-5-5"/>
+              </svg>
+            </span>
+            <span class="stepper__label">Dados da empresa</span>
+          </li>
+          <li class="stepper__step stepper__step--done">
+            <span class="stepper__marker">
+              <svg class="stepper__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M20 6 9 17l-5-5"/>
+              </svg>
+            </span>
+            <span class="stepper__label">Plano Pro anual</span>
+          </li>
+          <li class="stepper__step stepper__step--active" aria-current="step">
+            <span class="stepper__marker">3</span>
+            <span class="stepper__label">Pagamento</span>
+          </li>
+          <li class="stepper__step">
+            <span class="stepper__marker">4</span>
+            <span class="stepper__label">Concluído</span>
+          </li>
+        </ol>
+        <p class="stepper__note">
+          Faltam apenas os dados do cartão. Você será cobrado R$ 588,00 hoje
+          e depois anualmente (equivalente a 2 meses grátis).
+        </p>
+        <div class="panel__actions">
+          <button class="btn btn--ghost" type="button">Voltar</button>
+          <button class="btn btn--primary" type="button">Continuar para pagamento</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__meta">
+        © 2026 Norte · Gestão financeira para pequenas empresas ·
+        HTML, CSS e JS puros sobre o design system Design Kit.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==============================================================
+       Modal: detalhe da transação
+       ============================================================== -->
+  <div id="modal-transacao" class="modal" role="dialog" aria-modal="true"
+       aria-labelledby="modal-transacao-titulo" aria-describedby="modal-transacao-desc" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2 id="modal-transacao-titulo" class="modal__title">Detalhe da transação</h2>
+        <button class="modal__close" type="button" data-modal-close aria-label="Fechar diálogo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" aria-hidden="true" focusable="false">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal__body" id="modal-transacao-desc">
+        <dl class="det">
+          <div class="det__row"><dt>Número</dt><dd id="det-numero">#4821</dd></div>
+          <div class="det__row"><dt>Descrição</dt><dd id="det-descricao">Fornecedora Aurora Ltda · insumos</dd></div>
+          <div class="det__row"><dt>Vencimento</dt><dd id="det-vencimento">12/08/2026</dd></div>
+          <div class="det__row"><dt>Categoria</dt><dd id="det-categoria">Compras · estoque</dd></div>
+          <div class="det__row"><dt>Valor</dt><dd class="det__valor" id="det-valor">R$ 3.240,00</dd></div>
+          <div class="det__row"><dt>Status</dt><dd id="det-status"><span class="badge badge--success">Pago</span></dd></div>
+          <div class="det__row"><dt>Método</dt><dd id="det-metodo">Pix · Banco Aurora S.A.</dd></div>
+        </dl>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Fechar</button>
+        <button class="btn btn--primary" type="button">Baixar comprovante</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle de tema auto-contido (mesmo mecanismo do kit: dk-theme) -->
+  <script>
+    (function () {
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+      function apply(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        var dark = theme === "dark";
+        btn.setAttribute("aria-pressed", dark ? "true" : "false");
+        btn.setAttribute("aria-label", dark ? "Ativar tema claro" : "Ativar tema escuro");
+        try { localStorage.setItem("dk-theme", theme); } catch (e) { /* file:// pode bloquear */ }
+      }
+      btn.addEventListener("click", function () {
+        apply(current() === "dark" ? "light" : "dark");
+      });
+      apply(current());
+    })();
+  </script>
+
+  <!-- Dropdown, abas e modal auto-contidos (mesmos padrões ARIA do app.js do kit) -->
+  <script>
+    (function () {
+      /* ---------- Dropdown ---------- */
+      var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-dropdown]"));
+      var menuOf = function (trigger) { return document.getElementById(trigger.getAttribute("aria-controls")); };
+      var itemsOf = function (menu) {
+        return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]'))
+          .filter(function (item) { return !item.disabled; });
+      };
+      var closeAll = function (except) {
+        triggers.forEach(function (trigger) {
+          if (trigger === except) return;
+          var menu = menuOf(trigger);
+          if (menu) menu.hidden = true;
+          trigger.setAttribute("aria-expanded", "false");
+        });
+      };
+      var open = function (trigger) {
+        var menu = menuOf(trigger);
+        if (!menu) return;
+        closeAll(trigger);
+        menu.hidden = false;
+        trigger.setAttribute("aria-expanded", "true");
+        itemsOf(menu).forEach(function (item, index) { item.tabIndex = index === 0 ? 0 : -1; });
+      };
+      var toggle = function (trigger) {
+        var menu = menuOf(trigger);
+        if (menu && !menu.hidden) { menu.hidden = true; trigger.setAttribute("aria-expanded", "false"); }
+        else { open(trigger); }
+      };
+      var moveFocus = function (menu, from, delta) {
+        var items = itemsOf(menu);
+        if (!items.length) return;
+        var index = items.indexOf(from);
+        items[(index + delta + items.length) % items.length].focus();
+      };
+      triggers.forEach(function (trigger) {
+        trigger.addEventListener("click", function () { toggle(trigger); });
+        trigger.addEventListener("keydown", function (event) {
+          var menu = menuOf(trigger);
+          if (!menu) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            if (menu.hidden) { open(trigger); var first = itemsOf(menu)[0]; if (first) first.focus(); }
+            else { closeAll(); }
+          } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            if (menu.hidden) { open(trigger); var target = event.key === "ArrowDown" ? itemsOf(menu)[0] : itemsOf(menu)[itemsOf(menu).length - 1]; if (target) target.focus(); }
+            else {
+              // Menu aberto com foco no gatilho: ↓ primeiro item, ↑ último item
+              // (o gatilho não está na lista de itens; indexOf === -1 nunca deve passar a moveFocus)
+              var list = itemsOf(menu);
+              if (!list.length) return;
+              (event.key === "ArrowDown" ? list[0] : list[list.length - 1]).focus();
+            }
+          } else if (event.key === "Escape" && !menu.hidden) {
+            event.preventDefault(); closeAll(); trigger.focus();
+          }
+        });
+      });
+      document.addEventListener("keydown", function (event) {
+        var item = event.target.closest('[role="menuitem"]');
+        if (!item) return;
+        var menu = item.closest(".dropdown__menu");
+        if (!menu || menu.hidden) return;
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          moveFocus(menu, item, event.key === "ArrowDown" ? 1 : -1);
+        } else if (event.key === "Home") {
+          event.preventDefault(); var first = itemsOf(menu)[0]; if (first) first.focus();
+        } else if (event.key === "End") {
+          event.preventDefault(); var list = itemsOf(menu); if (list.length) list[list.length - 1].focus();
+        } else if (event.key === "Escape") {
+          event.preventDefault();
+          closeAll();
+          triggers.forEach(function (t) { if (menuOf(t) === menu) t.focus(); });
+        } else if (event.key === "Tab") {
+          closeAll();
+        }
+      });
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(".dropdown")) closeAll();
+        var item = event.target.closest('[role="menuitem"]');
+        if (item) { closeAll(); }
+      });
+
+      /* ---------- Abas (Semana/Mês/Trimestre) ---------- */
+      var tablists = Array.prototype.slice.call(document.querySelectorAll('[role="tablist"]'));
+      tablists.forEach(function (tablist) {
+        var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+        var activate = function (tab) {
+          tabs.forEach(function (t) {
+            var selected = t === tab;
+            t.setAttribute("aria-selected", String(selected));
+            t.tabIndex = selected ? 0 : -1;
+            var panel = document.getElementById(t.getAttribute("aria-controls"));
+            if (panel) panel.hidden = !selected;
+          });
+        };
+        tablist.addEventListener("click", function (event) {
+          var tab = event.target.closest('[role="tab"]');
+          if (tab && tabs.indexOf(tab) !== -1) { activate(tab); tab.focus(); }
+        });
+        tablist.addEventListener("keydown", function (event) {
+          var current = tabs.indexOf(document.activeElement);
+          if (current === -1) return;
+          var next = -1;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (current + 1) % tabs.length;
+          else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (current - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          activate(tabs[next]);
+          tabs[next].focus();
+        });
+      });
+
+      /* ---------- Modal (trap de foco + Esc + devolução de foco) ---------- */
+      var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      var getFocusables = function (root) {
+        return Array.prototype.slice.call(root.querySelectorAll(FOCUSABLE)).filter(function (el) {
+          return el.offsetParent !== null || el === document.activeElement;
+        });
+      };
+      var closeModal = function (modal) {
+        if (modal.hidden) return;
+        modal.hidden = true;
+        document.body.classList.remove("no-scroll");
+        document.removeEventListener("keydown", modal._dkKeydown);
+        if (modal._dkTrigger) modal._dkTrigger.focus();
+        modal._dkTrigger = null;
+        modal._dkKeydown = null;
+      };
+      var openModal = function (modal, trigger) {
+        modal.hidden = false;
+        document.body.classList.add("no-scroll");
+        modal._dkTrigger = trigger;
+        var dialog = modal.querySelector(".modal__dialog");
+        var focusables = getFocusables(dialog || modal);
+        (focusables[0] || dialog || modal).focus();
+        var onKeydown = function (event) {
+          if (event.key === "Escape") { event.preventDefault(); closeModal(modal); return; }
+          if (event.key !== "Tab" || !focusables.length) return;
+          var first = focusables[0], last = focusables[focusables.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        };
+        modal._dkKeydown = onKeydown;
+        document.addEventListener("keydown", onKeydown);
+      };
+      Array.prototype.slice.call(document.querySelectorAll("[data-modal-open]")).forEach(function (trigger) {
+        trigger.addEventListener("click", function () {
+          var modal = document.querySelector(trigger.getAttribute("data-modal-open"));
+          if (!modal) return;
+          // Popula o <dl> com os dados reais da linha (data-* no gatilho) antes de abrir
+          var fields = ["numero", "descricao", "vencimento", "categoria", "valor", "metodo"];
+          fields.forEach(function (name) {
+            var el = document.getElementById("det-" + name);
+            if (el && trigger.hasAttribute("data-" + name)) {
+              el.textContent = trigger.getAttribute("data-" + name);
+            }
+          });
+          var status = document.getElementById("det-status");
+          if (status && trigger.hasAttribute("data-status")) {
+            status.textContent = trigger.getAttribute("data-status");
+            status.className = "badge " + trigger.getAttribute("data-status-class");
+          }
+          openModal(modal, trigger);
+        });
+      });
+      Array.prototype.slice.call(document.querySelectorAll("[data-modal-close]")).forEach(function (closer) {
+        closer.addEventListener("click", function () {
+          var modal = closer.closest(".modal");
+          if (modal) closeModal(modal);
+        });
+      });
+
+      /* ---------- Filtro da tabela (estado vazio) ---------- */
+      var busca = document.getElementById("f-busca");
+      var limpar = document.getElementById("btn-limpar");
+      var tbody = document.getElementById("corpo-transacoes");
+      var vazio = document.getElementById("estado-vazio");
+      if (busca && tbody && vazio) {
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+        var applyFilter = function () {
+          var term = busca.value.trim().toLowerCase();
+          var found = 0;
+          rows.forEach(function (row) {
+            var match = row.textContent.toLowerCase().indexOf(term) !== -1;
+            row.hidden = !match;
+            if (match) found++;
+          });
+          var empty = found === 0;
+          tbody.hidden = empty;
+          vazio.hidden = !empty;
+          if (limpar) limpar.hidden = term === "";
+          return empty;
+        };
+        busca.addEventListener("input", applyFilter);
+        if (limpar) limpar.addEventListener("click", function () {
+          busca.value = "";
+          busca.focus();
+          applyFilter();
+        });
+        busca.addEventListener("search", applyFilter);
+      }
+    })();
+  </script>
+</body>
+</html>

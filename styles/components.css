@@ -1,0 +1,2000 @@
+/* ==========================================================================
+   Componentes — styles/components.css
+   --------------------------------------------------------------------------
+   Componentes do design kit — 9 seções:
+     1. Botões   (variantes, tamanhos, estados, ícone, loading)
+     2. Badges   (status semântico + contador)
+     3. Cards    (básico, header/footer, interativo)
+     4. Alertas  (success/error/warning/info, com ação, compacto)
+     5. Painel de demonstração (.demo) — vitrine do showcase
+     6. Formulários — campos, selects, checks, radios, toggles, validação
+     7. Acessibilidade — prefers-reduced-motion
+     8. Overlays e feedback — tooltip, modal, tabs, progress, skeleton, avatar
+     9. Expansão — dropdown, breadcrumb, tabela, stepper
+
+   Regras:
+   - Consumir APENAS os tokens de styles/tokens.css (sem valores mágicos
+     de design; a geometria pontual tem comentário "constante").
+   - Dark mode automático via tokens semânticos (sem duplicar regras).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Botões
+   --------------------------------------------------------------------------
+   Base .btn (tamanho médio) + modificadores de variante/tamanho/estado.
+   Vale para <button> e <a class="btn"> (links com aparência de botão).
+   Contraste: on-color via tokens semânticos de cada tema.
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    border-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out),
+    box-shadow var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+/* Pressionar: afunda 1px (constante de geometria) */
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Anel de foco: herda o --focus-ring da base, mantendo o raio do botão */
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-md);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+/* Ícone dentro do botão (escala com a fonte do botão) */
+.btn__icon {
+  flex-shrink: 0;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* Spinner de carregamento (puro CSS, herda a cor do texto) */
+.btn__spinner {
+  display: none;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  /* Cadência do spinner: constante de componente (0.8s por volta) */
+  animation: dk-spin 0.8s linear infinite;
+}
+
+.btn--loading .btn__spinner {
+  display: inline-block;
+}
+
+/* Em loading, mantém as cores da variante mesmo com disabled */
+.btn--loading,
+.btn--loading:disabled {
+  opacity: 1;
+  cursor: wait;
+  pointer-events: auto;
+}
+
+@keyframes dk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Variantes --------------------------------------------------------- */
+
+/* Primário: ação principal — cor + hover/active dos tokens de ação */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background-color: var(--color-primary-active);
+}
+
+/* Secundário: superfície com borda forte */
+.btn--secondary {
+  background-color: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.btn--secondary:active {
+  background-color: var(--color-border);
+}
+
+/* Fantasma: sem fundo até o hover; texto na cor de ação */
+.btn--ghost {
+  color: var(--color-primary);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.btn--ghost:active {
+  background-color: var(--color-primary-soft-strong);
+}
+
+/* Perigo: fundo semântico de erro.
+   Sem token on-error no kit: usa --color-surface (claro no tema claro,
+   escuro no tema escuro), mantendo contraste AA em ambos os temas. */
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--danger:hover {
+  filter: brightness(0.92);
+}
+
+.btn--danger:active {
+  filter: brightness(0.85);
+}
+
+/* --- Tamanhos ---------------------------------------------------------- */
+
+.btn--sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-caption);
+}
+
+.btn--lg {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-h6);
+}
+
+/* --------------------------------------------------------------------------
+   2. Badges
+   --------------------------------------------------------------------------
+   Rótulo com ponto semântico + texto forte: a cor da variante fica no
+   ponto (ícone: contraste AA ≥ 3:1) e o rótulo usa texto de alto
+   contraste — acessível mesmo sobre fundos "soft".
+   -------------------------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+}
+
+.badge::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-text-muted);
+}
+
+.badge--neutral::before {
+  background-color: var(--color-text-muted);
+}
+
+.badge--primary {
+  background-color: var(--color-primary-soft);
+}
+
+.badge--primary::before {
+  background-color: var(--color-primary);
+}
+
+.badge--success {
+  background-color: var(--color-success-soft);
+}
+
+.badge--success::before {
+  background-color: var(--color-success);
+}
+
+.badge--warning {
+  background-color: var(--color-warning-soft);
+}
+
+.badge--warning::before {
+  background-color: var(--color-warning);
+}
+
+.badge--error {
+  background-color: var(--color-error-soft);
+}
+
+.badge--error::before {
+  background-color: var(--color-error);
+}
+
+.badge--info {
+  background-color: var(--color-info-soft);
+}
+
+.badge--info::before {
+  background-color: var(--color-info);
+}
+
+/* --- Contador ---------------------------------------------------------- */
+
+/* Contador sólido (pílula com número) — sem ponto */
+.badge--counter {
+  justify-content: center;
+  min-width: 1.375rem;
+  height: 1.375rem;
+  padding: 0 var(--space-1);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.badge--counter::before {
+  display: none;
+}
+
+/* Contador soft — pílula clara com número na cor de ação */
+.badge--counter-soft {
+  justify-content: center;
+  min-width: 1.375rem;
+  height: 1.375rem;
+  padding: 0 var(--space-1);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.badge--counter-soft::before {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. Cards
+   -------------------------------------------------------------------------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+}
+
+/* Interativo: eleva no hover (translateY de -4px = -var(--space-1)) */
+.card--interactive {
+  cursor: pointer;
+  transition:
+    transform var(--motion-duration-base) var(--motion-easing-out),
+    box-shadow var(--motion-duration-base) var(--motion-easing-out),
+    border-color var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.card--interactive:hover {
+  transform: translateY(calc(var(--space-1) * -1));
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.card--interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), var(--shadow-md);
+  border-radius: var(--radius-lg);
+}
+
+.card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.card__eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.card__title {
+  font-size: var(--font-size-h5);
+}
+
+.card__text {
+  color: var(--color-text-muted);
+}
+
+.card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   4. Alertas
+   --------------------------------------------------------------------------
+   Barra de acento lateral na cor semântica + ícone colorido (≥ 3:1) +
+   título forte e texto regular — contraste AA em qualquer tema.
+   -------------------------------------------------------------------------- */
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  /* Barra de acento: 3px (constante de geometria) */
+  border-left: 3px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-muted);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+/* Fechamento animado (adicionado pelo app.js antes de remover do DOM) */
+.alert--closing {
+  opacity: 0;
+  transform: translateY(calc(var(--space-1) * -1));
+}
+
+.alert--success {
+  background-color: var(--color-success-soft);
+  border-left-color: var(--color-success);
+}
+
+.alert--error {
+  background-color: var(--color-error-soft);
+  border-left-color: var(--color-error);
+}
+
+.alert--warning {
+  background-color: var(--color-warning-soft);
+  border-left-color: var(--color-warning);
+}
+
+.alert--info {
+  background-color: var(--color-info-soft);
+  border-left-color: var(--color-info);
+}
+
+.alert__icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.alert--success .alert__icon { color: var(--color-success); }
+.alert--error .alert__icon   { color: var(--color-error); }
+.alert--warning .alert__icon { color: var(--color-warning); }
+.alert--info .alert__icon    { color: var(--color-info); }
+
+.alert__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.alert__title {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+.alert__text {
+  flex: 1;
+  font-size: var(--font-size-small);
+}
+
+.alert__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.alert__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.alert__close svg {
+  width: 1em;
+  height: 1em;
+}
+
+.alert__close:hover {
+  background-color: color-mix(in srgb, var(--color-text) 8%, transparent);
+  color: var(--color-text-strong);
+}
+
+.alert__close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   5. Painel de demonstração (.demo) — vitrine do showcase
+   -------------------------------------------------------------------------- */
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.demo__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.demo__caption {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.demo__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.demo__stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.demo__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  .demo__grid {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Formulários (fase 4B — componentes B)
+   --------------------------------------------------------------------------
+   Campos, controles e estados de validação:
+   - .field            wrapper: label + controle + hint/erro
+   - .input / .textarea / .select   controles base (largura total)
+   - .input-wrap       campo com ícone (search) ou ação (toggle de senha)
+   - .check / .radio   controles customizados sobre o input nativo
+   - .toggle           switch (input checkbox + role="switch" via app.js)
+   - .fieldset         agrupamento com legend (bordado opcional)
+   Estados: :hover, :focus-visible, :disabled, [readonly],
+   .field--error (aria-invalid) e .field--success.
+   -------------------------------------------------------------------------- */
+
+/* --- Campo (label + controle + hint/erro) ------------------------------ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.field__label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+/* Asterisco de campo obrigatório */
+.field__label .req {
+  color: var(--color-error);
+}
+
+.field__hint {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* Mensagens de validação: ocultas por padrão, exibidas pelo estado */
+.field__error,
+.field__success {
+  display: none;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-caption);
+}
+
+.field__error {
+  color: var(--color-error);
+}
+
+.field__success {
+  color: var(--color-success);
+}
+
+.field--error .field__error {
+  display: flex;
+}
+
+.field--success .field__success {
+  display: flex;
+}
+
+/* --- Controles base: input, textarea, select --------------------------- */
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-tight);
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-easing-out),
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    box-shadow var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Hover: sinaliza editável (exceto desabilitado/readonly) */
+.input:hover:not(:disabled):not([readonly]),
+.textarea:hover:not(:disabled):not([readonly]),
+.select:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-md);
+}
+
+.input:disabled,
+.textarea:disabled,
+.select:disabled {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Readonly: borda tracejada + fundo neutro (dado, não editável) */
+.input[readonly],
+.textarea[readonly] {
+  background-color: var(--color-surface-muted);
+  border-style: dashed;
+}
+
+/* Textarea: altura mínima para 3 linhas (constante de geometria) */
+.textarea {
+  min-height: 6rem;
+  resize: vertical;
+  line-height: var(--font-line-height-body);
+}
+
+/* --- Campo com ícone (search) e ação (senha) ---------------------------- */
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap__icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-3);
+  transform: translateY(-50%);
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.input-wrap .input--with-icon {
+  padding-left: var(--space-8);
+}
+
+.input-wrap__action {
+  position: absolute;
+  top: 50%;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.input-wrap__action:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+}
+
+.input-wrap__action:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.input-wrap__action svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.input-wrap .input--with-action {
+  padding-right: var(--space-10);
+}
+
+/* --- Select com seta customizada ---------------------------------------- */
+
+.select-wrap {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+/* Seta desenhada por máscara: pinta com --color-text-muted e adapta ao tema */
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  background-color: var(--color-text-muted);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* --- Checkbox e radio customizados -------------------------------------- */
+
+.check,
+.radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-tight);
+}
+
+/* Input nativo: presente para acessibilidade, invisível visualmente */
+.check input,
+.radio input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.check__box,
+.radio__dot {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 1px; /* alinhamento ótico com o texto (constante) */
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface);
+  color: var(--color-on-primary);
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    border-color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.check__box {
+  border-radius: var(--radius-sm);
+}
+
+.radio__dot {
+  border-radius: var(--radius-full);
+}
+
+/* Ícones do checkbox (check e menos): escondidos até o estado */
+.check__box svg {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.check__box .check__minus {
+  display: none;
+}
+
+/* Ponto do radio */
+.radio__dot::after {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-on-primary);
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity var(--motion-duration-fast) var(--motion-easing-out),
+    transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+/* Estado marcado (checkbox + radio) */
+.check input:checked + .check__box,
+.radio input:checked + .radio__dot {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.check input:checked + .check__box .check__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.radio input:checked + .radio__dot::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Estado indeterminado (checkbox) */
+.check input:indeterminate + .check__box {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.check input:indeterminate + .check__box .check__check {
+  display: none;
+}
+
+.check input:indeterminate + .check__box .check__minus {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Foco: anel sobre o controle customizado */
+.check input:focus-visible + .check__box,
+.radio input:focus-visible + .radio__dot {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-full);
+}
+
+.check input:focus-visible + .check__box {
+  border-radius: var(--radius-sm);
+}
+
+/* Desabilitado: rótulo e controle sem interação */
+.check input:disabled ~ *,
+.radio input:disabled ~ * {
+  opacity: 0.6;
+}
+
+.check:has(input:disabled),
+.radio:has(input:disabled),
+.toggle:has(input:disabled) {
+  cursor: not-allowed;
+}
+
+/* --- Toggle switch ------------------------------------------------------- */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.toggle__track {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.5rem;   /* 40px (constante do switch) */
+  height: 1.5rem;  /* 24px (constante do switch) */
+  border-radius: var(--radius-full);
+  background-color: var(--color-border-strong);
+  transition: background-color var(--motion-duration-base) var(--motion-easing-out);
+}
+
+/* Botão deslizante: 18px com 3px de folga em cada lado (constantes) */
+.toggle__track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.toggle input:checked + .toggle__track {
+  background-color: var(--color-primary);
+}
+
+/* Deslocamento: 40px - 18px - 6px de folga = 16px (constante) */
+.toggle input:checked + .toggle__track::after {
+  transform: translateX(1rem);
+}
+
+.toggle input:focus-visible + .toggle__track {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-full);
+}
+
+.toggle input:disabled + .toggle__track {
+  opacity: 0.5;
+}
+
+/* --- Fieldset / agrupamento --------------------------------------------- */
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fieldset__legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+}
+
+.fieldset--bordered {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.fieldset__options {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* --- Layout do formulário ------------------------------------------------ */
+
+.form-grid {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  .form-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.form-grid--2 .field--full,
+.form-grid--2 .fieldset,
+.form-grid--2 .form-actions {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.form-note {
+  display: block;
+  margin-top: 2px; /* respiro sob o texto forte do toggle (constante) */
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* Sucesso de submit: oculto por padrão, exibido pelo app.js */
+.form-status[hidden] {
+  display: none;
+}
+
+/* --- Estados de validação nos controles --------------------------------- */
+
+.field--error .input,
+.field--error .textarea,
+.field--error .select {
+  border-color: var(--color-error);
+}
+
+.field--error .input:focus-visible,
+.field--error .textarea:focus-visible,
+.field--error .select:focus-visible {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 35%, transparent);
+}
+
+.field--success .input,
+.field--success .textarea,
+.field--success .select {
+  border-color: var(--color-success);
+}
+
+/* --- Acessibilidade do showcase de formulários --------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .textarea,
+  .select,
+  .check__box,
+  .radio__dot,
+  .toggle__track,
+  .toggle__track::after,
+  .check__box svg,
+  .radio__dot::after {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Acessibilidade — prefers-reduced-motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .card--interactive,
+  .alert {
+    transition: none;
+  }
+
+  .btn__spinner {
+    /* Mantém a indicação de loading, em ritmo mais lento */
+    animation-duration: 1.5s;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. Overlays e feedback (fase 4C — componentes C)
+   --------------------------------------------------------------------------
+   Camadas de sobreposição e estados de carregamento:
+   - .tooltip          dica de contexto (posições via data-tooltip-pos)
+   - .modal            diálogo com backdrop, Esc e trap de foco (app.js)
+   - .tabs             abas (role=tablist/tab/tabpanel, teclado no app.js)
+   - .progress         barra determinada + indeterminada
+   - .skeleton         shimmer de carregamento (reduced-motion: estático)
+   - .avatar           imagem, iniciais e status dot
+
+   Regras: apenas tokens semânticos; geometria pontual tem comentário
+   "constante"; larguras de dados (progresso, linhas) usam style inline.
+   -------------------------------------------------------------------------- */
+
+/* --- 8.1 Tooltip --------------------------------------------------------
+   Elemento criado pelo app.js no <body> (position: fixed, coordenadas
+   calculadas sobre o gatilho). Texto vem de [data-tooltip]; a posição
+   vem de [data-tooltip-pos] (top|bottom|left|right). Inversão de cores:
+   fundo = texto forte, texto = fundo da página (contraste AA nos 2 temas).
+   ------------------------------------------------------------------------ */
+
+.tooltip {
+  position: fixed;
+  z-index: var(--z-tooltip);
+  max-width: 16rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-text-strong);
+  color: var(--color-bg);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--font-line-height-tight);
+  box-shadow: var(--shadow-md);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+}
+
+/* Seta: quadrado 8px rotacionado, alinhado à borda conforme a posição */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  width: 8px;   /* constante do componente */
+  height: 8px;  /* constante do componente */
+  background-color: inherit;
+  transform: rotate(45deg);
+}
+
+.tooltip[data-pos="top"]::after {
+  bottom: -4px;  /* metade da seta (constante) */
+  left: 50%;
+  margin-left: -4px;
+}
+
+.tooltip[data-pos="bottom"]::after {
+  top: -4px;  /* metade da seta (constante) */
+  left: 50%;
+  margin-left: -4px;
+}
+
+.tooltip[data-pos="left"]::after {
+  top: 50%;
+  right: -4px;  /* metade da seta (constante) */
+  margin-top: -4px;
+}
+
+.tooltip[data-pos="right"]::after {
+  top: 50%;
+  left: -4px;  /* metade da seta (constante) */
+  margin-top: -4px;
+}
+
+/* --- 8.2 Modal / diálogo ------------------------------------------------
+   .modal (fixed, inset 0) com .modal__backdrop e .modal__dialog central.
+   Abertura/fechamento: app.js troca [hidden], aplica body.no-scroll,
+   foco, Esc e trap. role="dialog" + aria-modal no HTML de uso.
+   ------------------------------------------------------------------------ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(2 6 23 / 0.55); /* overlay de cor propositalmente fixo */
+  animation: dk-fade-in var(--motion-duration-base) var(--motion-easing-out);
+}
+
+.modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-sm);
+  max-height: calc(100dvh - var(--space-16));
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xl);
+  animation: dk-modal-in var(--motion-duration-base) var(--motion-easing-out);
+}
+
+@keyframes dk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dk-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-2))) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+  font-size: var(--font-size-h5);
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.modal__close svg {
+  width: 1em;
+  height: 1em;
+}
+
+.modal__close:hover {
+  background-color: color-mix(in srgb, var(--color-text) 8%, transparent);
+  color: var(--color-text-strong);
+}
+
+.modal__close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-full);
+}
+
+.modal__body {
+  padding: var(--space-6);
+  color: var(--color-text-muted);
+}
+
+.modal__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --- 8.3 Tabs -----------------------------------------------------------
+   Estrutura WAI-ARIA: .tabs__list[role=tablist] > button[role=tab]
+   + .tabs__panel[role=tabpanel]. Ativação por clique e teclado
+   (setas + Home/End) no app.js; roving tabindex refletido em
+   aria-selected. Foco herda o anel do base.css.
+   ------------------------------------------------------------------------ */
+
+.tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tabs__tab {
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-bottom: 2px solid transparent; /* indicador de aba ativa (constante) */
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-line-height-tight);
+  cursor: pointer;
+  transition:
+    color var(--motion-duration-fast) var(--motion-easing-out),
+    border-color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.tabs__tab:hover {
+  color: var(--color-text-strong);
+}
+
+.tabs__tab[aria-selected="true"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.tabs__tab:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.tabs__panel {
+  padding: var(--space-4) var(--space-1);
+}
+
+.tabs__panel[hidden] {
+  display: none;
+}
+
+/* --- 8.4 Progress -------------------------------------------------------
+   Barra de progresso: .progress (trilho) + .progress__bar (preenchimento).
+   Determinada: largura em style inline (dado) + aria-valuenow.
+   Indeterminada: .progress--indeterminate com barra deslizante.
+   ------------------------------------------------------------------------ */
+
+.progress {
+  position: relative;
+  overflow: hidden;
+  height: var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-muted);
+}
+
+.progress__bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  transition: width var(--motion-duration-slow) var(--motion-easing-out);
+}
+
+/* Indeterminada: barra de 40% que desliza pelo trilho (constante) */
+.progress--indeterminate .progress__bar {
+  width: 40%;
+  animation: dk-progress-slide 1.2s var(--motion-easing-in-out) infinite;
+}
+
+@keyframes dk-progress-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+/* --- 8.5 Skeleton -------------------------------------------------------
+   Placeholder de carregamento com shimmer. Reduzido em
+   prefers-reduced-motion (estático). Larguras das linhas em style
+   inline (dado); formas via classes modificadoras.
+   ------------------------------------------------------------------------ */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeleton__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-muted);
+}
+
+/* Faixa de luz que varre o item (gradiente sobre a cor de borda) */
+.skeleton__item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-border) 65%, transparent),
+    transparent
+  );
+  animation: dk-skeleton-shimmer 1.6s var(--motion-easing-in-out) infinite;
+}
+
+@keyframes dk-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton__item--text {
+  height: var(--space-3);
+}
+
+.skeleton__item--rect {
+  height: 6rem;  /* bloco de conteúdo (constante) */
+}
+
+.skeleton__item--avatar {
+  width: 3.5rem;  /* mesmo tamanho do .avatar--lg (constante) */
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+}
+
+/* --- 8.6 Avatar ---------------------------------------------------------
+   Círculo com imagem (cobre), iniciais ou ícone; tamanhos sm/md/lg/xl
+   e variação de fundo. .avatar__status é o ponto de presença (borda
+   na cor da superfície para "recortar" o círculo).
+   ------------------------------------------------------------------------ */
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-tight);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+.avatar--sm {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--font-size-caption);
+}
+
+.avatar--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: var(--font-size-h5);
+}
+
+.avatar--xl {
+  width: 5rem;
+  height: 5rem;
+  font-size: var(--font-size-h3);
+}
+
+.avatar--primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.avatar--neutral {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+}
+
+.avatar__status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0.625rem;  /* ponto de presença (constante) */
+  height: 0.625rem;
+  border: 2px solid var(--color-surface);  /* recorte sobre a borda do círculo */
+  border-radius: var(--radius-full);
+  background-color: var(--color-success);
+}
+
+.avatar__status--away {
+  background-color: var(--color-warning);
+}
+
+.avatar__status--offline {
+  background-color: var(--color-text-muted);
+}
+
+.avatar--sm .avatar__status {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+/* --- 8.7 Acessibilidade dos overlays ----------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip,
+  .modal__backdrop,
+  .modal__dialog,
+  .tabs__tab,
+  .progress__bar {
+    transition: none;
+    animation: none;
+  }
+
+  /* Progresso indeterminado: barra estática visível no trilho */
+  .progress--indeterminate .progress__bar {
+    width: 40%;
+    animation: none;
+  }
+
+  /* Skeleton: sem shimmer, apenas o bloco estático */
+  .skeleton__item::after {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. Expansão (ciclo de expansão) — dropdown, breadcrumb, tabela, stepper
+   --------------------------------------------------------------------------
+   Componentes de navegação e dados:
+   - .dropdown          menu de ações (popup, teclado) e select-like com check
+   - .breadcrumb        trilha de navegação com separador CSS e item atual
+   - .table             dados tabulares: zebra, números tabulares, vazio, header fixo
+   - .stepper           progresso por etapas (horizontal e vertical)
+
+   Regras: apenas tokens semânticos; geometria pontual tem comentário
+   "constante". Interações do dropdown em js/app.js (initDropdowns).
+   -------------------------------------------------------------------------- */
+
+/* --- 9.1 Dropdown / menu ----------------------------------------------
+   Wrapper .dropdown (position: relative) + gatilho [data-dropdown] com
+   aria-haspopup/aria-expanded/aria-controls + .dropdown__menu
+   (role="menu", oculto via [hidden]). Itens: .dropdown__item
+   (role="menuitem"). Variantes: .dropdown--align-end (menu à direita),
+   .dropdown__item--danger, select-like via [data-select-like] no menu
+   (aria-current=true marca a seleção). Teclado: setas, Home/End, Esc,
+   clique fora — app.js initDropdowns.
+   ------------------------------------------------------------------------ */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Gatilho aberto: mantém o estado pressionado visualmente */
+.dropdown__trigger[aria-expanded="true"] {
+  background-color: var(--color-surface-muted);
+  border-color: var(--color-primary);
+}
+
+/* Seta do gatilho: gira 180° quando o menu abre */
+.dropdown__chevron {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  transition: transform var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.dropdown__trigger[aria-expanded="true"] .dropdown__chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown__menu {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  top: calc(100% + var(--space-1));
+  left: 0;
+  min-width: 12rem;   /* largura mínima do menu (constante) */
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.dropdown__menu[hidden] {
+  display: none;
+}
+
+/* Menu alinhado à direita do gatilho (padrão de menus de ação) */
+.dropdown--align-end .dropdown__menu {
+  left: auto;
+  right: 0;
+}
+
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-tight);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.dropdown__item:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-strong);
+}
+
+.dropdown__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.dropdown__item--danger {
+  color: var(--color-error);
+}
+
+/* Item selecionado (select-like): destaque + check visível */
+.dropdown__item[aria-current="true"] {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dropdown__check {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0;
+}
+
+.dropdown__item[aria-current="true"] .dropdown__check {
+  opacity: 1;
+}
+
+/* Separador do menu */
+.dropdown__separator {
+  height: 1px;   /* linha do separador (constante) */
+  margin: var(--space-1) 0;
+  background-color: var(--color-border);
+}
+
+/* --- 9.2 Breadcrumb ----------------------------------------------------
+   Trilha de navegação: nav[aria-label] > ol.breadcrumb__list > li
+   .breadcrumb__item > a.breadcrumb__link. O separador vem do CSS
+   (::after do item, exceto o último) — não é texto no HTML. Item atual:
+   .breadcrumb__current com aria-current="page". Link truncado:
+   .breadcrumb__link--truncated (ellipsis com title no HTML).
+   ------------------------------------------------------------------------ */
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-small);
+}
+
+/* Separador tipográfico via CSS: nunca no HTML */
+.breadcrumb__item:not(:last-child)::after {
+  content: "/";
+  color: var(--color-text-muted);
+}
+
+.breadcrumb__link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.breadcrumb__link:hover {
+  color: var(--color-text-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb__current {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Link longo que trunca com reticências (full text vai no title) */
+.breadcrumb__link--truncated {
+  display: inline-block;
+  max-width: 10rem;   /* limite do truncamento (constante) */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* --- 9.3 Tabela --------------------------------------------------------
+   .table-wrap (overflow-x em mobile) > table.table. Modificadores:
+   .table--zebra (linhas alternadas), .table-wrap--sticky (header fixo
+   com rolagem vertical), .table__num (alinhamento numérico tabular),
+   .table__empty (estado vazio com colspan). Acessibilidade: caption
+   visível ou aria-label na tabela.
+   ------------------------------------------------------------------------ */
+
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* Header fixo: container com altura máxima e rolagem vertical */
+.table-wrap--sticky {
+  max-height: 16rem;   /* altura do container de dados (constante) */
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-tight);
+}
+
+.table__caption {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  border-bottom: 2px solid var(--color-border-strong);
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* Cabeçalho fixo: as células do thead colam no topo do container */
+.table-wrap--sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--color-surface);
+}
+
+/* Zebra: linhas alternadas com superfície suave */
+.table--zebra tbody tr:nth-child(odd) {
+  background-color: var(--color-surface-muted);
+}
+
+/* Números: alinhados à direita com dígitos tabulares */
+.table__num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Estado vazio: linha única com colspan */
+.table__empty {
+  padding: var(--space-8) var(--space-3);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* --- 9.4 Stepper -------------------------------------------------------
+   Progresso por etapas: ol.stepper > li.stepper__step com marcador
+   (.stepper__marker: número ou check) e rótulo (.stepper__label).
+   Estados: .stepper__step--done (check + conector preenchido),
+   .stepper__step--active (aria-current="step"), demais = upcoming.
+   Conector desenhado por ::after do passo (exceto o último). Variante
+   vertical: .stepper--vertical (conector à esquerda).
+   ------------------------------------------------------------------------ */
+
+.stepper {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepper__step {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+/* Marcador: círculo com número (ou check quando concluído) */
+.stepper__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.stepper__check {
+  width: 1em;
+  height: 1em;
+}
+
+.stepper__label {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* Conector horizontal: do centro deste marcador ao centro do próximo */
+.stepper__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--space-5) - 1px);   /* centro do marcador (constante 1px da linha) */
+  left: calc(50% + var(--space-5));
+  width: calc(100% - var(--space-10));
+  height: 2px;   /* espessura do conector (constante) */
+  background-color: var(--color-border);
+}
+
+/* Conector preenchido entre passos concluídos */
+.stepper__step--done:not(:last-child)::after {
+  background-color: var(--color-primary);
+}
+
+/* Concluído: marcador sólido primário com check */
+.stepper__step--done .stepper__marker {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.stepper__step--done .stepper__label {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Ativo (aria-current="step"): contorno primário */
+.stepper__step--active .stepper__marker {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.stepper__step--active .stepper__label {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Variante vertical: passos em coluna, conector à esquerda */
+.stepper--vertical {
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 16rem;   /* largura da coluna (constante) */
+}
+
+.stepper--vertical .stepper__step {
+  flex: none;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.stepper--vertical .stepper__step:not(:last-child)::after {
+  top: var(--space-10);               /* base do marcador */
+  left: calc(var(--space-5) - 1px);   /* centro do marcador (constante 1px da linha) */
+  width: 2px;                         /* espessura do conector (constante) */
+  height: calc(100% - var(--space-10) + var(--space-6));
+}
+
+/* --- 9.5 Paginação ------------------------------------------------------
+   Navegação entre páginas: nav[aria-label] > ul.pagination__list >
+   li.pagination__item > a.pagination__link. Página atual: link com
+   aria-current="page" (fundo primário, cursor default). Item sem ação:
+   aria-disabled="true" (seta anterior na página 1 etc). Reticências:
+   span.pagination__ellipsis (não interativo). Variante compacta:
+   .pagination--sm. Demo interativa em js/app.js (initPaginationDemo).
+   ------------------------------------------------------------------------ */
+
+.pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--space-10);
+  height: var(--space-10);
+  padding-inline: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-out),
+    border-color var(--motion-duration-fast) var(--motion-easing-out),
+    color var(--motion-duration-fast) var(--motion-easing-out);
+}
+
+.pagination__link:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-surface-muted);
+  text-decoration: none;
+}
+
+/* Página atual: fundo primário; não é mais um destino de navegação */
+.pagination__link[aria-current="page"] {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: var(--font-weight-semibold);
+  cursor: default;
+}
+
+/* Item sem ação (ex.: seta anterior na primeira página) */
+.pagination__link[aria-disabled="true"] {
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  background-color: var(--color-surface-muted);
+  cursor: not-allowed;
+}
+
+.pagination__link[aria-disabled="true"]:hover {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+/* Reticências: puro indicador visual, fora da ordem de Tab (span, não a) */
+.pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--space-8);
+  height: var(--space-10);
+  padding-inline: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  user-select: none;
+}
+
+/* Setas prev/next: ícones SVG inline no HTML (mesmo padrão do dropdown) */
+.pagination__arrow {
+  display: inline-flex;
+  width: var(--space-4);
+  height: var(--space-4);
+}
+
+/* Variante compacta (rodapés de tabelas, listagens densas) */
+.pagination--sm .pagination__link {
+  min-width: var(--space-8);
+  height: var(--space-8);
+  padding-inline: var(--space-1);
+  font-size: var(--font-size-caption);
+}
+
+.pagination--sm .pagination__ellipsis {
+  min-width: var(--space-6);
+  height: var(--space-8);
+  font-size: var(--font-size-caption);
+}
+
+/* --- 9.6 Acessibilidade dos componentes de expansão ------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown__item,
+  .dropdown__chevron,
+  .breadcrumb__link,
+  .pagination__link {
+    transition: none;
+  }
+}
+

@@ -1,0 +1,11 @@
+# Dependências
+node_modules/
+
+# Logs
+*.log
+
+# Sistema (macOS)
+.DS_Store
+
+# Canvas Maestri (configuração interna — não entra no pacote do produto)
+.maestri/
