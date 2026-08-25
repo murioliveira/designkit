@@ -26,3 +26,9 @@
 1. Salve o report em `docs/casos/<nome>/critique-report[-vN].md`.
 2. Adicione a linha nesta tabela (veredito, média, achados, aprendizado).
 3. Se o caso gerou correção no kit, registre o aprendizado na coluna correspondente — essa coluna é o que transforma caso em método.
+
+## Posicionamento de mercado (pesquisa 21:10)
+
+Concorrentes: taste-skill 78.5k stars (anti-slop puro), impeccable 23 commands (execução de design), Anthropic official skill 277k installs (guardrails). Nenhum tem: fluxo completo de setor (research → handoff), design system auditável, casos reais pontuados, checkpoints humanos.
+
+Posicionamento do Design Kit: "o primeiro pacote que substitui um SETOR de design inteiro, não só executa tarefas" — design system auditável por grep + 8 skills encadeadas + detector mecânico + validação empírica (7 casos) + portabilidade pi/Claude/Codex.
