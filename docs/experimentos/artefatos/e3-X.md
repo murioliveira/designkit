@@ -1,6 +1,6 @@
-# Critique E3-b — Método B (impeccable) sobre before.html
+# Critique E3-b — métodoobre before.html
 
-**Método B:** skill `impeccable` v4.1.1 — comando `/impeccable critique`, seguindo `reference/critique.md`.
+**método:** skill `a skill de referência` v4.1.1 — comando `/a skill de referência critique`, seguindo `reference/critique.md`.
 **Input:** `docs/casos/redesign-demo/before.html` (landing "Cloudly" — estoque de AI-slop deliberado).
 
 > **Method: DEGRADED** (single-context, sem sub-agent tool na sessão do corridor do experimento E3-b). Assessment A (design review) e Assessment B (detector) executados no mesmo contexto.
@@ -68,17 +68,17 @@ Complemento determinístico (grep/count, além do detector):
 
 ## Priority Issues (P0–P3)
 
-**P0 — Fake screenshot de div apresentado como "Prévia do produto"**: `.fake-dashboard` é 3 linhas de spans vazios sem conteúdo real ou texto alternativo. É o tell nº1 de IA e quebra a confiança e a acessibilidade. *Fix:* usar screenshot real, componente real, ou remover. *Sugestão:* `/impeccable polish` + `/impeccable audit`.
+**P0 — Fake screenshot de div apresentado como "Prévia do produto"**: `.fake-dashboard` é 3 linhas de spans vazios sem conteúdo real ou texto alternativo. É o tell nº1 de IA e quebra a confiança e a acessibilidade. *Fix:* usar screenshot real, componente real, ou remover. *Sugestão:* `/a skill de referência polish` + `/a skill de referência audit`.
 
-**P1 — Identidade genérica (Inter + purple + 3 cards + 6 eyebrows)**: sem caractere de marca; tudo "template de IA". *Fix:* trocar AI-purple por accent próprio, fonte não-Inter, layouts assimétricos. *Sugestão:* `/impeccable typeset` + `/impeccable colorize` + `/impeccable layout`.
+**P1 — Identidade genérica (Inter + purple + 3 cards + 6 eyebrows)**: sem caractere de marca; tudo "template de IA". *Fix:* trocar AI-purple por accent próprio, fonte não-Inter, layouts assimétricos. *Sugestão:* `/a skill de referência typeset` + `/a skill de referência colorize` + `/a skill de referência layout`.
 
-**P1 — Zero responsividade mobile**: `features-grid` e `pricing-grid` fixas em 3 colunas, sem `@media`. *Fix:* mobile-first com breakpoints e colapso. *Sugestão:* `/impeccable adapt`.
+**P1 — Zero responsividade mobile**: `features-grid` e `pricing-grid` fixas em 3 colunas, sem `@media`. *Fix:* mobile-first com breakpoints e colapso. *Sugestão:* `/a skill de referência adapt`.
 
-**P2 — CTA sem ação real + scroll cue falso**: "Ver demonstração" e "Começar grátis" não acionam nada; "Scroll down" é fingido. *Sugestão:* `/impeccable harden`.
+**P2 — CTA sem ação real + scroll cue falso**: "Ver demonstração" e "Começar grátis" não acionam nada; "Scroll down" é fingido. *Sugestão:* `/a skill de referência harden`.
 
-**P2 — 4 em-dash visíveis + "Scroll down" + version footer "build 0048"**: tells de tipografia/copy que um leitor atento flagra. *Sugestão:* `/impeccable clarify`.
+**P2 — 4 em-dash visíveis + "Scroll down" + version footer "build 0048"**: tells de tipografia/copy que um leitor atento flagra. *Sugestão:* `/a skill de referência clarify`.
 
-**P2 — Nome genérico "John D." e número falso "99.9%"**: destroem a credibilidade do depoimento. *Sugestão:* `/impeccable clarify`.
+**P2 — Nome genérico "John D." e número falso "99.9%"**: destroem a credibilidade do depoimento. *Sugestão:* `/a skill de referência clarify`.
 
 ## Minor Observations
 
@@ -89,4 +89,4 @@ Complemento determinístico (grep/count, além do detector):
 
 ## Resumo (comparável ao E3-a)
 
-**Média heurísticas:** 8/24 (33%, Poor) — coerente com o E3-a (média 1.7/5 ≈ 34%). Os dois métodos chegaram à mesma faixa de reprovação com fundamentos sintéticos parecidos, mas o impeccable entrega isso como **10 heurísticas Nielsen + personas + cognitive load + detector**, enquanto o Design Kit entrega **checklist mecânico + tells** + tokens. O detector impeccable (degraded aqui) achou só 2 (Inter), pois o parser não carregou; o Design Kit achou 11 tells via grep. Em ambiente completo (parser OK), o detector impeccable daria mais — não foi possível validar aqui.
+**Média heurísticas:** 8/24 (33%, Poor) — coerente com o E3-a (média 1.7/5 ≈ 34%). Os dois métodos chegaram à mesma faixa de reprovação com fundamentos sintéticos parecidos, mas o a skill de referência entrega isso como **10 heurísticas Nielsen + personas + cognitive load + detector**, enquanto o o kit entrega **checklist mecânico + tells** + tokens. O detector a skill de referência (degraded aqui) achou só 2 (Inter), pois o parser não carregou; o o kit achou 11 tells via grep. Em ambiente completo (parser OK), o detector a skill de referência daria mais — não foi possível validar aqui.

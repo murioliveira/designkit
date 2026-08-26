@@ -1,6 +1,6 @@
-# E4 · Redesign (preservar marca) - Método B: impeccable
+# E4 · Redesign (preservar marca) - método: a skill de referência
 
-**Experimento:** E4 · **Método:** B (impeccable v4.1.1) · **Input:** `docs/casos/redesign-demo/before.html` (landing "Cloudly" com tells de IA)
+**Experimento:** E4 · **Método:** B (a skill de referência v4.1.1) · **Input:** `docs/casos/redesign-demo/before.html` (landing "Cloudly" com tells de IA)
 **Artefato:** `docs/experimentos/artefatos/e4-b.html` · **Data:** 2026-08-26
 
 ---
@@ -28,7 +28,7 @@
 |---|---|
 | Gradiente roxo de IA (`#7c3aed` → `#6d28d9`) | Paleta comprometida: papel morno + tinta azulada + cobalto único (5.79:1 AA) |
 | Fonte Inter (Google Fonts) | System-ui grotesco + mono para dados; zero download de fonte |
-| Eyebrow/kicker acima de TODA seção | **Removidos por completo** (craft-floor: ban) - o heading fala sozinho |
+| Eyebrow/kicker acima de TODA seção | **Removidos por completo** (o padrão de qualidade: ban) - o heading fala sozinho |
 | Fake screenshot de div (barras cinzas) | Trilha "hoje" com conteúdo real: 3 tarefas com horário, nome, valor, status (no prazo / em andamento / atrasado) |
 | 3 cards idênticos de features | 3 blocos distintos: 1º papel-deep, 2º transparente, 3º tinta (invertido) - variação real de material |
 | Scroll cue ("Scroll down") | Removido |
@@ -57,16 +57,16 @@
 | prefers-reduced-motion | transições desativadas ✓ |
 | Browser surfaces | `::selection` cobalto, scrollbar temática, focus-visible ✓ |
 
-## 5. Notas de método (impeccable)
+## 5. Notas de método (a skill de referência)
 
 - Segui o fluxo de **redesign** do new-work: preservar product truth/conteúdo/IA, substituir o mundo visual (o antigo é evidência, não autoridade).
 - **Craft floor** aplicado: contraste AA, sem eyebrow (ban), sem gradient text, sem glass decorativo, sem sombra dura, mono só para dados, browser surfaces tematizadas, motion único e motivado.
 - **Estratégia de cor:** Committed (cobalto carrega ação; papel morno é o chão) - coerente com Persuade.
 - **Prova, não promessa:** a trilha "hoje" demonstra o mecanismo (organizar o dia) em vez de reafirmar claims.
-- Limitação do experimento: sem geração de imagem disponível, a "imagem real" foi substituída por conteúdo real autorado (trilha de tarefas) - dentro do que o craft-floor permite (conteúdo real > chrome).
+- Limitação do experimento: sem geração de imagem disponível, a "imagem real" foi substituída por conteúdo real autorado (trilha de tarefas) - dentro do que o o padrão de qualidade permite (conteúdo real > chrome).
 
 ## 6. Riscos residuais
 
 - Sem screenshot em navegador (ambiente sem browser) - a validação foi estática (contraste calculado, checks mecânicos).
 - A trilha "hoje" usa dados fictícios coerentes (nomes de clientes inventados) - rotulável como synthetic se fosse produção.
-- Fonte system-ui (sem self-host de face distinta) - limitação de artefato auto-contido sem build; o craft-floor pediria face própria em produção.
+- Fonte system-ui (sem self-host de face distinta) - limitação de artefato auto-contido sem build; o o padrão de qualidade pediria face própria em produção.

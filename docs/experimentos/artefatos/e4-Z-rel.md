@@ -1,7 +1,7 @@
-# E4-c: Redesign (Método C: design-taste) · Cloudly
+# E4-c: Redesign (método: a skill de referência) · Cloudly
 
 **Input:** `docs/casos/redesign-demo/before.html` (landing "Cloudly" com tells de IA)
-**Método:** design-taste (`~/.pi/agent/skills/design-taste/SKILL.md`)
+**Método:** a skill de referência (`~/.pi/agent/skills/a skill de referência/SKILL.md`)
 **Artefato:** `docs/experimentos/artefatos/e4-c.html` (auto-contido, HTML+CSS)
 **Data:** 2026-08-26
 
@@ -13,13 +13,13 @@
 
 Página: landing SaaS · Audiência: equipes pequenas (não-técnicas) · Vibe: calmo/ferramental · Família: editorial assimétrica + neutros quentes + accent único.
 
-## 2. Dials (skill §1)
+## 2. parâmetros (skill §1)
 
 | Dial | Valor | Razão |
 |---|---|---|
-| DESIGN_VARIANCE | 6 | Redesign-preserve puxa para simetria original; elevo +=3 para quebrar o "centrismo padrão" (skill §1.A). Anti-center bias (§4.3). |
-| MOTION_INTENSITY | 4 | Micro-interações (hover/press) apenas; respeita `prefers-reduced-motion`. |
-| VISUAL_DENSITY | 3 | Ar respirável, galeria/editorial. |
+| variação | 6 | Redesign-preserve puxa para simetria original; elevo +=3 para quebrar o "centrismo padrão" (skill §1.A). Anti-center bias (§4.3). |
+| intensidade de movimento | 4 | Micro-interações (hover/press) apenas; respeita `prefers-reduced-motion`. |
+| densidade | 3 | Ar respirável, galeria/editorial. |
 
 ## 3. Modo e audit (skill §11)
 
@@ -47,9 +47,9 @@ Página: landing SaaS · Audiência: equipes pequenas (não-técnicas) · Vibe: 
 | Eyebrow em toda seção (§4.7) | eyebrow em hero+recursos+precos+depo | apenas 1 (hero) | 1 ≤ ceil(5/3)=2 |
 | Split-header banido (§4.7) | centrado | split screen legítimo (1 lado copy, 1 lado preview real) | ok |
 
-## 5. Pre-flight: checklist final (skill §14)
+## 5. a verificação final: checklist final (skill §14)
 
-- [x] Design Read declarado + dials explícitos com razão
+- [x] Design Read declarado + parâmetros explícitos com razão
 - [x] Zero `—` / `–` em texto visível (grep = 0)
 - [x] Color lock: um accent (emerald) em tudo; Shape lock: raios consistentes (14px cards, pills botões)
 - [x] Theme lock: claro consistente (landing, sem inversão por seção)
@@ -82,4 +82,4 @@ Todos ≥ WCAG AA (4.5:1 p/ texto normal).
 
 ## 7. Conclusão
 
-Redesign-preserve do Cloudly aplicado com o método design-taste: IA e conteúdo preservados, marca intacta, 10+ tells removidos com evidência por grep, pre-flight §14 passado, contraste AA. Artefato auto-contido `e4-c.html` abre direto no navegador, sem build.
+Redesign-preserve do Cloudly aplicado com o métodoesign-taste: IA e conteúdo preservados, marca intacta, 10+ tells removidos com evidência por grep, a verificação final §14 passado, contraste AA. Artefato auto-contido `e4-c.html` abre direto no navegador, sem build.

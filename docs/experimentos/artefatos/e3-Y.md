@@ -1,20 +1,20 @@
-# Critique E3-c · Método C (design-taste) sobre before.html
+# Critique E3-c · métodoobre before.html
 
 **Input:** `docs/casos/redesign-demo/before.html` (landing "Cloudly"; IA slop clássico)
-**Método C:** skill design-taste (design-taste-frontend). Usa Design Read (§0), Dials (§1), AI Tells (§9, com em-dash §9.G ZERO) e Pre-Flight (§14).
+**método:** skill a skill de referência (a skill de referência-frontend). Usa Design Read (§0), parâmetros (§1), AI Tells (§9, com em-dash §9.G ZERO) e a verificação final (§14).
 **Idioma:** pt-BR. O `before.html` NÃO foi editado, apenas auditado.
 
 ---
 
-## Método aplicado (design-taste)
+## métodoplicado (a skill de referência)
 
 ### Design Read (§0)
 Lendo como: landing de SaaS para PMEs, com linguagem de "produtividade corporativa genérica", tendendo ao **default anti-slop que a skill proíbe** (3 cards iguais, Inter, gradiente roxo, fake screenshot, eyebrow em toda seção). É exatamente o protótipo que a skill foi criada para eliminar.
 
-### Dials inferidos (§1)
-- `DESIGN_VARIANCE: 2` (simetria perfeita, 3 colunas idênticas; o baseline é 8)
-- `MOTION_INTENSITY: 1` (estático)
-- `VISUAL_DENSITY: 4` (cards genéricos, densidade média)
+### parâmetros inferidos (§1)
+- `variação: 2` (simetria perfeita, 3 colunas idênticas; o baseline é 8)
+- `intensidade de movimento: 1` (estático)
+- `densidade: 4` (cards genéricos, densidade média)
 
 Coerência: nenhuma diversidade de layout. Tudo centralizado (proibido quando VARIANCE > 4, anti-center).
 
@@ -22,7 +22,7 @@ Coerência: nenhuma diversidade de layout. Tudo centralizado (proibido quando VA
 
 ## Heurísticas (1-5)
 
-| Heurística | Nota | Comentário (lente do design-taste) |
+| Heurística | Nota | Comentário (lente do a skill de referência) |
 |---|---|---|
 | Clareza | 2 | Hero não nomeia público nem resultado concreto. A sub tem duas frases e não declara problema nem proposta única. |
 | Hierarquia | 2 | 3 feature cards idênticos e 3 pricing cards idênticos (banido). Eyebrow em TODAS as seções (4 por página; limite 1 por 3 seções). Hero e CTA final com marca de mesmo peso. |
@@ -71,15 +71,15 @@ Coerência: nenhuma diversidade de layout. Tudo centralizado (proibido quando VA
 3. `<h1>... produtividade  U+2014  com Cloudly</h1>`
 4. `<p class="testimonial">... como trabalhamos  U+2014  nossa produtividade...`
 
-A habilidade exige zero em-dash no texto visível. Com 4, a página não passa no Pre-Flight.
+A habilidade exige zero em-dash no texto visível. Com 4, a página não passa no a verificação final.
 
 ---
 
 ## Veredito
 
-**REPROVADO (blocker).** Média 2.1/5, blocker por consolidação de tells. O design-taste, por inspeção visual e checklist, encontra os mesmos 11 tells do método A: em-dash (4), Inter, gradiente roxo, 3 cards iguais, fake screenshot, nome genérico, números falsos, scroll cue, eyebrow em excesso, version footer, verbos de efeito.
+**REPROVADO (blocker).** Média 2.1/5, blocker por consolidação de tells. O a skill de referência, por inspeção visual e checklist, encontra os mesmos 11 tells do método: em-dash (4), Inter, gradiente roxo, 3 cards iguais, fake screenshot, nome genérico, números falsos, scroll cue, eyebrow em excesso, version footer, verbos de efeito.
 
-Ponto de contraste: o design-taste é prescritivo (dials, §4, §9) mas não tem verificação determinística por script (ao contrário do Design Kit, que roda `scripts/anti-slop-check.py`). É um crítico pela regra estética, não pela execução de detector. Para este input, os achados são os mesmos do método A; o que difere é a prova: o A é verificável por script, o C depende da inspeção do agente.
+Ponto de contraste: o a skill de referência é prescritivo (parâmetros, §4, §9) mas não tem verificação determinística por script (ao contrário do o kit, que roda `scripts/anti-slop-check.py`). É um crítico pela regra estética, não pela execução de detector. Para este input, os achados são os mesmos do método; o que difere é a prova: o A é verificável por script, o C depende da inspeção do agente.
 
 **Recomendação de redesign (segundo a taste):**
 - `VARIANCE` de 2 para 8: hero split, bento, grade assimétrica.
@@ -92,4 +92,4 @@ Ponto de contraste: o design-taste é prescritivo (dials, §4, §9) mas não tem
 - Rever contraste da CTA-final (texto branco sobre gradiente violeta).
 
 ---
-*Método C: design-taste · crítico de estética e anti-slop por inspeção. Não editou before.html.*
+*método: a skill de referência · crítico de estética e anti-slop por inspeção. Não editou before.html.*

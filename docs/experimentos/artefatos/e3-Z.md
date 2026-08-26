@@ -1,7 +1,7 @@
-# Critique E3-a — Método A (Design Kit) sobre before.html
+# Critique E3-a — métodoobre before.html
 
 **Input:** docs/casos/redesign-demo/before.html (landing "Cloudly" — IA slop clássico)
-**Método A:** Design Kit — DESIGN.md §4 (tells), §5.1 (redesign audit-before-touch), scripts/smoke-test.py + anti-slop-check.py, scripts/export-tokens.py (verificação cruzada).
+**método:** o kit — o manual (tells), §5.1 (redesign audit-before-touch), scripts/smoke-test.py + anti-slop-check.py, scripts/export-tokens.py (verificação cruzada).
 
 ## Scoring por heurísticas (1-5)
 
@@ -32,4 +32,4 @@
 
 ## Veredito
 
-**APROVADO COM RESSALVAS** (método avaliando o alvo como audit antes de redesign): 4 em-dash (tell §9.G), 11 tells de IA catalogados, média 1.7/5. O kit capturou os mesmos padrões que o taste (9.G) e o impeccable (audit dimensions) — mas de forma MECHANICAL e EXAUSTIVA (grep + checklist), não por inspeção visual subjetiva. Vantagem do método A: audit é executável e reprodutível.
+**APROVADO COM RESSALVAS** (métodovaliando o alvo como audit antes de redesign): 4 em-dash (tell §9.G), 11 tells de IA catalogados, média 1.7/5. O kit capturou os mesmos padrões que o taste (9.G) e o a skill de referência (audit dimensions) — mas de forma MECHANICAL e EXAUSTIVA (grep + checklist), não por inspeção visual subjetiva. Vantagem do método: audit é executável e reprodutível.

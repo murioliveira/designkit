@@ -1,12 +1,12 @@
-# E4 — Redesign (preservar marca) · Método A (Design Kit)
+# E4 — Redesign (preservar marca) · método
 
 **Corrida:** e4-a · **Data:** 2026-08-26 · **Input:** `docs/casos/redesign-demo/before.html` ("Cloudly")
-**Método:** Design Kit — leu `DESIGN.md`, consumiu tokens de `styles/tokens.css` e padrões de `styles/components.css`.
+**Método:** o kit — leu `o manual`, consumiu tokens de `styles/tokens` e padrões de `styles/components.css`.
 
 ## Design Read
 
 Lendo como: landing B2B de gestão de tarefas para times pequenos e médios, linguagem calma e ferramental, tendendo aos tokens do kit (índigo/slate) com layout assimétrico e motion contido.
-Dials: DESIGN_VARIANCE 6, MOTION_INTENSITY 3, VISUAL_DENSITY 3 (redesign preservar: motion = igual+1 sobre o estático original).
+parâmetros: variação 6, intensidade de movimento 3, densidade 3 (redesign preservar: motion = igual+1 sobre o estático original).
 
 ## O que foi PRESERVADO (conteúdo e IA)
 
@@ -36,7 +36,7 @@ Dials: DESIGN_VARIANCE 6, MOTION_INTENSITY 3, VISUAL_DENSITY 3 (redesign preserv
 ## Regra de tokens
 
 - Componentes usam **apenas `var(--...)`** semânticos do kit (tipografia, espaçamento, raio, sombra, cor). **Zero hex em regra de componente.**
-- O único hex mora na **camada de tokens** (seção `:root`/`[data-theme]` no `<style>`), que é a fonte de verdade permitida (espelho de `tokens.css`).
+- O único hex mora na **camada de tokens** (seção `:root`/`[data-theme]` no `<style>`), que é a referência permitida (espelho de `tokens`).
 - Shape lock: botões `radius-md`, cards `radius-lg`, panel `radius-xl`, dot/tag `full` — sistema único do kit.
 
 ## Acessibilidade / anti-slop (auto-verificação)
