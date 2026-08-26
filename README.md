@@ -1,6 +1,6 @@
 # Design Kit: an entire design department in a box
 
-[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/muzphaxx/designkit/releases/tag/v0.9.0)
+[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/murioliveira/designkit/releases/tag/v0.9.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![Agents](https://img.shields.io/badge/agents-Claude_Code_%7C_Codex_%7C_pi-orange)
 ![Checks](https://img.shields.io/badge/QA-98_anti--slop_checks-success)
@@ -124,7 +124,7 @@ designkit tokens.
 
 Run the design system showcase (tokens, components, demos):
 - **Local:** open `index.html` in your browser (no build, no dependencies)
-- **GitHub Pages:** `https://muzphaxx.github.io/designkit/` (after enabling Pages under Settings → Pages → Deploy from branch → main/(root), or via the workflow in `.github/workflows/pages.yml`)
+- **GitHub Pages:** `https://murioliveira.github.io/designkit/` (after enabling Pages under Settings → Pages → Deploy from branch → main/(root), or via the workflow in `.github/workflows/pages.yml`)
 
 ## Contributing / repository layout
 

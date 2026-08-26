@@ -1,6 +1,6 @@
 # Kit de Lançamento — Design Kit (para o fundador)
 
-**Quando usar:** quando o repo `muzphaxx/designkit` estiver público, poste em X/Bluesky/LinkedIn para gerar star velocity (pesquisa de mercado: trending exige cobertura + lançamento coordenado).
+**Quando usar:** quando o repo `murioliveira/designkit` estiver público, poste em X/Bluesky/LinkedIn para gerar star velocity (pesquisa de mercado: trending exige cobertura + lançamento coordenado).
 
 ---
 
@@ -9,7 +9,7 @@
 > Transformei um setor de design inteiro em um pacote para agentes de IA.
 > Design system + 8 skills (research, UI, critique, a11y, handoff) + método anti-slop com 98 checks automáticos.
 > De uma ideia em uma frase até telas prontas, com critique no meio.
-> Open source: github.com/muzphaxx/designkit
+> Open source: github.com/murioliveira/designkit
 > Feito com Claude, Codex e pi.
 
 ## 2. Post de thread (X — para detalhar)
@@ -20,11 +20,11 @@
 
 **Tweet 3:** O diferencial: método que supera impeccable e design-taste. Critique enriquecido (cognitive-load + personas) pegou bugs que elas não pegam. Detector de 98 checks mecânicos.
 
-**Tweet 4:** 7 casos reais, todos pontuados: Lumen 4.7/5, Norte 4.6/5. Um crítica ensinou o kit (bugs corrigidos no dropdown, marquee, bento). Open source, MIT. github.com/muzphaxx/designkit
+**Tweet 4:** 7 casos reais, todos pontuados: Lumen 4.7/5, Norte 4.6/5. Um crítica ensinou o kit (bugs corrigidos no dropdown, marquee, bento). Open source, MIT. github.com/murioliveira/designkit
 
 ## 3. LinkedIn (parágrafo)
 
-"Lancei um projeto open source que transforma agentes de IA (Claude, Codex, pi) em um setor de design executável: pesquisa, arquitetura de informação, UI, critique, acessibilidade e handoff. O diferencial é o método: um manual anti-slop com redesign protocol, mapa de design systems externos, detecção determinística (98 checks) e critique enriquecido com lentes de cognitive-load e personas. Sete casos reais validados. O humano é o diretor; o agente é o setor. Repo: github.com/muzphaxx/designkit"
+"Lancei um projeto open source que transforma agentes de IA (Claude, Codex, pi) em um setor de design executável: pesquisa, arquitetura de informação, UI, critique, acessibilidade e handoff. O diferencial é o método: um manual anti-slop com redesign protocol, mapa de design systems externos, detecção determinística (98 checks) e critique enriquecido com lentes de cognitive-load e personas. Sete casos reais validados. O humano é o diretor; o agente é o setor. Repo: github.com/murioliveira/designkit"
 
 ## 4. Comunidades para postar
 
