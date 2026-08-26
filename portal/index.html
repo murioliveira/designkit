@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de showcases do Design Kit: casos reais resolvidos com o sistema de design, de landing pages a dashboards.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Design Kit: Portal de Showcases</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 64 64'><rect width='64' height='64' rx='14' fill='%234f46e5'/><text x='32' y='45' font-family='system-ui' font-size='36' font-weight='700' text-anchor='middle' fill='white'>D</text></svg>">
+  <script>
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem("dk-theme"); } catch (e) {}
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
+
+  <header class="portal-header">
+    <div class="portal-header__inner">
+      <a class="portal-header__brand" href="./">
+        <span class="portal-header__logo" aria-hidden="true">D</span>
+        <span class="portal-header__name">Design Kit</span>
+        <span class="portal-header__section">Showcases</span>
+      </a>
+      <div class="portal-header__right">
+        <a class="portal-header__link" href="../">Showcase principal</a>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Ativar tema escuro"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="portal-main" tabindex="-1">
+
+    <!-- Hero -->
+    <section class="portal-hero" aria-labelledby="portal-hero-title">
+      <p class="portal-hero__eyebrow">Casos reais</p>
+      <h1 id="portal-hero-title" class="portal-hero__title">Design que funcionou.</h1>
+      <p class="portal-hero__lead">
+        Oito casos resolvidos com o Design Kit, de landing pages a dashboards
+        e portfólios, com critique aprovado e zero tells de IA.
+      </p>
+    </section>
+
+    <!-- Destaques: 3 cases com showcase visual -->
+    <section class="portal-featured" aria-labelledby="feat-title">
+      <h2 id="feat-title" class="sr-only">Destaques</h2>
+      <div class="portal-featured__grid">
+
+        <!-- Lumen -->
+        <article class="featured-card featured-card--lumen">
+          <div class="featured-card__visual" aria-hidden="true">
+            <div class="featured-card__thumb"></div>
+          </div>
+          <div class="featured-card__body">
+            <span class="badge badge--primary">Persuade</span>
+            <h3 class="featured-card__title">Lumen</h3>
+            <p class="featured-card__desc">
+              Landing de app de foco e bem-estar digital com IA para
+              profissionais criativos. Hero disciplinado, seções em zigzag,
+              tokens do kit do início ao fim.
+            </p>
+            <div class="featured-card__meta">
+              <span class="featured-card__score" aria-label="Nota 4.7 de 5">4.7 / 5</span>
+            </div>
+            <a class="featured-card__cta btn btn--primary btn--sm" href="../docs/casos/lumen/index.html" target="_blank" rel="noopener">
+              Ver showcase
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Norte -->
+        <article class="featured-card featured-card--norte">
+          <div class="featured-card__body">
+            <span class="badge badge--info">Operate</span>
+            <h3 class="featured-card__title">Norte</h3>
+            <p class="featured-card__desc">
+              Dashboard financeiro de fluxo de caixa para pequenas empresas.
+              Tabela zebrada com paginação real, métricas com badges, dropdowns,
+              modal com trap de foco e stepper de onboarding.
+            </p>
+            <div class="featured-card__meta">
+              <span class="featured-card__score" aria-label="Nota 4.6 de 5">4.6 / 5</span>
+            </div>
+            <a class="featured-card__cta btn btn--primary btn--sm" href="../docs/casos/norte/index.html" target="_blank" rel="noopener">
+              Ver showcase
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
+          </div>
+          <div class="featured-card__visual" aria-hidden="true">
+            <div class="featured-card__thumb featured-card__thumb--dash"></div>
+          </div>
+        </article>
+
+        <!-- Tereza -->
+        <article class="featured-card featured-card--tereza featured-card--span">
+          <div class="featured-card__visual" aria-hidden="true">
+            <div class="featured-card__thumb featured-card__thumb--wide"></div>
+          </div>
+          <div class="featured-card__body">
+            <div class="featured-card__badges">
+              <span class="badge badge--warning">Experience</span>
+            </div>
+            <h3 class="featured-card__title">Tereza Vilela</h3>
+            <p class="featured-card__desc">
+              Portfólio de ilustradora editorial no modo Experience: o artefato
+              lidera, a interface recua. Galeria assimétrica com paleta
+              terracotta e slate, revelação suave por IntersectionObserver.
+            </p>
+            <div class="featured-card__meta">
+              <span class="featured-card__score" aria-label="Nota 4.6 de 5">4.6 / 5</span>
+            </div>
+            <a class="featured-card__cta btn btn--warning btn--sm" href="../docs/casos/tereza/index.html" target="_blank" rel="noopener">
+              Ver showcase
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Galeria completa -->
+    <section class="portal-gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" class="portal-gallery__title">Todos os casos</h2>
+
+      <div class="portal-gallery__grid">
+
+        <!-- Aurora -->
+        <article class="case-card">
+          <div class="case-card__preview" aria-hidden="true">
+            <div class="case-card__swatch" style="background: var(--c-neutral-300)"></div>
+            <div class="case-card__swatch" style="background: var(--c-primary-300)"></div>
+            <div class="case-card__swatch" style="background: var(--c-neutral-500)"></div>
+          </div>
+          <div class="case-card__body">
+            <span class="badge badge--neutral">Persuade</span>
+            <h3 class="case-card__title">Aurora e Cinza</h3>
+            <p class="case-card__desc">
+              Landing de ateliê de cerâmica artesanal com linguagem editorial
+              calma: monocromático de pedra, pop de índigo, tipografia que
+              respira. Referência anti-slop do kit.
+            </p>
+            <a class="case-card__link" href="../docs/casos/aurora/index.html" target="_blank" rel="noopener">
+              Abrir showcase
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" width="14" height="14">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Linha Direta -->
+        <article class="case-card">
+          <div class="case-card__preview case-card__preview--accent" aria-hidden="true">
+            <div class="case-card__swatch" style="background: var(--c-neutral-800)"></div>
+            <div class="case-card__swatch" style="background: var(--color-warning)"></div>
+            <div class="case-card__swatch" style="background: var(--c-neutral-500)"></div>
+          </div>
+          <div class="case-card__body">
+            <span class="badge badge--warning">Persuade</span>
+            <h3 class="case-card__title">Linha Direta</h3>
+            <p class="case-card__desc">
+              Landing de estúdio de design estratégico composta com a block
+              library do kit: 4 blocos próprios, identidade de marca, detector
+              anti-slop aprovado. Média 4.7.
+            </p>
+            <a class="case-card__link" href="../docs/casos/linha-direta/index.html" target="_blank" rel="noopener">
+              Abrir showcase
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" width="14" height="14">
+                <line x1="7" y1="17" x2="17" y2="7"/>
+                <polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Redesign Demo -->
+        <article class="case-card case-card--horizontal">
+          <div class="case-card__body">
+            <span class="badge badge--error">Overhaul</span>
+            <h3 class="case-card__title">Cloudly: antes e depois</h3>
+            <p class="case-card__desc">
+              Demonstração da skill design-redesign: uma landing genérica de IA
+              (Inter, gradiente roxo, 3 cards, em-dashes) redesenhada pelo
+              protocolo do kit com preservação estrita de conteúdo.
+            </p>
+            <div class="case-card__links">
+              <a class="btn btn--ghost btn--sm" href="../docs/casos/redesign-demo/before.html" target="_blank" rel="noopener">Ver antes</a>
+              <a class="btn btn--primary btn--sm" href="../docs/casos/redesign-demo/after.html" target="_blank" rel="noopener">Ver depois</a>
+            </div>
+          </div>
+          <div class="case-card__compare" aria-hidden="true">
+            <div class="case-card__side case-card__side--before">Antes</div>
+            <div class="case-card__arrow" aria-hidden="true">&rarr;</div>
+            <div class="case-card__side case-card__side--after">Depois</div>
+          </div>
+        </article>
+
+        <!-- Ponto Final (Farol) -->
+        <article class="case-card case-card--docs">
+          <div class="case-card__body">
+            <span class="badge badge--success">Fluxo completo</span>
+            <h3 class="case-card__title">Farol</h3>
+            <p class="case-card__desc">
+              Teste de integração de ponta a ponta das 8 skills do kit num
+              mini-brief real: app de assinatura de livros para livrarias
+              independentes. Artefatos de research, IA, UI, critique, refine,
+              redesign, a11y e handoff.
+            </p>
+            <ul class="case-card__artifacts">
+              <li><a href="../docs/casos/ponto-final/brief.md">Brief</a></li>
+              <li><a href="../docs/casos/ponto-final/research.md">Research</a></li>
+              <li><a href="../docs/casos/ponto-final/ia.md">Arquitetura</a></li>
+              <li><a href="../docs/casos/ponto-final/ui.md">UI</a></li>
+              <li><a href="../docs/casos/ponto-final/critique.md">Critique</a></li>
+              <li><a href="../docs/casos/ponto-final/refine.md">Refine</a></li>
+              <li><a href="../docs/casos/ponto-final/a11y.md">A11y</a></li>
+              <li><a href="../docs/casos/ponto-final/handoff.md">Handoff</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Brisa -->
+        <article class="case-card case-card--docs">
+          <div class="case-card__body">
+            <span class="badge badge--info">Validação</span>
+            <h3 class="case-card__title">Brisa</h3>
+            <p class="case-card__desc">
+              Validação cruzada das 4 skills do kit em execução real num
+              fluxo research, arquitetura de informação, critique e handoff.
+              3 melhorias aplicadas a partir dos achados.
+            </p>
+            <ul class="case-card__artifacts">
+              <li><a href="../docs/casos/brisa/research.md">Research</a></li>
+              <li><a href="../docs/casos/brisa/ia.md">Arquitetura</a></li>
+              <li><a href="../docs/casos/brisa/critique.md">Critique</a></li>
+              <li><a href="../docs/casos/brisa/handoff.md">Handoff</a></li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Métricas do portal -->
+    <section class="portal-stats" aria-labelledby="stats-title">
+      <h2 id="stats-title" class="portal-stats__title">Números do portal</h2>
+      <div class="portal-stats__grid">
+        <div class="portal-stat">
+          <span class="portal-stat__number">8</span>
+          <span class="portal-stat__label">casos</span>
+        </div>
+        <div class="portal-stat">
+          <span class="portal-stat__number">4.6</span>
+          <span class="portal-stat__label">média de critique</span>
+        </div>
+        <div class="portal-stat">
+          <span class="portal-stat__number">4</span>
+          <span class="portal-stat__label">modos de superfície</span>
+        </div>
+        <div class="portal-stat">
+          <span class="portal-stat__number">8</span>
+          <span class="portal-stat__label">skills exercitadas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Voltar -->
+    <nav class="portal-back" aria-label="Navegação secundária">
+      <a class="portal-back__link" href="../">&larr; Showcase principal do Design Kit</a>
+    </nav>
+
+  </main>
+
+  <footer class="portal-footer">
+    <div class="portal-footer__inner">
+      <p>Design Kit v0.9.0: portal de showcases com casos reais.</p>
+      <p>HTML, CSS e JS puros, sem dependências. Todos os casos consomem apenas tokens do kit.</p>
+    </div>
+  </footer>
+
+  <script src="portal.js"></script>
+</body>
+</html>

@@ -17,11 +17,11 @@ Dependências: apenas stdlib (Python 3). Node é usado opcionalmente no check 5
 Checks:
   1. tokens      — todo var(--...) usado em styles/*.css e index.html está definido
                    (a união de definições inclui vars locais, ex.: --shell-* do layout.css)
-  2. hex mágico  — nenhum hex hardcoded em styles/components.css (cores via var()/color-mix)
+  2. hex mágico  — nenhum hex hardcoded em styles/*.css e portal/*.css (cores via var()/color-mix)
   3. HTML        — tags balanceadas, ids únicos, âncoras da sidebar <-> seções 1:1,
                    aria-labelledby resolvem, lang presente
-  4. CSS         — chaves {} balanceadas em cada arquivo css
-  5. JS          — node --check em js/*.js (skip com nota se node ausente)
+  4. CSS         — chaves {} balanceadas em todos os arquivos css (styles/ + portal/)
+  5. JS          — node --check em js/*.js e portal/*.js (skip com nota se node ausente)
   6. Docs        — docs/componentes/README.md referencia arquivos que existem
   7. Skills      — frontmatter (name+description) em skills/*/SKILL.md;
                    .claude/skills/* 1:1 com skills/*
@@ -105,7 +105,7 @@ def check_tokens():
 # ---------------------------------------------------------------------------
 # 2. Hex mágico
 # ---------------------------------------------------------------------------
-@check("hex: nenhum hex hardcoded em styles/*.css")
+@check("hex: nenhum hex hardcoded em styles/*.css e portal/*.css")
 def check_hex():
     problems = []
     total_hex = 0
@@ -204,54 +204,71 @@ def check_html():
 # ---------------------------------------------------------------------------
 # 4. CSS: chaves balanceadas
 # ---------------------------------------------------------------------------
-@check("css: chaves {} balanceadas em cada arquivo")
+@check("css: chaves {} balanceadas em styles/ e portal/")
 def check_css_braces():
     problems = []
     total = 0
+    n_files = 0
     for fname in css_files():
         text = read(os.path.join(ROOT, "styles", fname))
         if not text:
-            problems.append(f"{fname} ausente")
+            problems.append(f"styles/{fname} ausente")
             continue
+        n_files += 1
         text = strip_comments(text)
         opens = text.count("{")
         closes = text.count("}")
         total += opens
         if opens != closes:
-            problems.append(f"{fname}: {opens} aberturas vs {closes} fechamentos")
+            problems.append(f"styles/{fname}: {opens} aberturas vs {closes} fechamentos")
+    portal_dir = os.path.join(ROOT, "portal")
+    if os.path.isdir(portal_dir):
+        for fname in sorted(os.listdir(portal_dir)):
+            if fname.endswith(".css"):
+                text = read(os.path.join(portal_dir, fname))
+                if not text:
+                    problems.append(f"portal/{fname} ausente")
+                    continue
+                n_files += 1
+                text = strip_comments(text)
+                opens = text.count("{")
+                closes = text.count("}")
+                total += opens
+                if opens != closes:
+                    problems.append(f"portal/{fname}: {opens} aberturas vs {closes} fechamentos")
     return (not problems,
-            f"{len(css_files())} arquivos, {total} pares de chaves"
+            f"{n_files} arquivos, {total} pares de chaves"
             + (f" | {'; '.join(problems)}" if problems else ""))
 
 
 # ---------------------------------------------------------------------------
 # 5. JS: node --check
 # ---------------------------------------------------------------------------
-@check("js: node --check em js/*.js")
+@check("js: node --check em js/*.js e portal/*.js")
 def check_js():
     node = shutil.which("node")
     if not node:
         return True, "SKIP: node não encontrado no PATH"
-    js_dir = os.path.join(ROOT, "js")
-    if not os.path.isdir(js_dir):
-        return False, "js/ ausente"
     errors = []
     checked = 0
-    for fname in sorted(os.listdir(js_dir)):
-        if not fname.endswith(".js"):
+    for base_dir, label in [(os.path.join(ROOT, "js"), "js"), (os.path.join(ROOT, "portal"), "portal")]:
+        if not os.path.isdir(base_dir):
             continue
-        path = os.path.join(js_dir, fname)
-        if not os.path.exists(path):
-            errors.append(f"js/{fname} ausente")
-            continue
-        proc = subprocess.run([node, "--check", path],
-                              capture_output=True, text=True)
-        if proc.returncode != 0:
-            err = (proc.stderr or "").strip().splitlines()
-            errors.append(f"js/{fname}: {'; '.join(err[-3:])}" if err else f"js/{fname}: exit {proc.returncode}")
-        checked += 1
+        for fname in sorted(os.listdir(base_dir)):
+            if not fname.endswith(".js"):
+                continue
+            path = os.path.join(base_dir, fname)
+            if not os.path.exists(path):
+                errors.append(f"{label}/{fname} ausente")
+                continue
+            proc = subprocess.run([node, "--check", path],
+                                  capture_output=True, text=True)
+            if proc.returncode != 0:
+                err = (proc.stderr or "").strip().splitlines()
+                errors.append(f"{label}/{fname}: {'; '.join(err[-3:])}" if err else f"{label}/{fname}: exit {proc.returncode}")
+            checked += 1
     if not checked:
-        return True, "SKIP: nenhum .js encontrado em js/"
+        return True, "SKIP: nenhum .js encontrado em js/ ou portal/"
     return (not errors,
             f"{checked} arquivo(s) JS válido(s)" + (f" | {'; '.join(errors)}" if errors else ""))
 

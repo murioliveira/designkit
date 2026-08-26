@@ -120,6 +120,12 @@ def target_files():
             for fname in sorted(os.listdir(fdir)):
                 if fname.endswith(".html") or fname.endswith(".css"):
                     files.append(os.path.join(fdir, fname))
+    # portal/ — showcase portal (HTML + CSS)
+    portal_dir = os.path.join(ROOT, "portal")
+    if os.path.isdir(portal_dir):
+        for fname in sorted(os.listdir(portal_dir)):
+            if fname.endswith(".html") or fname.endswith(".css"):
+                files.append(os.path.join(portal_dir, fname))
     return files
 
 
