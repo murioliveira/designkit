@@ -42,7 +42,7 @@
 ### Badges prontas (copiar para o README e páginas de destino)
 
 ```markdown
-[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/muzphaxx/designkit/releases/tag/v0.9.0)
+[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/murioliveira/designkit/releases/tag/v0.9.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![Agents](https://img.shields.io/badge/agents-Claude_Code_|_Codex_|_pi_|_Cursor-orange)
 ![Skills](https://img.shields.io/badge/skills-8_department_roles-blueviolet)
@@ -128,7 +128,7 @@ Notas, não promessas.
 ```
 Instalar:
 
-npx skills add muzphaxx/designkit
+npx skills add murioliveira/designkit
 
 Ou:
 
@@ -151,7 +151,7 @@ Você aprova em 2 checkpoints.
 
 **Tweet 8 (CTA final):**
 ```
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 
 Showcase vivo: index.html no browser (14 seções, tema claro/escuro, todos os componentes)
 
@@ -239,9 +239,9 @@ O QUE TEM DENTRO:
 PARA QUEM:
 Devs que precisam de UI profissional sem contratar designer. Startups enxutas. Agências que querem acelerar a etapa de conceito. Times de produto que já usam IA e querem sair do "genérico".
 
-Instalação: npx skills add muzphaxx/designkit
+Instalação: npx skills add murioliveira/designkit
 
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 
 (Projeto open-source, v0.9.0, feedback bem-vindo.)
 ```
@@ -269,9 +269,9 @@ Validated with real scores, not promises:
 • Lumen (landing): 4.7/5 critique
 • Norte (dashboard): 4.6/5, reuses 12 component groups
 
-1 command: npx skills add muzphaxx/designkit
+1 command: npx skills add murioliveira/designkit
 
-github.com/muzphaxx/designkit
+github.com/murioliveira/designkit
 ```
 
 ---
@@ -299,8 +299,8 @@ What's inside:
 
 No build. No npm dependencies. Open index.html with double-click.
 
-Try it: `npx skills add muzphaxx/designkit`
-Repo: github.com/muzphaxx/designkit
+Try it: `npx skills add murioliveira/designkit`
+Repo: github.com/murioliveira/designkit
 
 Comparison with what's out there:
 - impeccable: 1 skill, 59 rules. Design Kit: 8 skills, 98 checks + design system.
@@ -340,10 +340,10 @@ The anti-slop layer is the real differentiator. DESIGN.md encodes objective rule
 - Zero 3 identical cards
 - 98 deterministic checks (`python scripts/anti-slop-check.py`)
 
-Installing: `npx skills add muzphaxx/designkit`
+Installing: `npx skills add murioliveira/designkit`
 Or just drop the skills into .claude/skills/ — wrappers already exist.
 
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 Showcase: open index.html in any browser
 
 Would love feedback from the Claude Code community.
@@ -383,7 +383,7 @@ Questions for this community:
 - What would you want in a token-first design system built for AI agents?
 - Is a "design department in a box" useful for your workflow, or do you prefer individual tools?
 
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 ```
 
 ---
@@ -393,7 +393,7 @@ Repo: github.com/muzphaxx/designkit
 ```
 Title: Show HN: Design Kit — an entire design department as AI agent skills (8 skills, 158 tokens, 98 anti-slop checks)
 
-URL: github.com/muzphaxx/designkit
+URL: github.com/murioliveira/designkit
 
 Body:
 
@@ -425,7 +425,7 @@ I'm looking for feedback on:
 2. What's missing before you'd consider it production-ready?
 3. Is "design department in a box" the right framing, or does it overpromise?
 
-Try it: npx skills add muzphaxx/designkit
+Try it: npx skills add murioliveira/designkit
 ```
 
 ---
@@ -441,7 +441,7 @@ Design department in a box: 8 AI agent skills, 158 tokens, 15+ components, 98 an
 ### 5.2 Website (se não houver Pages separado)
 
 ```
-https://muzphaxx.github.io/designkit/
+https://murioliveira.github.io/designkit/
 ```
 
 ### 5.3 Palavras-chave para indexação
@@ -464,7 +464,7 @@ https://muzphaxx.github.io/designkit/
 ```html
 <meta property="og:title" content="Design Kit — an entire design department in a box" />
 <meta property="og:description" content="8 AI agent skills that turn Claude, Codex, pi, and Cursor into a functional design department. 158 tokens, 15+ components, 98 anti-slop checks." />
-<meta property="og:image" content="https://muzphaxx.github.io/designkit/og-image.png" />
+<meta property="og:image" content="https://murioliveira.github.io/designkit/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 ```
 

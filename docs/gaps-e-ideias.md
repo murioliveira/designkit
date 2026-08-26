@@ -7,6 +7,22 @@
 
 ---
 
+## ⚠️ CORREÇÕES PÓS-VALIDAÇÃO (adicionadas após auditoria direta dos repositórios — 2026-08)
+
+Esta seção registra correções de fatos apurados DEPOIS da primeira versão deste documento. Foram encontrados **erros de dado** que alteram conclusões. Ler antes da matriz.
+
+| # | Alegação original | Correção verificada | Fonte | Impacto |
+|---|---|---|---|---|
+| C1 | Designer Skills tem "63 skills" | São **87 skills + 27 comandos em 8 plugins** (o README cita "107 skills" no índice total da suíte) | github.com/owl-listener/designer-skills + perfil GitHub do autor | Subestimei a cobertura em ~38% |
+| C2 | Designer Skills tem "zero scripts" | Tem diretório `scripts/` com 5 scripts: `build-gemini.sh`, `extract-release-notes.py`, `generate-index.py`, `generate-readmes.py`, `lint-frontmatter.py` | github.com/owl-listener/designer-skills/tree/main/scripts | **Atenua a Ideia 2** — mas são tooling de repo (lint de frontmatter, geração de índice), NÃO detectores de tells de design como o anti-slop-check.py |
+| C3 | Designer Skills é um projeto isolado | É uma **suíte de 5+ repos**: designer-skills (87), ai-design-skills (44, com RESEARCH.md + REFERENCES.md = mapeamento pesquisa→prática acadêmica), inclusive-design-skills, designpowers (10 agentes + tests/ + CI + CLAUDE.md + GEMINI.md), agent-ready (skill + plugin Figma + 13 checks.js) | github.com/owl-listener (perfil) + extração dos repos | O concorrente é uma **plataforma**, não uma coleção |
+| C4 | "AGENTS.md como onboarding é conceito único" (Ideia 5) | **designpowers faz exatamente isso**: CLAUDE.md + GEMINI.md + `agents/` com 10 agentes de design orquestrados + `tests/` + `hooks/` | github.com/owl-listener/designpowers | **INVALIDA a unicidade da Ideia 5** |
+| C5 | Designer Skills "não tem quality gates automáticos" | designpowers tem `tests/` + `.github/workflows/` (CI). ai-design-skills tem `.githooks/` + `.github/workflows/` | github.com/owl-listener/designpowers + ai-design-skills | **Atenua a Ideia 3** — têm CI, embora não detectores de tells de design |
+
+**Conclusão das correções:** o Owl-Listener (MC Dean) é o concorrente MAIS forte que eu havia retratado. As Ideias 2, 3 e 5 ficam **parcialmente enfraquecidas**. As Ideias 1, 4, 6 permanecem intactas (nenhum concorrente tem tokens CSS + componentes reais + showcase vivo). Ver §2 revisada e §6.
+
+---
+
 ## 1. Matriz de Gaps — Design Kit vs 4 Concorrentes
 
 ### 1.1 As 12 Dimensões de Comparação
@@ -18,8 +34,8 @@ Cada dimensão é pontuada de 1 (fraco/ausente) a 5 (líder de mercado) com evid
 | **1** | **Tokens implementados** (CSS real, não só conceito) | ⭐⭐⭐⭐⭐ 147 tokens semânticos, claro/escuro, `var(--...)` em todo componente | ⭐ "Vocabulário de design" — conceitos, não CSS | ⭐⭐ 3 dials (VARIANCE, MOTION, DENSITY) — parâmetros, não tokens | ⭐ Skills de processo — zero tokens | ⭐⭐ Referências a design tokens no prompt, sem implementação |
 | **2** | **Componentes implementados** (HTML/CSS/JS reais) | ⭐⭐⭐⭐⭐ 18+ componentes, 9 grupos, ~2000 linhas CSS, estados completos, a11y | ⭐ Nenhum — é uma skill de instrução, não entrega componentes | ⭐ Nenhum — é uma skill de instrução, não entrega componentes | ⭐ Nenhum — é uma skill de instrução, não entrega componentes | ⭐ Nenhum — é uma skill de instrução, não entrega componentes |
 | **3** | **Showcase/demo vivo** (abre no navegador, zero build) | ⭐⭐⭐⭐ index.html com 14 seções, dark/light, scrollspy. GAP: seção Tokens é placeholder vazio; casos reais invisíveis | ⭐⭐ Sem showcase — apenas site impeccable.style com docs | ⭐⭐⭐ tasteskill.dev com projetos da comunidade (contribuídos, sem controle de qualidade) | ⭐ Nenhum | ⭐ Nenhum |
-| **4** | **Skills de processo** (research → handoff) | ⭐⭐⭐⭐ 8 skills + fallbacks embutidos + templates. GAP: fallback do a11y-auditor é fino; wrappers dependem de skills externas | ⭐⭐⭐ 23 comandos de design (critique, audit, polish, extract, animate, colorize...) — todos na mesma skill | ⭐⭐⭐ 13 skills (variantes de estilo: minimalist, brutalist, soft, gpt-taste...) + 3 dials | ⭐⭐⭐⭐⭐ 63 skills + 27 comandos em 8 plugins — a MAIOR cobertura de processo | ⭐⭐⭐ 1 skill monolítica com múltiplos modos implícitos |
-| **5** | **QA determinístico** (scripts executáveis, não prompts) | ⭐⭐⭐⭐⭐ smoke-test.py (8 checks) + anti-slop-check.py (98 checks) — executáveis, auditáveis, CI-ready | ⭐⭐⭐⭐ 59 "detector rules" no SKILL.md — regras de prompt para o LLM, não scripts executáveis | ⭐⭐ Nenhum — confia nos dials + julgamento do LLM | ⭐ Nenhum | ⭐ Nenhum |
+| **4** | **Skills de processo** (research → handoff) | ⭐⭐⭐⭐ 8 skills + fallbacks embutidos + templates. GAP: fallback do a11y-auditor é fino; wrappers dependem de skills externas | ⭐⭐⭐ 23 comandos de design (critique, audit, polish, extract, animate, colorize...) — todos na mesma skill | ⭐⭐⭐ 13 skills (variantes de estilo: minimalist, brutalist, soft, gpt-taste...) + 3 dials | ⭐⭐⭐⭐⭐ 87 skills + 27 comandos em 8 plugins (+ ai-design-skills 44, + inclusive, + designpowers = suíte 130+ skills) — a MAIOR cobertura, com grounding acadêmico | ⭐⭐⭐ 1 skill monolítica com múltiplos modos implícitos |
+| **5** | **QA determinístico** (scripts executáveis, não prompts) | ⭐⭐⭐⭐⭐ smoke-test.py (8 checks) + anti-slop-check.py (98 checks) — executáveis, auditáveis, CI-ready | ⭐⭐⭐⭐ 59 "detector rules" no SKILL.md — regras de prompt para o LLM, não scripts executáveis | ⭐⭐ Nenhum — confia nos dials + julgamento do LLM | ⭐ (CI/tests de repo; sem detectores de tells de design) | ⭐ Nenhum |
 | **6** | **Casos reais com scoring** (provas de qualidade) | ⭐⭐⭐⭐⭐ 7 casos (Lumen 4.7/5, Norte 4.6/5, +5) + critique reports completos + 2 detectores PASS | ⭐⭐⭐⭐ Site mostra cases de usuários (hedge-ops, etc.) sem scoring quantitativo | ⭐⭐⭐⭐ tasteskill.dev mostra projetos da comunidade — sem scoring | ⭐ Nenhum caso documentado no repo | ⭐ Nenhum caso documentado no repo |
 | **7** | **Portabilidade multi-agente** (funciona em qq harness) | ⭐⭐⭐ AGENTS.md + CLAUDE.md + .claude/skills/ (8 wrappers) + .codex/README. GAP: sem suporte a Cursor, Copilot, Gemini CLI; validação real pendente (Fase E p2) | ⭐⭐⭐⭐⭐ SKILL.md padrão; instalável via `npx impeccable install`; funciona em Claude Code, Codex, Cursor, Copilot, Gemini CLI | ⭐⭐⭐⭐⭐ SKILL.md padrão; `npx skills add Leonxlnx/taste-skill`; funciona em todos os harnesses | ⭐⭐⭐⭐⭐ SKILL.md padrão; `/plugin marketplace add`; funciona em todos os harnesses | ⭐⭐⭐⭐⭐ Skill oficial Anthropic; funciona em Claude Code, Claude.ai, API; portabilidade parcial (não testado em Codex/Cursor) |
 | **8** | **Distribuição one-command** | ⭐ Nenhuma — clone manual. GAP CRÍTICO | ⭐⭐⭐⭐⭐ `npx impeccable install` | ⭐⭐⭐⭐⭐ `npx skills add Leonxlnx/taste-skill` | ⭐⭐⭐⭐⭐ `/plugin marketplace add Owl-Listener/designer-skills` | ⭐⭐⭐⭐ `/plugin install frontend-design@claude-plugins-official` |
@@ -56,12 +72,12 @@ Cada dimensão é pontuada de 1 (fraco/ausente) a 5 (líder de mercado) com evid
 **Onde o kit GANHA (diferença ≥ 2 pontos vs média dos concorrentes):**
 - **Tokens implementados** (5 vs ~1.5) — é o ÚNICO com design system CSS real consumível
 - **Componentes implementados** (5 vs ~1) — é o ÚNICO com componentes HTML/CSS/JS reais
-- **QA determinístico** (5 vs ~1.5) — é o ÚNICO com scripts executáveis, não só prompts
+- **QA determinístico** (5 vs ~1.5) — é o ÚNICO com detectores de tells executáveis (os concorrentes têm tooling/CI de repo, mas não detectores de design)
 - **Casos reais com scoring** (5 vs ~2) — é o ÚNICO com critique quantitativo
 
 **Onde o kit está PAR a PAR (diferença ≤ 1):**
 - **Showcase** (4 vs ~1.5) — vantagem, mas o placeholder de tokens e a invisibilidade dos casos reduzem o impacto
-- **Skills de processo** (4 vs ~3.5) — Designer Skills Collection (63 skills) cobre mais breadth; o kit cobre mais depth (skills + tokens + componentes)
+- **Skills de processo** (4 vs ~3.5) — Designer Skills Collection (87 skills, suíte 130+) cobre mais breadth E tem grounding acadêmico (ai-design-skills RESEARCH.md) e CI (designpowers). O kit cobre mais depth de IMPLEMENTAÇÃO (skills + tokens + componentes), mas a vantagem de "processo" não é mais clara
 - **Anti-slop rigor** (5 vs ~3.5) — vantagem real, mas Impeccable e Taste-Skill competem forte em regras de prompt
 
 **Onde o kit PERDE (gap ≥ 2 pontos vs líder):**
@@ -91,7 +107,7 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 |---|---|---|
 | Impeccable (github.com/pbakaus/impeccable): 1 SKILL.md + scripts auxiliares. Zero CSS de componentes. Zero HTML de showcase. | Inspeção do repo público | ✅ Validado |
 | Taste-Skill (github.com/Leonxlnx/taste-skill): 13 SKILL.md + exemplos. Nenhum arquivo `.css` com componentes. | Inspeção do repo público | ✅ Validado |
-| Designer Skills (github.com/owl-listener/designer-skills): 63 skills em 8 plugins. Zero CSS. Zero HTML. | Inspeção do repo público | ✅ Validado |
+| Designer Skills (github.com/owl-listener/designer-skills): 87 skills em 8 plugins (+ 44 em ai-design-skills). Zero CSS de componentes. Zero HTML de showcase. Tem scripts/ de tooling (não detectores de design). | Inspeção do repo público (corrigido pós-auditoria) | ✅ Validado |
 | Anthropic frontend-design: skill oficial no marketplace. SKILL.md com princípios de design. Zero implementação de componentes. | Documentação Anthropic + repo anthropics/skills | ✅ Validado |
 | Open Design (nexu-io/open-design): 142+ design systems como DESIGN.md portátil. NÃO são componentes CSS implementados — são schemas/templates de identidade visual. | Inspeção do repo + docs | ✅ Validado |
 | Design Kit: styles/tokens.css (147 tokens), styles/components.css (2000 linhas, 18+ componentes), index.html (showcase 14 seções), styles/base.css + layout.css. | Código do próprio kit | ✅ Validado |
@@ -131,7 +147,7 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 
 ### Ideia 3: "Ciclo Fechado de Design" — 8 skills que cobrem o fluxo inteiro com quality gates integrados
 
-**Descrição:** Nenhum concorrente junta skills de processo COM design system implementado COM quality gates. O kit entrega o ciclo completo: researcher → IA → ui-designer → critic → refine/redesign → a11y → handoff, com scoring quantitativo em cada etapa e loops de qualidade fechados (critique + a11y rodam até zero blockers). Posicionar como "o único agente que não só desenha — audita, refina e entrega".
+**Descrição:** O kit junta skills de processo COM design system CSS implementado COM detectores determinísticos de qualidade — uma combinação que os concorrentes não reproduzem integralmente. O kit entrega o ciclo completo: researcher → IA → ui-designer → critic → refine/redesign → a11y → handoff, com scoring quantitativo em cada etapa e loops de qualidade fechados (critique + a11y rodam até zero blockers). Posicionar como "o agente que não só desenha — audita, refina e entrega código funcional".
 
 **Gap que ataca:** Dimensões 4 (skills de processo), 5 (QA), 6 (casos com scoring).
 
@@ -139,14 +155,14 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 
 | Evidência | Fonte | Status |
 |---|---|---|
-| Designer Skills Collection: 63 skills, 27 comandos, cobre o ciclo inteiro. Tem MAIS skills que o kit (63 vs 8). MAS: (a) não tem design system implementado, (b) não tem quality gates automáticos, (c) não tem detectores, (d) não tem casos com scoring. | Inspeção do repo github.com/owl-listener/designer-skills | ✅ Validado |
+| Designer Skills Collection: 87 skills, 27 comandos, cobre o ciclo inteiro (+ 44 em ai-design-skills, + designpowers com 10 agentes e CI). Tem MUITO mais skills que o kit (87 vs 8). MAS: (a) não tem design system CSS implementado (tokens + componentes reais), (b) os scripts/ são tooling de repo, NÃO detectores de tells de design, (c) não tem detectores executáveis de anti-slop, (d) não tem casos com scoring quantitativo. | Inspeção do repo github.com/owl-listener/designer-skills + ai-design-skills + designpowers (corrigido pós-auditoria) | ✅ Validado |
 | Impeccable: 23 comandos cobrem critique, audit, polish, extract, refine, animate, colorize — foco em qualidade visual, não em processo completo. Sem research, sem IA, sem handoff. | Inspeção do repo + impeccable.style | ✅ Validado |
 | Design Kit: 8 skills + DESIGN.md com pre-flight 20 itens + detectores que rodam entre etapas + casos Lumen (4.7/5) e Norte (4.6/5) como prova de que o ciclo fecha. | Código do kit: skills/ + DESIGN.md §5, §6 | ✅ Validado |
 | Cada skill do kit tem SKILL.md com frontmatter, descrição, fluxo de trabalho documentado, e fallback independente de skills externas. | skills/*/SKILL.md (8 arquivos, 5-14KB cada) | ✅ Validado |
 
-**Conclusão da validação:** ✅ VALIDADO. O kit é o único que junta as 3 camadas (design system + skills de processo + quality gates). Designer Skills Collection compete em breadth de skills mas perde em implementação e QA. A diferenciação é defensável se o kit comunicar "profundidade integrada" vs "quantidade de skills".
+**Conclusão da validação:** ⚠️ PARCIALMENTE VALIDADO (rebaixado de ✅). O kit junta 3 camadas (design system CSS + skills de processo + QA determinístico de design). Mas o Owl-Listener NÃO está parado: tem breadth superior (87+ skills), grounding acadêmico (ai-design-skills RESEARCH.md/REFERENCES.md), e CI/tests (designpowers). A única camada que o concorrente realmente NÃO tem é **design system CSS implementado** (tokens + componentes + showcase). A diferenciação agora é ESTREITA e depende de uma única coisa: "o kit entrega código de design funcional, os outros entregam instruções".
 
-**Risco de validação:** Designer Skills Collection com 63 skills cobre MAIS cenários de processo (ex.: design ops, prototyping, testing, toolkit). Um humano que quer cobertura máxima de processo pode preferir 63 skills sem design system a 8 skills COM design system. ⚠️ **Precisa de validação:** pesquisar se o mercado valoriza mais breadth de skills ou depth integrada (design system + QA). Sem esse dado, não dá para afirmar superioridade — apenas diferença de abordagem.
+**Risco de validação:** Designer Skills (87 skills) + ai-design-skills (44) + inclusive + designpowers cobrem MUITO mais cenários de processo (design ops, prototyping, testing, toolkit, AI product design, alignment, orchestration). Um humano que quer cobertura máxima pode preferir 130+ skills sem design system a 8 skills COM design system. ⚠️ **Precisa de validação:** breadth vs depth continua sem resposta definitiva. Mas há dado parcial: o mercado já recompensou Owl-Listener com 2.3K★ (designer-skills), 160★ (ai-design-skills), 236★ (designpowers) — sinal de que breadth tem demanda real.
 
 **Viabilidade:** Alta. As 8 skills já existem. O trabalho é: (a) fortalecer fallbacks (especialmente a11y-auditor, ver Ideia 6), (b) criar um diagrama/visual do ciclo no showcase/README, (c) empacotar como 1 skill-pai que orquestra as 8 (via AGENTS.md).
 
@@ -180,7 +196,7 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 
 ### Ideia 5: "AGENTS.md como Onboarding Universal" — transformar qualquer agente-hospedeiro em setor de design
 
-**Descrição:** O AGENTS.md do kit é um arquivo único que configura um agente de IA genérico (Claude Code, Codex, pi, Cursor) para operar como um setor de design completo — com papéis, regras, fluxo de trabalho, quality gates e pre-flight. Nenhum concorrente tem este conceito. Posicionar como "o onboarding que transforma seu agente em um setor de design — um arquivo, zero configuração".
+**Descrição:** O AGENTS.md do kit é um arquivo único que configura um agente de IA genérico (Claude Code, Codex, pi, Cursor) para operar como um setor de design completo — com papéis, regras, fluxo de trabalho, quality gates e pre-flight. **ATENÇÃO (correção pós-auditoria):** este conceito NÃO é único — o designpowers (Owl-Listener) faz role onboarding equivalente (CLAUDE.md + GEMINI.md + 10 agentes). A diferenciação passa a ser "o kit faz melhor", não "o kit inventou". Posicionar como "onboarding que transforma seu agente em setor de design com design system CSS real + detectores executáveis".
 
 **Gap que ataca:** Dimensão 7 (portabilidade) + cria categoria própria ("agent onboarding para design").
 
@@ -190,14 +206,14 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 |---|---|---|
 | Impeccable: SKILL.md com instruções de design. Não configura papéis, fluxo de trabalho ou qualidade gates para o agente. | github.com/pbakaus/impeccable/blob/main/SKILL.md | ✅ Validado |
 | Taste-Skill: SKILL.md com regras anti-slop + dials. Não é um onboarding de papel — é uma skill temática. | github.com/Leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md | ✅ Validado |
-| Designer Skills: múltiplos SKILL.md que agentes carregam individualmente. Não tem um arquivo-mestre de orquestração. | github.com/owl-listener/designer-skills | ✅ Validado |
+| Designer Skills: múltiplos SKILL.md que agentes carregam individualmente. **CORREÇÃO:** o repo irmão designpowers TEM arquivo-mestre de orquestração — CLAUDE.md + GEMINI.md + `agents/` (10 agentes) + `hooks/`. A Ideia 5 NÃO é única. | github.com/owl-listener/designpowers (corrigido pós-auditoria) | ❌ Invalidado |
 | Design Kit: AGENTS.md (raiz) define papel do orquestrador, estrutura do repo, regras de trabalho (6 itens: tokens fonte única, qualidade impeccable, fluxo de design, loops fechados, 1 writer/arquivo, sem build), backlog, decisões pendentes. | AGENTS.md do kit (~130 linhas) | ✅ Validado |
 | CLAUDE.md: onboarding específico para Claude Code (~90 linhas). | CLAUDE.md do kit | ✅ Validado |
 | DESIGN.md: manual anti-slop como "voz do design" (~177 linhas). É o complemento de gosto/taste ao AGENTS.md. | DESIGN.md do kit | ✅ Validado |
 
-**Conclusão da validação:** ✅ VALIDADO. O conceito "AGENTS.md que transforma agente em setor de design" não existe em nenhum concorrente. É uma categoria nova — não é uma skill, é um **onboarding de papel** (role onboarding). A tríade AGENTS.md + CLAUDE.md + DESIGN.md é única.
+**Conclusão da validação:** ❌ INVALIDADO como "categoria nova". O conceito "role onboarding para design" JÁ existe no designpowers (Owl-Listener): CLAUDE.md + GEMINI.md + `agents/` com 10 agentes de design orquestrados + `hooks/`. O que o kit oferece de único nesta ideia é reduzido a: **design system CSS real + detectores executáveis** como parte do onboarding (designpowers orquestra agentes mas não traz tokens/componentes CSS implementados). Reformulada como "o kit faz onboarding com design system executável", a ideia volta a ter mérito — mas como aprimoramento de algo existente, não como invenção.
 
-**Risco de validação:** ⚠️ **Precisa de validação:** O conceito "role onboarding" como categoria de produto. Não sabemos se o mercado (humanos que usam agentes de IA) valoriza "configurar o agente como setor de design" vs simplesmente "instalar skills de design quando preciso". A validação real exigiria testar com usuários: "você prefere um AGENTS.md que configura tudo de uma vez, ou skills individuais que você instala conforme precisa?" Sem esse dado, a ideia é promissora mas não validada como vantagem competitiva real.
+**Risco de validação:** ⚠️ **Precisa de validação:** A pergunta agora é "o kit faz role onboarding MELHOR que designpowers?", não "é único?". O designpowers tem 10 agentes orquestrados + CI + hooks; o kit tem AGENTS.md + CLAUDE.md + DESIGN.md + tokens/componentes CSS + detectores. Não há dado público sobre qual abordagem gera melhor resultado de design. Sem testar lado a lado (mesmo brief, dois kits), não dá para afirmar superioridade.
 
 **Viabilidade:** Alta. O AGENTS.md já existe. A CLAUDE.md já existe. O DESIGN.md já existe. O trabalho é: (a) criar versões para outros agentes (CODEX.md, CURSOR.md, GEMINI.md), (b) documentar o conceito de "role onboarding", (c) comunicar no README/showcase.
 
@@ -242,7 +258,7 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 |---|---|---|
 | Taste-Skill: tasteskill.dev mostra "Projects built with Taste Skill" (Floria, Collective OS) — são projetos da comunidade, sem scoring de qualidade. | tasteskill.dev | ✅ Validado |
 | Impeccable: site mostra depoimentos e cases de usuários (ex.: hedge-ops.com). Sem scoring quantitativo. | impeccable.style + hedge-ops.com/posts/impeccable-design | ✅ Validado |
-| Designer Skills: zero casos documentados no repo. | github.com/owl-listener/designer-skills | ✅ Validado |
+| Designer Skills: zero casos com scoring quantitativo documentados. (designpowers tem `examples/`, mas sem scoring de critique como o kit.) | github.com/owl-listener/designer-skills + designpowers | ✅ Validado (com nuance) |
 | Anthropic frontend-design: zero casos documentados. | anthropics/skills | ✅ Validado |
 | Design Kit: 7 casos em docs/casos/. Lumen: 2 critiques (v1→v2, 4.7/5). Norte: critique completo (4.6/5). Ponto Final: 10 artefatos cobrindo ciclo completo. Aurora: anti-slop check (14/14). | docs/casos/ (8 diretórios) + avaliacao-inicial.md §1.6 | ✅ Validado |
 | Cada caso tem HTML funcional, CSS, e critique/auditoria documentados — não são só screenshots. | docs/casos/lumen/index.html, docs/casos/norte/index.html, etc. | ✅ Validado |
@@ -278,14 +294,14 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 | **3** | QA Automatizado standalone (Ideia 2) | Cria categoria própria: "lint de design para IA" | 1-2 semanas | G1, G2 | ✅ Totalmente |
 | **4** | Handoff Estruturado (Ideia 6) — comunicar + expandir | Diferenciação técnica defensável | 3-5 dias | Nenhuma (já existe) | ✅ Totalmente |
 | **5** | Ciclo Fechado de Design (Ideia 3) — comunicar integração | Diferenciação de arquitetura (skills + tokens + QA) | 3-5 dias (docs + visual) | Fortalecer fallback a11y | ✅ Parcial (⚠️ breadth vs depth) |
-| **6** | AGENTS.md como Onboarding Universal (Ideia 5) | Cria categoria "role onboarding" | 1-2 semanas (multi-agente) | Testar em Cursor, Copilot, Gemini | ✅ Parcial (⚠️ valor de mercado) |
+| **6** | AGENTS.md como Onboarding Universal (Ideia 5) | Cria categoria "role onboarding" (NÃO única — designpowers já faz) | 1-2 semanas (multi-agente) | Testar em Cursor, Copilot, Gemini; comparar vs designpowers | ❌ Inválida como inovação; ⚠️ validar se "faz melhor" |
 | **7** | Casos como Prova de Qualidade (Ideia 7) | Prova social alternativa a estrelas | 1-2 semanas (validação externa) | Validação externa dos scores | ⚠️ Precisa de validação externa |
 
 ### 3.3 O que NÃO fazer (ideias descartadas com razão)
 
 | Ideia descartada | Razão |
 |---|---|
-| Competir em quantidade de skills (fazer 60+) | Designer Skills já tem 63. Não é onde o kit ganha. Jogar o jogo do concorrente é perder. |
+| Competir em quantidade de skills (fazer 60+) | Designer Skills já tem 87 (suíte 130+). Não é onde o kit ganha. Jogar o jogo do concorrente é perder. |
 | Fazer Electron app / desktop tool | Open Design e Open CoDesign já ocupam esse espaço. O kit é zero-build por filosofia. |
 | Adicionar geração de imagens (DALL-E/Midjourney) | Fora do escopo do DESIGN.md; decisão pendente do fundador; não é core. |
 | Criar "design systems portáteis" como Open Design | Open Design já tem 142+ e 57K estrelas. Competir nisso é chegar tarde demais. |
@@ -314,7 +330,7 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 | Open Design (57K ★) domina o espaço "open-source design tool" e sufoca visibilidade | Alta | Alto | Diferenciar no que Open Design NÃO faz: design system CSS implementado + componentes reais + QA determinístico. Open Design é templates/schemas; o kit é código funcional. |
 | Impeccable adiciona detectores executáveis e neutraliza Ideia 2 | Média | Médio | Ser primeiro + ter mais checks (98 vs 59) + integração CI pronta. O script é código aberto — se copiarem, a diferenciação vira "quem executa melhor". |
 | Taste-Skill (Vercel-sponsored) recebe investimento pesado e acelera | Média | Alto | Vercel foca em deploy/hosting; o kit foca em design system + QA. São complementares, não competidores diretos. Parceria possível. |
-| Designer Skills adiciona design system e iguala o kit em breadth+depth | Baixa | Médio | 63 skills já é difícil de manter; adicionar componentes CSS + showcase + QA seria um esforço massivo. O kit tem vantagem de foco (8 skills profundas vs 63 amplas). |
+| Designer Skills adiciona design system CSS e iguala o kit em breadth+depth | Média | Alto | 87 skills já é difícil de manter; mas a suíte tem CI, tests e grounding acadêmico — não é improvável que adicionem tokens CSS. O moat do kit NÃO é mais as skills; é o design system CSS implementado + detectores de tells. Proteger e ampliar ESSA vantagem é a prioridade. |
 | Falta de decisão do fundador (licença, nome, open-source) paralisa tudo | Alta | Crítico | Este documento + pesquisa-mercado.md + avaliacao-inicial.md formam o dossiê completo para a conversa de decisão. |
 | Scores dos casos são circulares (kit avalia a si mesmo) e não convencem | Média | Médio | Obter validação externa antes de usar scores como prova de marketing (ver Ideia 7, risco de validação). |
 
@@ -326,10 +342,10 @@ Cada ideia inclui: descrição, gap que ataca, validação objetiva, viabilidade
 
 | Item | O que validar | Método sugerido |
 |---|---|---|
-| **Ideia 3 (Ciclo Fechado): breadth vs depth** | O mercado prefere 63 skills amplas (Designer Skills) ou 8 skills profundas integradas com design system? | Survey com 20+ devs/designers que usam agentes de IA; ou análise de issues/stars dos dois projetos |
-| **Ideia 5 (AGENTS.md onboarding): valor de "role onboarding"** | Humanos que usam agentes valorizam "configurar o agente como setor de design" ou preferem skills sob demanda? | Teste A/B: oferecer AGENTS.md vs link para skills individuais; medir taxa de adoção |
+| **Ideia 3 (Ciclo Fechado): breadth vs depth** | O mercado prefere 130+ skills amplas (Owl-Listener, já com 2.3K★ + CI + grounding acadêmico) ou 8 skills profundas integradas com design system CSS? | Survey com 20+ devs/designers que usam agentes de IA; ou análise de issues/stars. Dado parcial já disponível: Owl-Listener tem 2.3K★ — breadth tem demanda |
+| **Ideia 5 (AGENTS.md onboarding): valor de "role onboarding"** | **REVISADO:** designpowers (Owl-Listener) já faz role onboarding (CLAUDE.md + GEMINI.md + 10 agentes). A pergunta não é mais "é único?" (não é), mas "o kit faz MELHOR que designpowers?" | Comparar AGENTS.md + CLAUDE.md + DESIGN.md do kit vs designpowers: cobertura de design system + detectores vs agentes orquestrados |
 | **Ideia 7 (Casos com scoring): validação externa dos scores** | Os scores 4.7/5 e 4.6/5 são replicáveis por avaliador independente? | Rodar Impeccable critique sobre Lumen e Norte; comparar scores; ou avaliação humana cega |
-| **Designer Skills: real depth das 63 skills** | As 63 skills são profundas ou superficiais? Quantas têm fallback? Quantas são wrappers? | Auditoria do repo github.com/owl-listener/designer-skills — ler 10+ SKILL.md aleatórios |
+| **Designer Skills: real depth das 87 skills** | RESOLVIDO (auditoria feita 2026-08): skills têm grounding acadêmico (RESEARCH.md mapeia 44 skills a papers), CI (designpowers) e tooling (5 scripts). NÃO são superficiais. Pergunta residual: alguma implementa tokens/componentes CSS reais? Resposta: não. | ✔ Auditoria concluída — ver seção Correções C1-C5 |
 
 ---
 

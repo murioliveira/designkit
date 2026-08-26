@@ -17,7 +17,7 @@ O problema não é o modelo. É que ele não tem constraints de design.
 
 Design Kit: 8 skills + 158 tokens + 98 checks anti-slop que transformam Claude, Codex ou pi num setor de design completo.
 
-github.com/muzphaxx/designkit
+github.com/murioliveira/designkit
 ```
 
 ### 1.2 X — Thread de 5 tweets (versão enxuta para timeline)
@@ -69,11 +69,11 @@ Por dentro do pacote:
 ```
 Instalar:
 
-npx skills add muzphaxx/designkit
+npx skills add murioliveira/designkit
 
 Ou clona, abre index.html com duplo clique e vê o showcase com 14 seções de componentes no navegador. Zero build. Zero dependência.
 
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 ```
 
 ---
@@ -114,8 +114,8 @@ Design Kit: 8 skills, 158 tokens, 18+ componentes com showcase renderizado, 98 c
 
 Se você já usa impeccable ou taste-skill, o kit não substitui — ele wrappa. Mas se quer que seu agente execute o ciclo completo sozinho, é o pacote que junta as peças.
 
-npx skills add muzphaxx/designkit
-github.com/muzphaxx/designkit
+npx skills add murioliveira/designkit
+github.com/murioliveira/designkit
 ```
 
 **Post 3 — O manual anti-slop (DESIGN.md) como diferencial técnico:**
@@ -134,7 +134,7 @@ Isso é engenharia de qualidade visual. Não é "gosto" ou "opinião de design".
 
 É a diferença entre "o agente gerou uma UI" e "o agente gerou uma UI que passa no controle de qualidade".
 
-github.com/muzphaxx/designkit
+github.com/murioliveira/designkit
 ```
 
 ---
@@ -204,11 +204,11 @@ NÃO É PARA quem espera que a IA faça pesquisa primária com usuários reais. 
 
 INSTALAÇÃO
 
-npx skills add muzphaxx/designkit
+npx skills add murioliveira/designkit
 
 Ou clona o repo e abre index.html no navegador. Zero build. Zero dependência. 14 seções de showcase com todos os componentes, tema claro/escuro, responsivo.
 
-Repo: github.com/muzphaxx/designkit
+Repo: github.com/murioliveira/designkit
 
 (Projeto open-source, v0.9.0. Licença MIT pendente de confirmação. Feedback bem-vindo.)
 ```
@@ -242,8 +242,8 @@ Design Kit gives them constraints — real, auditable, executable constraints:
 
 No build. No npm. Just HTML/CSS/JS. Open index.html in any browser.
 
-Try it: npx skills add muzphaxx/designkit
-Repo: github.com/muzphaxx/designkit
+Try it: npx skills add murioliveira/designkit
+Repo: github.com/murioliveira/designkit
 
 I'm looking for honest feedback: would you use this? What's missing before you'd trust it in production?
 ```
@@ -259,7 +259,7 @@ I built a design department that fits in an AI agent's pocket — 8 skills, 158 
 
 **Descrição curta:**
 ```
-Design Kit is an open-source package that turns Claude Code, Codex, pi, or Cursor into a functional design department. 8 skills (researcher → IA → UI designer → critic → refine → a11y → handoff), 158 design tokens (light/dark), 18+ components with full states, 98 anti-slop checks + 8 smoke tests, WCAG 2.2 AA audited. 8 real cases validated with critique scores (landing 4.7/5, dashboard 4.6/5). No build. No dependencies. Install: npx skills add muzphaxx/designkit · Repo: github.com/muzphaxx/designkit
+Design Kit is an open-source package that turns Claude Code, Codex, pi, or Cursor into a functional design department. 8 skills (researcher → IA → UI designer → critic → refine → a11y → handoff), 158 design tokens (light/dark), 18+ components with full states, 98 anti-slop checks + 8 smoke tests, WCAG 2.2 AA audited. 8 real cases validated with critique scores (landing 4.7/5, dashboard 4.6/5). No build. No dependencies. Install: npx skills add murioliveira/designkit · Repo: github.com/murioliveira/designkit
 ```
 
 ---
@@ -273,7 +273,7 @@ I built 8 Claude Code skills that make the agent run a full design department �
 
 **Descrição curta:**
 ```
-Design Kit gives Claude Code a design system (158 tokens, 18+ components), 8 department skills (researcher, IA, UI designer, critic, refine, a11y auditor, handoff), and a 300-line anti-slop manual. Skills run in closed quality loops with 2 human checkpoints. Max 2 refine rounds before escalating. Validated: 8 real cases with actual critique scores (landing: 4.7/5, dashboard: 4.6/5). WCAG 2.2 AA audited and fixed. Install: npx skills add muzphaxx/designkit · github.com/muzphaxx/designkit
+Design Kit gives Claude Code a design system (158 tokens, 18+ components), 8 department skills (researcher, IA, UI designer, critic, refine, a11y auditor, handoff), and a 300-line anti-slop manual. Skills run in closed quality loops with 2 human checkpoints. Max 2 refine rounds before escalating. Validated: 8 real cases with actual critique scores (landing: 4.7/5, dashboard: 4.6/5). WCAG 2.2 AA audited and fixed. Install: npx skills add murioliveira/designkit · github.com/murioliveira/designkit
 ```
 
 ---
@@ -287,7 +287,7 @@ Design Kit: a token-first design system (158 tokens, 18+ components) + 8 AI agen
 
 **Descrição curta:**
 ```
-Sharing an open-source package that combines a real design system (158 semantic tokens, 18+ components with full states, live HTML showcase) with 8 AI agent skills running a closed-loop design workflow. The difference from other agent design skills: tokens are the single source of truth (zero hardcoded hex, grep-auditable), quality loops are closed (critique → refine → re-critique until no blockers), and QA is deterministic (98 mechanical checks + 8 smoke tests). 8 real cases with scores. Questions for this community: what would you want in a token-first design system built for AI agents? github.com/muzphaxx/designkit
+Sharing an open-source package that combines a real design system (158 semantic tokens, 18+ components with full states, live HTML showcase) with 8 AI agent skills running a closed-loop design workflow. The difference from other agent design skills: tokens are the single source of truth (zero hardcoded hex, grep-auditable), quality loops are closed (critique → refine → re-critique until no blockers), and QA is deterministic (98 mechanical checks + 8 smoke tests). 8 real cases with scores. Questions for this community: what would you want in a token-first design system built for AI agents? github.com/murioliveira/designkit
 ```
 
 ---
@@ -297,7 +297,7 @@ Sharing an open-source package that combines a real design system (158 semantic 
 Copiar este bloco para o topo do `README.md` e `README.pt-BR.md` (substituir o bloco atual):
 
 ```markdown
-[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/muzphaxx/designkit/releases/tag/v0.9.0)
+[![Version](https://img.shields.io/badge/version-v0.9.0-blue)](https://github.com/murioliveira/designkit/releases/tag/v0.9.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![Agents](https://img.shields.io/badge/agents-Claude_Code_|_Codex_|_pi_|_Cursor-orange)
 ![Skills](https://img.shields.io/badge/skills-8_department_roles-blueviolet)
@@ -346,7 +346,7 @@ Use estes números em qualquer material. São fatos do repositório, verificados
 | Agentes suportados | 4 (Claude Code, Codex, pi, Cursor) | `AGENTS.md` + `.claude/skills/` + `.codex/` |
 | Linhas de CSS total | 3.140 | `styles/` (tokens 329, base 291, layout 520, components ~2000) |
 | Build steps | 0 | HTML/CSS/JS puro, abre com duplo clique |
-| Comando de instalação | `npx skills add muzphaxx/designkit` | README.md |
+| Comando de instalação | `npx skills add murioliveira/designkit` | README.md |
 | Licença | MIT (pendente de confirmação) | `docs/distribuicao.md` |
 
 ---
