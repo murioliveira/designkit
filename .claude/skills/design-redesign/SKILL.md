@@ -1,6 +1,6 @@
 ---
 name: design-redesign
-description: Redesenha UI/site existente: moderniza preservando a marca, audita antes de tocar, distingue preserve vs overhaul. Use quando o usuário pedir redesign, modernizar, atualizar o visual do site, deixar a landing menos datada, repaginar.
+description: "Redesenha UI/site existente: moderniza preservando a marca, audita antes de tocar, distingue preserve vs overhaul. Use quando o usuário pedir redesign, modernizar, atualizar o visual do site, deixar a landing menos datada, repaginar."
 ---
 
 # Design Redesign (wrapper de portabilidade)

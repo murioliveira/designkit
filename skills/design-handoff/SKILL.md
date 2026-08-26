@@ -1,6 +1,6 @@
 ---
 name: design-handoff
-description: Produz spec de implementação por tela/componente, documentação por componente e export de tokens para os desenvolvedores. Use quando o usuário pedir handoff de design, spec de implementação, documentação de componente, export de tokens, guia para desenvolvedores, ou "como implementar isso". Handoff, implementation spec, component documentation, token export, developer handoff, spec de implementação, documentação de componente. O export de tokens tem implementação real: rode `python scripts/export-tokens.py` (gera tokens/tokens.json + tokens/tokens.css). Not for generating the UI itself — input is finished screens and tokens.
+description: "Produz spec de implementação por tela/componente, documentação por componente e export de tokens para os desenvolvedores. Use quando o usuário pedir handoff de design, spec de implementação, documentação de componente, export de tokens, guia para desenvolvedores, ou \"como implementar isso\". Handoff, implementation spec, component documentation, token export, developer handoff, spec de implementação, documentação de componente. O export de tokens tem implementação real: rode `python scripts/export-tokens.py` (gera tokens/tokens.json + tokens/tokens.css). Not for generating the UI itself — input is finished screens and tokens."
 version: 0.1.0
 ---
 

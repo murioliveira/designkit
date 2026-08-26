@@ -1,0 +1,351 @@
+/* ==========================================================================
+   Tokens Demo — styles/tokens-demo.css
+   --------------------------------------------------------------------------
+   Galeria viva de tokens no showcase (seção #tokens).
+   Todas as cores usam var(--...) do tokens.css. Zero hex neste arquivo.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Container principal
+   -------------------------------------------------------------------------- */
+.tokens-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+/* --------------------------------------------------------------------------
+   Seção interna (subseção da galeria)
+   -------------------------------------------------------------------------- */
+.tokens-demo__section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+}
+
+.tokens-demo__title {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-strong);
+  margin: 0 0 var(--space-1);
+}
+
+.tokens-demo__desc {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-5);
+}
+
+.tokens-demo__subsection {
+  margin-bottom: var(--space-5);
+}
+
+.tokens-demo__subtitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  margin: 0 0 var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   1. Swatches — paleta de cores
+   -------------------------------------------------------------------------- */
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+}
+
+.swatch {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-2);
+  min-height: 64px;
+}
+
+.swatch__label {
+  font-size: var(--font-size-caption);
+  font-family: var(--font-family-mono);
+  color: var(--c-neutral-900);
+  line-height: var(--font-line-height-tight);
+  word-break: break-all;
+}
+
+.swatch--on-dark .swatch__label {
+  color: #ffffff;
+}
+
+/* Semânticas: fundo soft + dot colorido */
+.swatch-grid--semantic {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.swatch-semantic {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.swatch-semantic__dot {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.swatch-semantic__label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   2. Escala tipográfica — ramp
+   -------------------------------------------------------------------------- */
+.type-ramp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.type-ramp__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.type-ramp__row:last-child {
+  border-bottom: none;
+}
+
+.type-ramp__sample {
+  color: var(--color-text-strong);
+}
+
+.type-ramp__info {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+}
+
+.type-ramp__info code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-caption);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  margin-right: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   3. Espaçamento — régua visual
+   -------------------------------------------------------------------------- */
+.space-ruler {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.space-ruler__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.space-ruler__bar {
+  display: block;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  min-width: 4px;
+  flex-shrink: 0;
+}
+
+.space-ruler__label {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+  white-space: nowrap;
+}
+
+.space-ruler__label code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-small);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  margin-right: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   4. Raios — grid de caixas com border-radius
+   -------------------------------------------------------------------------- */
+.radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.radius-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 110px;
+  height: 90px;
+  background: var(--color-primary-soft);
+  border: 2px solid var(--color-primary);
+}
+
+.radius-card__label {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.radius-card__value {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+}
+
+/* --------------------------------------------------------------------------
+   5. Sombras — cards com box-shadow
+   -------------------------------------------------------------------------- */
+.shadow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.shadow-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-3);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  min-height: 100px;
+  text-align: center;
+}
+
+.shadow-card__label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.shadow-card__use {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+}
+
+/* --------------------------------------------------------------------------
+   6. Motion — demo interativo
+   -------------------------------------------------------------------------- */
+.motion-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.motion-demo__stage {
+  position: relative;
+  height: 80px;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.motion-demo__box {
+  position: absolute;
+  top: 50%;
+  left: var(--space-2);
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+  transform: translateY(-50%);
+  transition: none;
+}
+
+.motion-demo__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.motion-demo__label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.motion-demo__reduced {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  padding: var(--space-4);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .swatch-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .swatch-grid--semantic {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shadow-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .radius-grid {
+    gap: var(--space-3);
+    justify-content: center;
+  }
+
+  .radius-card {
+    width: 90px;
+    height: 74px;
+  }
+}
+
+@media (max-width: 480px) {
+  .swatch-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shadow-grid {
+    grid-template-columns: 1fr;
+  }
+}

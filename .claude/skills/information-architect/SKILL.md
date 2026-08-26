@@ -1,6 +1,6 @@
 ---
 name: information-architect
-description: Deriva sitemap, fluxos de usuário e hierarquia de conteúdo a partir do research/brief de design. Use quando o usuário pedir arquitetura de informação, sitemap, fluxos de usuário, estrutura de navegação, taxonomia, wireframes de estrutura, ou organização de conteúdo.
+description: "Deriva sitemap, fluxos de usuário e hierarquia de conteúdo a partir do research/brief de design. Use quando o usuário pedir arquitetura de informação, sitemap, fluxos de usuário, estrutura de navegação, taxonomia, wireframes de estrutura, ou organização de conteúdo."
 ---
 
 # Information Architect (wrapper de portabilidade)

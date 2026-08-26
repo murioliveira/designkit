@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/layout.css">
   <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/tokens-demo.css">
 </head>
 <body>
   <a class="sr-only sr-only-focusable skip-link" href="#main">Pular para o conteúdo</a>
@@ -146,7 +147,296 @@
           Cores, tipografia, espaçamento, raios, sombras e motion: a linguagem
           visual do kit, disponível como custom properties em <code>styles/tokens.css</code>.
         </p>
-        <div class="placeholder" role="note">Referência visual dos tokens: em breve (próximas fases)</div>
+
+        <div class="tokens-demo">
+
+          <!-- 1. Paleta de cores -->
+          <section class="tokens-demo__section" aria-labelledby="tk-colors">
+            <h3 id="tk-colors" class="tokens-demo__title">Paleta de cores</h3>
+            <p class="tokens-demo__desc">Primária (índigo), neutra (slate) e semânticas com fundo soft.</p>
+
+            <div class="tokens-demo__subsection">
+              <h4 class="tokens-demo__subtitle">Primária</h4>
+              <div class="swatch-grid">
+                <div class="swatch" style="background-color: var(--c-primary-50)">
+                  <span class="swatch__label">--c-primary-50</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-primary-100)">
+                  <span class="swatch__label">--c-primary-100</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-primary-200)">
+                  <span class="swatch__label">--c-primary-200</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-primary-300)">
+                  <span class="swatch__label">--c-primary-300</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-primary-400)">
+                  <span class="swatch__label">--c-primary-400</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-primary-500)">
+                  <span class="swatch__label">--c-primary-500</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-primary-600)">
+                  <span class="swatch__label">--c-primary-600</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-primary-700)">
+                  <span class="swatch__label">--c-primary-700</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-primary-800)">
+                  <span class="swatch__label">--c-primary-800</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-primary-900)">
+                  <span class="swatch__label">--c-primary-900</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tokens-demo__subsection">
+              <h4 class="tokens-demo__subtitle">Neutra</h4>
+              <div class="swatch-grid">
+                <div class="swatch" style="background-color: var(--c-neutral-50)">
+                  <span class="swatch__label">--c-neutral-50</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-neutral-100)">
+                  <span class="swatch__label">--c-neutral-100</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-neutral-200)">
+                  <span class="swatch__label">--c-neutral-200</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-neutral-300)">
+                  <span class="swatch__label">--c-neutral-300</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-neutral-400)">
+                  <span class="swatch__label">--c-neutral-400</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-500)">
+                  <span class="swatch__label">--c-neutral-500</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-600)">
+                  <span class="swatch__label">--c-neutral-600</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-700)">
+                  <span class="swatch__label">--c-neutral-700</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-800)">
+                  <span class="swatch__label">--c-neutral-800</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-900)">
+                  <span class="swatch__label">--c-neutral-900</span>
+                </div>
+                <div class="swatch swatch--on-dark" style="background-color: var(--c-neutral-950)">
+                  <span class="swatch__label">--c-neutral-950</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tokens-demo__subsection">
+              <h4 class="tokens-demo__subtitle">Semânticas</h4>
+              <div class="swatch-grid swatch-grid--semantic">
+                <div class="swatch-semantic" style="background-color: var(--color-success-soft)">
+                  <span class="swatch-semantic__dot" style="background-color: var(--color-success)"></span>
+                  <span class="swatch-semantic__label">success</span>
+                </div>
+                <div class="swatch-semantic" style="background-color: var(--color-warning-soft)">
+                  <span class="swatch-semantic__dot" style="background-color: var(--color-warning)"></span>
+                  <span class="swatch-semantic__label">warning</span>
+                </div>
+                <div class="swatch-semantic" style="background-color: var(--color-error-soft)">
+                  <span class="swatch-semantic__dot" style="background-color: var(--color-error)"></span>
+                  <span class="swatch-semantic__label">error</span>
+                </div>
+                <div class="swatch-semantic" style="background-color: var(--color-info-soft)">
+                  <span class="swatch-semantic__dot" style="background-color: var(--color-info)"></span>
+                  <span class="swatch-semantic__label">info</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Escala tipográfica -->
+          <section class="tokens-demo__section" aria-labelledby="tk-type">
+            <h3 id="tk-type" class="tokens-demo__title">Escala tipográfica</h3>
+            <p class="tokens-demo__desc">Rampa visual: cada nível no seu tamanho real com nome do token e valor.</p>
+            <div class="type-ramp">
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-display); line-height: var(--font-line-height-tight); letter-spacing: var(--letter-spacing-tight); font-weight: var(--font-weight-bold)">Display</span>
+                <span class="type-ramp__info"><code>--font-size-display</code> 56px / 3.5rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h1); font-weight: var(--font-weight-bold)">Heading 1</span>
+                <span class="type-ramp__info"><code>--font-size-h1</code> 40px / 2.5rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h2); font-weight: var(--font-weight-semibold)">Heading 2</span>
+                <span class="type-ramp__info"><code>--font-size-h2</code> 32px / 2rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h3); font-weight: var(--font-weight-semibold)">Heading 3</span>
+                <span class="type-ramp__info"><code>--font-size-h3</code> 24px / 1.5rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h4); font-weight: var(--font-weight-semibold)">Heading 4</span>
+                <span class="type-ramp__info"><code>--font-size-h4</code> 20px / 1.25rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h5); font-weight: var(--font-weight-semibold)">Heading 5</span>
+                <span class="type-ramp__info"><code>--font-size-h5</code> 18px / 1.125rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-h6); font-weight: var(--font-weight-semibold)">Heading 6</span>
+                <span class="type-ramp__info"><code>--font-size-h6</code> 16px / 1rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-body)">Corpo de texto padrão, usado em parágrafos e conteúdo principal.</span>
+                <span class="type-ramp__info"><code>--font-size-body</code> 16px / 1rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-small)">Texto auxiliar, notas de rodapé, labels secundários.</span>
+                <span class="type-ramp__info"><code>--font-size-small</code> 14px / 0.875rem</span>
+              </div>
+              <div class="type-ramp__row">
+                <span class="type-ramp__sample" style="font-size: var(--font-size-caption)">Legendas, metadados, timestamps.</span>
+                <span class="type-ramp__info"><code>--font-size-caption</code> 12px / 0.75rem</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. Espaçamento -->
+          <section class="tokens-demo__section" aria-labelledby="tk-space">
+            <h3 id="tk-space" class="tokens-demo__title">Espaçamento</h3>
+            <p class="tokens-demo__desc">Escala de 4px: cada barra representa a largura proporcional do token.</p>
+            <div class="space-ruler">
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: 0"></span>
+                <span class="space-ruler__label"><code>--space-0</code> 0</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-1)"></span>
+                <span class="space-ruler__label"><code>--space-1</code> 4px / 0.25rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-2)"></span>
+                <span class="space-ruler__label"><code>--space-2</code> 8px / 0.5rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-3)"></span>
+                <span class="space-ruler__label"><code>--space-3</code> 12px / 0.75rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-4)"></span>
+                <span class="space-ruler__label"><code>--space-4</code> 16px / 1rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-5)"></span>
+                <span class="space-ruler__label"><code>--space-5</code> 20px / 1.25rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-6)"></span>
+                <span class="space-ruler__label"><code>--space-6</code> 24px / 1.5rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-8)"></span>
+                <span class="space-ruler__label"><code>--space-8</code> 32px / 2rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-10)"></span>
+                <span class="space-ruler__label"><code>--space-10</code> 40px / 2.5rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-12)"></span>
+                <span class="space-ruler__label"><code>--space-12</code> 48px / 3rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-16)"></span>
+                <span class="space-ruler__label"><code>--space-16</code> 64px / 4rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-20)"></span>
+                <span class="space-ruler__label"><code>--space-20</code> 80px / 5rem</span>
+              </div>
+              <div class="space-ruler__row">
+                <span class="space-ruler__bar" style="width: var(--space-24)"></span>
+                <span class="space-ruler__label"><code>--space-24</code> 96px / 6rem</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Raios -->
+          <section class="tokens-demo__section" aria-labelledby="tk-radius">
+            <h3 id="tk-radius" class="tokens-demo__title">Raios</h3>
+            <p class="tokens-demo__desc">Border-radius progressivo aplicado visualmente.</p>
+            <div class="radius-grid">
+              <div class="radius-card" style="border-radius: var(--radius-sm)">
+                <span class="radius-card__label"><code>--radius-sm</code></span>
+                <span class="radius-card__value">6px</span>
+              </div>
+              <div class="radius-card" style="border-radius: var(--radius-md)">
+                <span class="radius-card__label"><code>--radius-md</code></span>
+                <span class="radius-card__value">10px</span>
+              </div>
+              <div class="radius-card" style="border-radius: var(--radius-lg)">
+                <span class="radius-card__label"><code>--radius-lg</code></span>
+                <span class="radius-card__value">14px</span>
+              </div>
+              <div class="radius-card" style="border-radius: var(--radius-xl)">
+                <span class="radius-card__label"><code>--radius-xl</code></span>
+                <span class="radius-card__value">20px</span>
+              </div>
+              <div class="radius-card" style="border-radius: var(--radius-full)">
+                <span class="radius-card__label"><code>--radius-full</code></span>
+                <span class="radius-card__value">pill</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 5. Sombras -->
+          <section class="tokens-demo__section" aria-labelledby="tk-shadow">
+            <h3 id="tk-shadow" class="tokens-demo__title">Sombras</h3>
+            <p class="tokens-demo__desc">Elevação progressiva com uso recomendado.</p>
+            <div class="shadow-grid">
+              <div class="shadow-card" style="box-shadow: var(--shadow-sm)">
+                <span class="shadow-card__label"><code>--shadow-sm</code></span>
+                <span class="shadow-card__use">cards, inputs</span>
+              </div>
+              <div class="shadow-card" style="box-shadow: var(--shadow-md)">
+                <span class="shadow-card__label"><code>--shadow-md</code></span>
+                <span class="shadow-card__use">dropdowns, tooltips</span>
+              </div>
+              <div class="shadow-card" style="box-shadow: var(--shadow-lg)">
+                <span class="shadow-card__label"><code>--shadow-lg</code></span>
+                <span class="shadow-card__use">modais, sheets</span>
+              </div>
+              <div class="shadow-card" style="box-shadow: var(--shadow-xl)">
+                <span class="shadow-card__label"><code>--shadow-xl</code></span>
+                <span class="shadow-card__use">popovers, toasts</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 6. Motion -->
+          <section class="tokens-demo__section" aria-labelledby="tk-motion">
+            <h3 id="tk-motion" class="tokens-demo__title">Motion</h3>
+            <p class="tokens-demo__desc">Curvas de easing do kit em ação. O quadrado anima nas 4 curvas em sequência.</p>
+            <div class="motion-demo" id="motion-demo">
+              <div class="motion-demo__stage">
+                <div class="motion-demo__box" id="motion-box" aria-label="Demonstração de animação"></div>
+              </div>
+              <div class="motion-demo__controls">
+                <button type="button" class="btn btn--primary btn--sm motion-demo__play" id="motion-play" aria-controls="motion-box">
+                  <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                  Reproduzir
+                </button>
+                <span class="motion-demo__label" id="motion-label" aria-live="polite">Pronto</span>
+              </div>
+              <div class="motion-demo__reduced" id="motion-reduced" hidden aria-hidden="true">
+                Movimento reduzido ativo
+              </div>
+            </div>
+          </section>
+
+        </div>
       </section>
 
       <!-- ==============================================================
@@ -1201,5 +1491,6 @@
   </div>
 
   <script src="js/app.js" defer></script>
+  <script src="js/tokens-demo.js" defer></script>
 </body>
 </html>
