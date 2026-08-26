@@ -362,7 +362,7 @@ Use estes números em qualquer material. São fatos do repositório, verificados
 | Linhas de CSS total | 3.140 | `styles/` (tokens 329, base 291, layout 520, components ~2000) |
 | Build steps | 0 | HTML/CSS/JS puro, abre com duplo clique |
 | Comando de instalação | `npx skills add murioliveira/designkit` | README.md |
-| Licença | MIT (pendente de confirmação) | `docs/distribuicao.md` |
+| Licença | MIT | `LICENSE` |
 
 ---
 
