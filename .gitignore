@@ -9,3 +9,4 @@ node_modules/
 
 # Canvas Maestri (configuração interna — não entra no pacote do produto)
 .maestri/
+*.tgz

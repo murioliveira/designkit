@@ -1,0 +1,44 @@
+{
+  "name": "design-kit",
+  "version": "0.9.0",
+  "description": "An entire design department in a package: design system (tokens + components) + 8 skills (research, IA, UI, redesign, critique, refine, a11y, handoff) that turn any AI agent (Claude, Codex, pi) into a working design team. Anti-slop method with 98 mechanical checks.",
+  "keywords": [
+    "design-system",
+    "ai-agents",
+    "claude-code",
+    "codex",
+    "agent-skills",
+    "ui-design",
+    "anti-slop",
+    "design-tokens",
+    "a11y",
+    "frontend"
+  ],
+  "license": "MIT",
+  "author": "murioliveira",
+  "bin": {
+    "design-kit": "./bin/design-kit.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "templates/",
+    "DESIGN.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "install-skills": "node ./bin/design-kit.mjs install",
+    "verify": "node ./bin/design-kit.mjs verify"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/murioliveira/designkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/murioliveira/designkit.git"
+  }
+}
