@@ -79,7 +79,7 @@
 }
 
 .swatch--on-dark .swatch__label {
-  color: #ffffff;
+  color: var(--c-neutral-50);
 }
 
 /* Semânticas: fundo soft + dot colorido */

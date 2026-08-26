@@ -105,6 +105,12 @@ def target_files():
     que o detector cubra todos os artefatos gerados — não só o index.html.
     """
     files = [os.path.join(ROOT, "index.html")]
+    # todos os .css em styles/ (paletas, componentes, layout — cobertura completa)
+    styles_dir = os.path.join(ROOT, "styles")
+    if os.path.isdir(styles_dir):
+        for fname in sorted(os.listdir(styles_dir)):
+            if fname.endswith(".css"):
+                files.append(os.path.join(styles_dir, fname))
     casos_dir = os.path.join(ROOT, "docs", "casos")
     if os.path.isdir(casos_dir):
         for name in sorted(os.listdir(casos_dir)):
@@ -123,6 +129,7 @@ def target_files():
 # ESPERADAS e não derrubam o gate; todo o resto do repo precisa passar limpo.
 EXPECTED_FAIL_FIXTURES = {
     "docs/casos/redesign-demo/before.html",
+    "styles/tokens.css",  # fonte canônica: hex são DEFINIDOS aqui
 }
 
 

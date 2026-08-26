@@ -105,15 +105,25 @@ def check_tokens():
 # ---------------------------------------------------------------------------
 # 2. Hex mágico
 # ---------------------------------------------------------------------------
-@check("hex: nenhum hex hardcoded em styles/components.css")
+@check("hex: nenhum hex hardcoded em styles/*.css")
 def check_hex():
-    path = os.path.join(ROOT, "styles", "components.css")
-    text = read(path)
-    if not text:
-        return False, "styles/components.css ausente"
-    hexes = re.findall(r"#[0-9a-fA-F]{3,8}\b", strip_comments(text))
-    return (not hexes,
-            f"{len(hexes)} hex encontrados" + (f": {', '.join(hexes[:8])}" if hexes else ""))
+    problems = []
+    total_hex = 0
+    for fname in css_files():
+        # tokens.css é a fonte de verdade: hex são definidos aqui, não consumidos
+        if fname == "tokens.css":
+            continue
+        path = os.path.join(ROOT, "styles", fname)
+        text = read(path)
+        if not text:
+            problems.append(f"styles/{fname} ausente")
+            continue
+        hexes = re.findall(r"#[0-9a-fA-F]{3,8}\b", strip_comments(text))
+        if hexes:
+            problems.append(f"styles/{fname}: {', '.join(sorted(set(hexes))[:5])}")
+            total_hex += len(hexes)
+    return (not problems,
+            f"{total_hex} hex encontrados" + (f": {'; '.join(problems[:5])}" if problems else ""))
 
 
 # ---------------------------------------------------------------------------
