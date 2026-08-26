@@ -522,7 +522,7 @@ https://murioliveira.github.io/designkit/
 | Competidores estabelecidos (impeccable 65k★ no taste-skill) | Focar no diferencial de setor completo + design system + QA determinística, não em competir como "mais uma skill de taste" |
 | Portabilidade não validada em Codex e Cursor (Fase E p2 pendente) | Deixar claro que é pre-1.0; priorizar validação |
 | Docs internos em pt-BR — barreira para comunidade global | Traduzir `README.md` e `DESIGN.md` para EN como prioridade |
-| Licença MIT provisória (pendente confirmação) | Resolver antes do lançamento público |
+| Licença MIT definida e aplicada (LICENSE) | Resolvido — não bloqueia o lançamento |
 
 ---
 
