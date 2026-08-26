@@ -48,9 +48,27 @@ brief → research → concept/IA → ⏸️ YOU APPROVE → UI v1 → critique 
 | **Portability** | `CLAUDE.md` + `.claude/skills/` (Claude Code), `.codex/README.md` (Codex) | root, `.claude/`, `.codex/` |
 | **Docs** | Agent architecture, human usage guide, per-component handoff docs, release checklist. Internal docs are currently written in Portuguese (pt-BR) | `docs/` |
 
+## Install (como o /impeccable — via npx, GitHub como registry)
+
+```bash
+# Instala as 8 skills do Design Kit nos seus agentes de IA
+# (Claude Code, Codex, Cursor e 15+ agentes; universal + symlink p/ Claude Code)
+npx skills add murioliveira/designkit
+```
+
+Via npm (biblioteca CLI):
+
+```bash
+npm i -g design-kit        # depois:
+npx design-kit install     # instala as 8 skills nos agentes
+npx design-kit verify      # confere
+```
+
+*(O pacote já está pronto no repo; `npm i design-kit` funciona quando publicado no registry. O caminho `npx skills add` é imediato, sem depender de publicação npm.)*
+
 ## Quickstart
 
-The package is a directory of skills plus an onboarding file. Hand it to your agent and it starts acting as the design department. No build step, no npm, no installation.
+The package is a directory of skills plus an onboarding file. Hand it to your agent and it starts acting as the design department. No build step.
 
 ### In pi (recommended starting point)
 
