@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>NorteMetrics: Visão geral</title>
+<style>
+:root{
+  /* Restrained palette: warm neutrals + one green accent. Light scene: dono de PME no escritório, luz de dia. */
+  --bg:#f6f5f2;
+  --surface:#ffffff;
+  --surface-2:#f0efeb;
+  --text:#23211d;
+  --text-2:#5d5951;
+  --line:#e3e1da;
+  --accent:#14804b;
+  --accent-2:#0f6b3e;
+  --accent-soft:#e4f0e8;
+  --pos:#14804b;
+  --neg:#b3261e;
+  --warn:#8a4d00;
+  --warn-soft:#fdf0dd;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(35,33,29,.06), 0 8px 24px rgba(35,33,29,.06);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  color:var(--text);
+  background:var(--bg);
+  color:var(--text, #23211d);
+}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+a{color:var(--accent-2)}
+::selection{background:var(--accent-soft)}
+
+.layout{max-width:1180px; margin:0 auto; padding:20px 16px 56px}
+.pagehead{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px}
+.title h1{font-size:22px; font-weight:700; margin:0; letter-spacing:-.01em}
+.title p{margin:2px 0 0; color:var(--accent-2, #5d5951)}
+.period{display:inline-flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:10px}
+.period button{border:0; background:transparent; font:inherit; font-size:13.5px; color:var(--text-2); padding:6px 12px; border-radius:8px; cursor:pointer}
+.period button[aria-pressed="true"]{background:var(--surface); color:var(--text); box-shadow:0 1px 2px rgba(35,33,29,.12)}
+
+.alert{display:flex; gap:10px; align-items:flex-start; background:var(--warn-soft); border:1px solid #f3dfbe; border-radius:var(--radius); padding:12px 14px; margin-bottom:20px}
+.alert svg{flex:none; margin-top:1px}
+.alert strong{font-weight:600}
+.alert p{margin:0; color:var(--warn)}
+.alert .date{font-variant-numeric:tabular-nums}
+
+.kpis{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:12px; margin-bottom:20px}
+.kpi{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow)}
+.kpi__label{font-size:12.5px; color:var(--text-2); font-weight:600; letter-spacing:.02em}
+.kpi__value{font-size:24px; font-weight:700; letter-spacing:-.02em; margin-top:4px; font-variant-numeric:tabular-nums}
+.kpi__note{font-size:12.5px; color:var(--text-neutral, #5d5951); margin-top:2px}
+.kpi__trend{display:inline-flex; align-items:center; gap:4px; font-size:12.5px; font-weight:600}
+.kpi__trend.pos{color:var(--pos)}
+.kpi__trend.neg{color:var(--neg)}
+
+.grid2{display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:20px}
+@media (min-width:880px){.grid2{grid-template-columns:3fr 2fr; align-items:start}}
+
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+.panel h2{font-size:15px; font-weight:600; margin:0 0 14px}
+.panel h2 small{display:block; font-weight:400; color:var(--text-2); font-size:12.5px; margin-top:2px}
+
+/* bar chart: pure structure, real monthly data, labelled */
+.chart-wrap{overflow-x:auto}
+.barchart{display:flex; gap:14px; height:190px; align-items:flex-end; min-width:520px}
+.bar{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; min-width:38px}
+.bar .seg{width:100%; border-radius:6px 6px 0 0}
+.bar .seg.rec{background:var(--accent); opacity:.92}
+.bar .seg.desp{background:var(--line); margin-top:2px; border-radius:4px 4px 0 0}
+.bar .lbl{margin-top:8px; font-size:11.5px; color:var(--text-2); font-variant-numeric:tabular-nums}
+.bar+.bar{margin-left:0}
+.legend{display:flex; gap:16px; margin:12px 0 0; font-size:12.5px; color:var(--text-2)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend i{width:10px; height:10px; border-radius:3px; display:inline-block}
+.legend .i-rec{background:var(--accent)}
+.legend .i-desp{background:var(--line); border:1px solid #d9d6cc}
+
+.perc{display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-2); margin-top:2px}
+
+.fatura{display:flex; gap:12px; align-items:center; border-top:1px solid var(--line); padding:12px 0}
+.fatura:first-of-type{border-top:0; padding-top:0}
+.fatura__nome{flex:1; font-weight:600}
+.fatura__meta{font-size:12.5px; color:var(--text-2)}
+.fatura__valor{font-weight:700; font-variant-numeric:tabular-nums}
+.fatura__prazo{font-size:12px; padding:3px 8px; border-radius:999px}
+.fatura__prazo.vence{background:var(--warn-soft); color:var(--warn); font-weight:600}
+.fatura__prazo.ok{background:var(--accent-soft); color:var(--accent-2)}
+
+table{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+caption{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+thead th{text-align:left; font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--text-2); padding:10px 10px; border-bottom:1px solid var(--line)}
+tbody td{padding:12px 10px; border-bottom:1px solid var(--line); font-size:14px}
+tbody tr:last-child td{border-bottom:0}
+td.num, th.num{text-align:right; font-variant-numeric:tabular-nums}
+td .tag{display:inline-block; font-size:11.5px; padding:2px 8px; border-radius:20px; font-weight:600}
+.tag.rec{background:var(--accent-soft); color:var(--accent-2)}
+.tag.desp{background:#f0efec; color:var(--text-2)}
+.pill{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 14px}
+.pill button{border:1px solid var(--line); background:var(--surface); font:inherit; font-size:13px; padding:6px 12px; border-radius:20px; cursor:pointer; color:var(--text-2)}
+.pill button[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft); color:var(--accent-2); font-weight:600}
+.table-scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+
+<!-- THESIS: a quiet financial cockpit for a non-technical business owner, where every number is true and nothing shouts. It refuses the hero-metric template and the three-card grid; the familiar table and bar chart do the work. OWN-WORLD: warm parchment surface, one green accent reserved for money and the current state, hairline rows, tabular numerals everywhere, system sans. STORY: the owner sees the month at a glance, checks what is coming due, and trusts the rows to add up. FIRST VIEWPORT: title and period filter at top, a single alert for the one overdue invoice, four KPI rows, then the cashflow split and the transaction ledger. FORM: dashboard, shaped directly (precisely specified Operate surface). FINISH: unreviewed and undocumented is unfinished; this experiment artifact ends at the reviewer's veredito. -->
+
+<a class="skip" href="#conteudo" style="position:absolute;left:-999px;top:-999px">Pular para o conteúdo</a>
+
+<main id="conteudo" class="layout">
+
+  <div class="pagehead">
+    <div class="title">
+      <h1>Visão geral</h1>
+      <p>NorteMetrics · financeiro de <strong>Empório Boreal</strong></p>
+    </div>
+    <div class="period" role="group" aria-label="Período do painel">
+      <button type="button" aria-pressed="false">Mês</button>
+      <button type="button" aria-pressed="true">Trimestre</button>
+      <button type="button" aria-pressed="false">Ano</button>
+    </div>
+  </div>
+
+  <div class="alert" role="status">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a4d00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div>
+      <strong>Fatura em risco</strong>
+      <p>NF nº 482 para Mateus Fontes (Clínica Aurora) no valor de <span>R$ 6.480,00</span> vence em 3 dias. Cobrança agendada.</p>
+    </div>
+  </div>
+
+  <section class="kpis" aria-label="Indicadores do período">
+    <article class="kpi">
+      <p class="kpi__label">Receita no período</p>
+      <p class="kpi__value">R$ 192.400</p>
+      <p class="kpi__trend pos">▲ 8,2%</p>
+    </article>
+    <article class="kpi">
+      <p class="kpi__label">Despesas no período</p>
+      <p class="kpi__value">R$ 143.600</p>
+      <p class="kpi__trend pos">▼ 2,1%</p>
+    </article>
+    <article class="kpi">
+      <p class="kpi__label">A receber</p>
+      <p class="kpi__value">R$ 48.260</p>
+      <p class="kpi__note">10 faturas abertas</p>
+    </article>
+    <article class="kpi">
+      <p class="kpi__label">Margem líquida</p>
+      <p class="kpi__value">25,4%</p>
+      <p class="kpi__trend pos">▲ 1,3 pontos</p>
+    </article>
+  </section>
+
+  <div class="grid2">
+    <section class="panel" aria-labelledby="fluxo-titulo">
+      <h2 id="fluxo-titulo">Fluxo de caixa<small>Receita e despesa por mês, últimos 6 meses</small></h2>
+      <div class="chart-wrap">
+        <div class="barchart" role="img" aria-label="Gráfico de barras mescladas de receita e despesa por mês, de março a agosto">
+          <div class="bar"><div class="seg rec" style="height:74%"></div><div class="seg desp" style="height:52%"></div><span class="lbl">mar</span></div>
+          <div class="bar"><div class="seg rec" style="height:82%"></div><div class="seg desp" style="height:58%"></div><span class="lbl">abr</span></div>
+          <div class="bar"><div class="seg rec" style="height:68%"></div><div class="seg desp" style="height:46%"></div><span class="lbl">mai</span></div>
+          <div class="bar"><div class="seg rec" style="height:90%"></div><div class="seg desp" style="height:62%"></div><span class="lbl">jun</span></div>
+          <div class="bar"><div class="seg rec" style="height:79%"></div><div class="seg desp" style="height:55%"></div><span class="lbl">jul</span></div>
+          <div class="bar"><div class="seg rec" style="height:100%"></div><div class="seg desp" style="height:67%"></div><span class="lbl">ago</span></div>
+        </div>
+        <div class="legend" aria-hidden="true"><span><i class="i-rec"></i>Receita</span><span><i class="i-desp"></i>Despesa</span></div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="receber-titulo">
+      <h2 id="receber-titulo">A receber<small>próximos 30 dias</small></h2>
+      <div class="fatura">
+        <div class="fatura__nome">Clínica Aurora</div>
+        <div class="fatura__meta">envio em 12/08</div>
+        <div class="fatura__valor">R$ 9.840</div>
+      </div>
+      <div class="fatura">
+        <div class="fatura__nome">Estúdio Pôr do Sol</div>
+        <div class="fatura__meta">venc. 28/08</div>
+        <div class="fatura__valor">R$ 4.120</div>
+      </div>
+      <div class="fatura">
+        <div class="fatura__nome">Papelaria Tei</div>
+        <div class="fatura__meta">venc. 02/09</div>
+        <div class="fatura__valor">R$ 7.600</div>
+      </div>
+      <div class="fatura">
+        <div class="fatura__nome">Barbearia do Justino</div>
+        <div class="fatura__meta">venc. 05/09</div>
+        <div class="fatura__valor">R$ 2.980</div>
+      </div>
+      <div class="fatura">
+        <div class="fatura__nome">Marina &amp; Cia</div>
+        <div class="fatura__meta">venc. 09/09</div>
+        <div class="fatura__valor">R$ 6.720</div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="tx-titulo" style="margin-bottom:20px">
+    <h2 id="tx-titulo">Transações recentes<small>últimos 30 dias, por categoria</small></h2>
+    <div class="pill" role="group" aria-label="Filtrar transações por categoria">
+      <button type="button" aria-pressed="true">Todas</button>
+      <button type="button" aria-pressed="false">Receitas</button>
+      <button type="button" aria-pressed="false">Despesas</button>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>Transações do período, com receitas e despesas</caption>
+        <thead>
+          <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th class="num">Tipo</th><th class="num">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>24/08</td><td>Nota fiscal 484 · Clínica Aurora</td><td>Serviços</td><td class="num"><span class="tag rec">Receita</span></td><td class="num">R$ 9.840</td></tr>
+          <tr><td>22/08</td><td>Faturamento do mês · Prizio</td><td>Serviços</td><td class="num"><span class="tag rec">Receita</span></td><td class="num">R$ 4.120</td></tr>
+          <tr><td>21/08</td><td>Folha de pagamento</td><td>Pessoal</td><td class="num"><span class="tag desp">Despesa</span></td><td class="num">R$ 18.500</td></tr>
+          <tr><td>20/08</td><td>Fornecedor · Empacotadora Norte</td><td>Insumos</td><td class="num"><span class="tag desp">Despesa</span></td><td class="num">R$ 6.230</td></tr>
+          <tr><td>19/08</td><td>Reembolso de frete</td><td>Logística</td><td class="num"><span class="tag rec">Receita</span></td><td class="num">R$ 840</td></tr>
+          <tr><td>18/08</td><td>Acesso ao sistema de gestão</td><td>Assinaturas</td><td class="num"><span class="tag desp">Despesa</span></td><td class="num">R$ 1.290</td></tr>
+          <tr><td>16/08</td><td>Cliente: ateliê Garda</td><td>Serviços</td><td class="num"><span class="tag rec">Receita</span></td><td class="num">R$ 2.560</td></tr>
+          <tr><td>15/08</td><td>Energia elétrica</td><td>Operacional</td><td class="num"><span class="tag desp">Despesa</span></td><td class="num">R$ 1.480</td></tr>
+          <tr><td>14/08</td><td>Cobrança recorrente</td><td>Serviços</td><td class="num"><span class="tag rec">Receita</span></td><td class="num">R$ 5.900</td></tr>
+          <tr><td>12/08</td><td>Manutenção de equipamento</td><td>Operacional</td><td class="num"><span class="tag desp">Despesa</span></td><td class="num">R$ 740</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p style="text-align:center; font-size:12.5px; color:var(--text-2); margin:24px 0 0">NorteMetrics · dados de demonstração sintéticos</p>
+</main>
+
+</body>
+</html>

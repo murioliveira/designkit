@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NorteMetrics - Visão geral</title>
+<script>
+  // Tema: segue o sistema, com fallback manual. Define antes do primeiro paint (sem flash).
+  (function () {
+    try {
+      var stored = localStorage.getItem("dk-theme");
+      var theme = stored === "dark" || stored === "light"
+        ? stored
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();
+</script>
+<style>
+  /* ============================================================
+     TOKENS - espelho fiel de styles/tokens.css do Design Kit.
+     Toda a UI consome APENAS var(--...); zero hex solto no corpo.
+     ============================================================ */
+  :root,
+  [data-theme="light"] {
+    --c-neutral-50:  #f8fafc;
+    --c-neutral-100: #f1f5f9;
+    --c-neutral-200: #e2e8f0;
+    --c-neutral-300: #cbd5e1;
+    --c-neutral-400: #94a3b8;
+    --c-neutral-500: #64748b;
+    --c-neutral-600: #475569;
+    --c-neutral-700: #334155;
+    --c-neutral-800: #1e293b;
+    --c-neutral-900: #0f172a;
+    --c-neutral-950: #020617;
+    --c-primary-50:  #eef2ff;
+    --c-primary-100: #e0e7ff;
+    --c-primary-400: #818cf8;
+    --c-primary-500: #6366f1;
+    --c-primary-600: #4f46e5;
+    --c-primary-700: #4338ca;
+    --c-primary-800: #3730a3;
+    --c-success-600: #16a34a;
+    --c-warning-600: #b45309;
+    --c-error-600:   #dc2626;
+    --c-info-600:    #0369a1;
+    --c-success-soft-l: #dcfce7;
+    --c-warning-soft-l: #fef3c7;
+    --c-error-soft-l:   #fee2e2;
+    --c-info-soft-l:    #e0f2fe;
+    --color-bg:            var(--c-neutral-50);
+    --color-surface:       #ffffff;
+    --color-surface-muted: var(--c-neutral-100);
+    --color-text:          var(--c-neutral-900);
+    --color-text-strong:   var(--c-neutral-950);
+    --color-text-muted:    var(--c-neutral-500);
+    --color-border:        var(--c-neutral-200);
+    --color-border-strong: var(--c-neutral-300);
+    --color-primary:        var(--c-primary-600);
+    --color-primary-hover:  var(--c-primary-700);
+    --color-primary-active: var(--c-primary-800);
+    --color-primary-soft:   var(--c-primary-50);
+    --color-on-primary: #ffffff;
+    --color-success: var(--c-success-600);
+    --color-warning: var(--c-warning-600);
+    --color-error:   var(--c-error-600);
+    --color-info:    var(--c-info-600);
+    --color-success-soft: var(--c-success-soft-l);
+    --color-warning-soft: var(--c-warning-soft-l);
+    --color-error-soft:   var(--c-error-soft-l);
+    --color-info-soft:    var(--c-info-soft-l);
+    --space-0: 0; --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+    --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem;
+    --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px; --radius-full: 9999px;
+    --container-sm: 40rem; --container-md: 48rem; --container-lg: 64rem; --container-xl: 80rem;
+    --breakpoint-sm: 640px; --breakpoint-md: 768px; --breakpoint-lg: 1024px; --breakpoint-xl: 1280px;
+    --font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+    --font-size-h1: 2rem; --font-size-h2: 1.75rem; --font-size-h3: 1.5rem; --font-size-h5: 1.125rem;
+    --font-size-h6: 1rem; --font-size-body: 1rem; --font-size-small: 0.875rem; --font-size-caption: 0.75rem;
+    --font-weight-regular: 400; --font-weight-medium: 500; --font-weight-semibold: 600; --font-weight-bold: 700;
+    --font-size-kpi: 1.75rem;
+    --font-line-height-tight: 1.2; --font-line-height-body: 1.6;
+    --letter-spacing-wide: 0.05em;
+    --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md: 0 4px 6px -2px rgb(15 23 42 / 0.06);
+    --shadow-lg: 0 12px 16px -4px rgb(15 23 42 / 0.10);
+    --focus-ring-color: rgb(79 70 229 / 0.5);
+    --focus-ring: 0 0 0 3px var(--focus-ring-color);
+    --z-sticky: 1100;
+  }
+  [data-theme="dark"] {
+    --color-bg:            var(--c-neutral-950);
+    --color-surface:       var(--c-neutral-900);
+    --color-surface-muted: var(--c-neutral-800);
+    --color-text:          var(--c-neutral-100);
+    --color-text-strong:   #ffffff;
+    --color-text-muted:    var(--c-neutral-400);
+    --color-border:        var(--c-neutral-800);
+    --color-border-strong: var(--c-neutral-700);
+    --color-primary:        #a5b4fc;
+    --color-primary-hover:  #c7d2fe;
+    --color-primary-soft:   #312e81;
+    --color-on-primary: #1e1b4b;
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-error:   #f87171;
+    --color-info:    #38bdf8;
+    --color-success-soft: #14532d;
+    --color-warning-soft: #451a03;
+    --color-error-soft:   #7f1d1d;
+    --color-info-soft:    #0c4a6e;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.40);
+    --shadow-md: 0 4px 6px -2px rgb(0 0 0 / 0.35);
+    --shadow-lg: 0 12px 16px -4px rgb(0 0 0 / 0.40);
+    --focus-ring-color: rgb(129 140 248 / 0.6);
+    --focus-ring: 0 0 0 3px var(--focus-ring-color);
+  }
+
+  /* ============================================================
+     BASE
+     ============================================================ */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    line-height: var(--font-line-height-body);
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--color-primary); }
+  a:hover { color: var(--color-primary-hover); text-decoration: none; }
+  button, select, input { font: inherit; color: inherit; }
+
+  :focus-visible { outline: var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .container { width: 100%; max-width: var(--container-xl); margin-inline: auto; padding-inline: var(--space-4); }
+
+  /* ============================================================
+     TOPBAR
+     ============================================================ */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    background: var(--color-surface); border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-4);
+  }
+  .topbar__brand { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: var(--font-weight-bold); color: var(--color-text-strong); text-decoration: none; font-size: var(--font-size-h6); }
+  .topbar__mark { width: 22px; height: 22px; color: var(--color-primary); }
+  .topbar__group { display: flex; align-items: center; gap: var(--space-3); }
+  .topbar__org { font-size: var(--font-size-small); color: var(--color-text-muted); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+    padding: var(--space-2) var(--space-4); border: 1px solid transparent; border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium); font-size: var(--font-size-small);
+    cursor: pointer; text-decoration: none; transition: background-color .15s ease, transform .08s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+  .btn--primary:hover { background: var(--color-primary-hover); }
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    border: 1px solid var(--color-border); background: var(--color-surface);
+    color: var(--color-text-muted); cursor: pointer;
+  }
+  .icon-btn:hover { color: var(--color-text); background: var(--color-surface-muted); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ============================================================
+     PAGE HEAD + FILTRO
+     ============================================================ */
+  .page-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-8) var(--space-6); }
+  .page-head__title { margin: 0; font-size: var(--font-size-h1); font-weight: var(--font-weight-bold); color: var(--color-text-strong); letter-spacing: -0.02em; }
+  .page-head__sub { margin: var(--space-1) 0 0; color: var(--color-text-muted); font-size: var(--font-size-small); }
+  .filter { display: flex; align-items: center; gap: var(--space-2); }
+  .filter__label { font-size: var(--font-size-small); color: var(--color-text-muted); }
+  .select {
+    padding: var(--space-2) var(--space-8) var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border-strong); border-radius: var(--radius-md);
+    background: var(--color-surface); color: var(--color-text);
+    font-size: var(--font-size-small); cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right var(--space-3) center;
+  }
+
+  /* ============================================================
+     ALERTA
+     ============================================================ */
+  .alert {
+    display: flex; gap: var(--space-3); align-items: flex-start;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-warning-soft); border-radius: var(--radius-md);
+    background: var(--color-warning-soft); color: var(--color-text);
+    margin-bottom: var(--space-6);
+    border-inline-start: 3px solid var(--color-warning);
+  }
+  .alert__icon { flex-shrink: 0; color: var(--color-warning); margin-top: 2px; }
+  .alert__title { font-weight: var(--font-weight-semibold); color: var(--color-text-strong); }
+  .alert__body { font-size: var(--font-size-small); }
+
+  /* ============================================================
+     KPI CARDS
+     ============================================================ */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6); }
+  .kpi { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5); box-shadow: var(--shadow-sm); }
+  .kpi__label { font-size: var(--font-size-small); color: var(--color-text-muted); }
+  .kpi__value { margin: var(--space-1) 0 var(--space-1); font-size: var(--font-size-kpi); font-weight: var(--font-weight-bold); color: var(--color-text-strong); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .kpi__delta { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-small); font-weight: var(--font-weight-medium); color: var(--color-text-strong); }
+  .kpi__delta .arrow { font-size: var(--font-size-small); line-height: 1; }
+  .kpi__delta--pos .arrow { color: var(--color-success); }
+  .kpi__delta--neg .arrow { color: var(--color-error); }
+
+  /* ============================================================
+     PAINÉIS
+     ============================================================ */
+  .panel { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); margin-bottom: var(--space-6); box-shadow: var(--shadow-sm); }
+  .panel__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
+  .panel__title { margin: 0; font-size: var(--font-size-h4); font-weight: var(--font-weight-semibold); color: var(--color-text-strong); }
+  .panel__legend { font-size: var(--font-size-caption); color: var(--color-text-muted); }
+
+  .chart { display: flex; align-items: flex-end; gap: var(--space-3); height: 190px; padding-top: var(--space-4); }
+  .chart__col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); height: 100%; justify-content: flex-end; min-width: 24px; }
+  .chart__bar { width: 100%; max-width: 44px; border-radius: var(--radius-sm) var(--radius-sm) 0 0; background: color-mix(in srgb, var(--color-primary) 85%, transparent); min-height: 6px; transition: height .3s ease; }
+  .chart__bar--high { background: var(--color-primary); }
+  .chart__bar--low { background: color-mix(in srgb, var(--color-primary) 40%, transparent); }
+  .chart__month { font-size: var(--font-size-caption); color: var(--color-text-muted); }
+  .chart__val { font-size: var(--font-size-caption); color: var(--color-text); font-variant-numeric: tabular-nums; font-weight: var(--font-weight-medium); }
+
+  /* Tabela */
+  .table-wrap { overflow-x: auto; }
+  table.table { width: 100%; border-collapse: collapse; font-size: var(--font-size-small); }
+  table.table caption { caption-side: top; text-align: left; font-size: var(--font-size-caption); color: var(--color-text-muted); margin-bottom: var(--space-2); }
+  .table th, .table td { padding: var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border); vertical-align: middle; white-space: nowrap; }
+  .table thead th { font-size: var(--font-size-caption); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
+  .table tbody tr:hover { background: var(--color-surface-muted); }
+  .table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); }
+  .dot { width: 6px; height: 6px; border-radius: var(--radius-full); }
+  .tag--pago    { color: var(--color-success); } .tag--pago .dot { background: var(--color-success); }
+  .tag--pendente{ color: var(--color-warning); } .tag--pendente .dot { background: var(--color-warning); }
+  .tag--vencida { color: var(--color-error); }   .tag--vencida .dot { background: var(--color-error); }
+  .amount--out { color: var(--color-text-muted); }
+
+  .page-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); padding-block: var(--space-6); border-top: 1px solid var(--color-border); color: var(--color-text-muted); font-size: var(--font-size-caption); }
+  .page-foot a { color: var(--color-text-muted); } .page-foot a:hover { color: var(--color-text); }
+
+  @media (max-width: 700px) {
+    .page-head { flex-direction: column; align-items: stretch; }
+    .filter { justify-content: space-between; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .chart__val { display: none; }
+    .topbar__org { display: none; }
+    .container { padding-inline: var(--space-3); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="sr-only" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topbar">
+  <a class="topbar__brand" href="#visao-geral" aria-label="NorteMetrics, voltar para a visão geral">
+    <svg class="topbar__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M4 19V5M4 5h16M10 19v-7M10 12h4M14 19V9M14 9h4"/>
+    </svg>
+    NorteMetrics
+  </a>
+  <div class="topbar__group">
+    <span class="topbar__org">Café Aurora LTDA</span>
+    <button type="button" class="icon-btn" id="tema" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo" class="container">
+  <div class="page-head">
+    <div>
+      <h1 class="page-head__title" id="visao-geral">Visão geral</h1>
+      <p class="page-head__sub">Resumo financeiro do mês: julho de 2026.</p>
+    </div>
+    <div class="filter" role="group" aria-label="Filtro por período">
+      <label class="filter__label" for="periodo">Período</label>
+      <select id="periodo" class="select">
+        <option value="mes" selected>Último mês</option>
+        <option value="trim">Últimos 3 meses</option>
+        <option value="ano">Últimos 12 meses</option>
+      </select>
+    </div>
+  </div>
+
+  <aside class="alert" role="status">
+    <svg class="alert__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 9v4M12 17v1M9 3l3-2 3 2M4 17h16M6 17V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v10"/>
+    </svg>
+    <div>
+      <div class="alert__title">Fatura vencendo</div>
+      <div class="alert__body">A fatura <strong>F-2041</strong> de R$ 2.850,00 da Construtora Albuquerque vence em <strong>3 dias</strong>. Cobrar agora insere o valor no ciclo deste mês.</div>
+    </div>
+  </aside>
+
+  <section class="kpis" aria-label="Indicadores financeiros">
+    <article class="kpi">
+      <span class="kpi__label">Receita</span>
+      <div class="kpi__value">R$ 84.120,00</div>
+      <span class="kpi__delta kpi__delta--pos"><span class="arrow" aria-hidden="true">▲</span>12,4% vs jun</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi__label">Despesas</span>
+      <div class="kpi__value">R$ 51.890,00</div>
+      <span class="kpi__delta kpi__delta--pos"><span class="arrow" aria-hidden="true">▼</span>4,1% vs jun</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi__label">A receber</span>
+      <div class="kpi__value">R$ 18.640,00</div>
+      <span class="kpi__delta kpi__delta--pos"><span class="arrow" aria-hidden="true">▲</span>8,9% vs jun</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi__label">Margem bruta</span>
+      <div class="kpi__value">38,3%</div>
+      <span class="kpi__delta kpi__delta--pos"><span class="arrow" aria-hidden="true">▲</span>2,1 p.p.</span>
+    </article>
+  </section>
+
+  <section class="panel" aria-labelledby="fluxo-titulo">
+    <div class="panel__head">
+      <h2 class="panel__title" id="fluxo-titulo">Fluxo de caixa</h2>
+      <span class="panel__legend">Entradas vs saídas, últimos 6 meses</span>
+    </div>
+    <div class="chart" role="img" aria-label="Fluxo de caixa mensal de fevereiro a julho: entradas entre R$ 58 mil e R$ 84 mil, com pico em julho.">
+      <!-- fev -->
+      <div class="chart__col"><span class="chart__val">R$ 58k</span><span class="chart__bar chart__bar--low" style="height:58%"></span><span class="chart__month">fev</span></div>
+      <!-- mar -->
+      <div class="chart__col"><span class="chart__val">R$ 61k</span><span class="chart__bar" style="height:61%"></span><span class="chart__month">mar</span></div>
+      <!-- abr -->
+      <div class="chart__col"><span class="chart__val">R$ 64k</span><span class="chart__bar" style="height:64%"></span><span class="chart__month">abr</span></div>
+      <!-- mai -->
+      <div class="chart__col"><span class="chart__val">R$ 70k</span><span class="chart__bar" style="height:70%"></span><span class="chart__month">mai</span></div>
+      <!-- jun -->
+      <div class="chart__col"><span class="chart__val">R$ 75k</span><span class="chart__bar" style="height:75%"></span><span class="chart__month">jun</span></div>
+      <!-- jul -->
+      <div class="chart__col"><span class="chart__val">R$ 84k</span><span class="chart__bar chart__bar--high" style="height:84%"></span><span class="chart__month">jul</span></div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="trans-titulo">
+    <div class="panel__head">
+      <h2 class="panel__title" id="trans-titulo">Transações recentes</h2>
+      <span class="panel__legend">Julho de 2026</span>
+    </div>
+    <div class="table-wrap">
+      <table class="table" aria-describedby="trans-desc">
+        <caption id="trans-desc">As 10 transações mais recentes registradas em julho de 2026. Valores em reais.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Conta</th>
+            <th scope="col">Categoria</th>
+            <th scope="col" class="num">Valor</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>31/07</td><td>Banco Inter</td><td>Receita</td>
+            <td class="num amount--pos">+ R$ 4.320,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>30/07</td><td>Cartão Nexo</td><td>Insumos</td>
+            <td class="num amount--out">R$ 1.840,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>29/07</td><td>Banco Priz</td><td>Folha</td>
+            <td class="num amount--out">R$ 9.600,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>28/07</td><td>Banco Priz</td><td>Receita</td>
+            <td class="num amount--pos">+ R$ 2.150,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>26/07</td><td>Banco Priz</td><td>Fornecedor</td>
+            <td class="num amount--out">R$ 3.480,00</td><td><span class="tag tag--pendente"><span class="dot"></span>Pendente</span></td>
+          </tr>
+          <tr>
+            <td>24/07</td><td>Cartão Nexo</td><td>Marketing</td>
+            <td class="num amount--out">R$ 1.260,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>22/07</td><td>Banco Priz</td><td>Receita</td>
+            <td class="num amount--pos">+ R$ 6.740,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>20/07</td><td>Banco Priz</td><td>Insumos</td>
+            <td class="num amount--out">R$ 2.210,00</td><td><span class="tag tag--pendente"><span class="dot"></span>Pendente</span></td>
+          </tr>
+          <tr>
+            <td>18/07</td><td>Banco Priz</td><td>Manutenção</td>
+            <td class="num amount--out">R$ 980,00</td><td><span class="tag tag--pago"><span class="dot"></span>Pago</span></td>
+          </tr>
+          <tr>
+            <td>15/07</td><td>Banco Priz</td><td>Receita</td>
+            <td class="num amount--pos">+ R$ 3.990,00</td><td><span class="tag tag--vencida"><span class="dot"></span>Vencida</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="container page-foot">
+  <span>NorteMetrics · dados fictícios para demonstração</span>
+  <a href="#">Central de ajuda</a>
+</footer>
+
+<script>
+  // Tema manual
+  (function () {
+    var btn = document.getElementById("tema");
+    if (btn) btn.addEventListener("click", function () {
+      var el = document.documentElement;
+      var next = el.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      el.setAttribute("data-theme", next);
+      try { localStorage.setItem("dk-theme", next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Draftly: propostas, contratos e faturamento de freelancers em um só lugar. Feche proposta, assine contrato e cobre sem sair do fluxo de trabalho.">
+  <!-- theme-color é asset de navegador (exceção documentada do DESIGN.md §5): ocorre no <head>, não na UI -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617">
+  <title>Draftly: proposta, contrato e cobrança para freelancers</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%234f46e5'/><path d='M20 18h12l8 8v20H20z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/><path d='M32 18v8h8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <style>
+    /* ==========================================================================
+       Draftly landing - Método A (Design Kit)
+       Tokens consumidos de styles/tokens.css (fonte de verdade). Versão inline
+       para o artefato abrir auto-contido (single-file). Nenhum valor mágico:
+       cada valor rem/px vem de um --token do kit.
+       ========================================================================== */
+
+    :root {
+      /* Paleta bruta (kit §1) */
+      --c-primary-50: #eef2ff;
+      --c-primary-100: #e0e7ff;
+      --c-primary-400: #818cf8;
+      --c-primary-500: #6366f1;
+      --c-primary-600: #4f46e5;
+      --c-primary-700: #4338ca;
+      --c-primary-900: #312e81;
+      --c-neutral-50: #f8fafc;
+      --c-neutral-100: #f1f5f9;
+      --c-neutral-200: #e2e8f0;
+      --c-neutral-300: #cbd5e1;
+      --c-neutral-400: #94a3b8;
+      --c-neutral-500: #64748b;
+      --c-neutral-600: #475569;
+      --c-neutral-700: #334155;
+      --c-neutral-800: #1e293b;
+      --c-neutral-900: #0f172a;
+      --c-neutral-950: #020617;
+      --c-success-600: #16a34a;
+      --c-warning-600: #b45309;
+
+      /* Tipografia */
+      --font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-size-display: 3.5rem;
+      --font-size-h2: 2rem;
+      --font-size-h3: 1.5rem;
+      --font-size-h5: 1.125rem;
+      --font-size-body: 1rem;
+      --font-size-small: 0.875rem;
+      --font-size-caption: 0.75rem;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      --font-line-height-tight: 1.2;
+      --font-line-height-body: 1.6;
+      --font-line-height-relaxed: 1.75;
+      --letter-spacing-tight: -0.02em;
+      --letter-spacing-wide: 0.08em;
+
+      /* Espaçamento (escala 4px) */
+      --space-1: 0.25rem; /*  4px */
+      --space-2: 0.5rem;  /*  8px */
+      --space-3: 0.75rem; /* 12px */
+      --space-4: 1rem;    /* 16px */
+      --space-5: 1.25rem; /* 20px */
+      --space-6: 1.5rem;  /* 24px */
+      --space-8: 2rem;    /* 32px */
+      --space-10: 2.5rem; /* 40px */
+      --space-12: 3rem;   /* 48px */
+      --space-16: 4rem;   /* 64px */
+      --space-20: 5rem;   /* 80px */
+      --space-24: 6rem;   /* 96px */
+
+      /* Raios */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --radius-full: 9999px;
+
+      /* Layout */
+      --container-lg: 64rem;
+      --container-xl: 80rem;
+      --breakpoint-md: 768px;
+
+      /* Motion */
+      --motion-duration-fast: 120ms;
+      --motion-duration-base: 200ms;
+      --motion-duration-slow: 320ms;
+      --motion-easing-out: cubic-bezier(0, 0, 0.2, 1);
+      --motion-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Tokens semânticos - tema claro (padrão) */
+      --color-bg: var(--c-neutral-50);
+      --color-surface: #ffffff;
+      --color-surface-muted: var(--c-neutral-100);
+      --color-text: var(--c-neutral-900);
+      --color-text-strong: var(--c-neutral-950);
+      --color-text-muted: var(--c-neutral-500);
+      --color-border: var(--c-neutral-200);
+      --color-border-strong: var(--c-neutral-300);
+      --color-primary: var(--c-primary-600);
+      --color-primary-hover: var(--c-primary-700);
+      --color-on-primary: #ffffff;
+      --color-primary-soft: var(--c-primary-50);
+      --color-primary-soft-strong: var(--c-primary-100);
+      --color-success: var(--c-success-600);
+      --color-warning: var(--c-warning-600);
+      --focus-ring-color: rgb(79 70 229 / 0.5);
+      --focus-ring: 0 0 0 3px var(--focus-ring-color);
+    }
+
+    /* Tema escuro - fallback automático (kit §10) */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: var(--c-neutral-950);
+        --color-surface: var(--c-neutral-900);
+        --color-surface-muted: var(--c-neutral-800);
+        --color-text: var(--c-neutral-100);
+        --color-text-strong: #ffffff;
+        --color-text-muted: var(--c-neutral-400);
+        --color-border: var(--c-neutral-800);
+        --color-border-strong: var(--c-neutral-700);
+        --color-primary: var(--c-primary-400);
+        --color-primary-hover: var(--c-primary-300);
+        --color-on-primary: var(--c-neutral-950);
+        --color-primary-soft: rgb(129 140 248 / 0.15);
+        --color-primary-soft-strong: rgb(129 140 248 / 0.25);
+        --focus-ring-color: rgb(129 140 248 / 0.6);
+      }
+    }
+
+    /* ============ Reset leve + base ============ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-body);
+      line-height: var(--font-line-height-body);
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--color-primary); }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-radius: var(--radius-sm);
+    }
+    ::selection { background: var(--color-primary-soft-strong); color: var(--color-text-strong); }
+    .container { width: 100%; margin: 0 auto; padding: 0 var(--space-5); max-width: var(--container-xl); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .sr-only-focusable:focus-visible {
+      position: fixed; width: auto; height: auto; padding: var(--space-2) var(--space-3);
+      margin: var(--space-2); clip: auto; white-space: normal; background: var(--color-surface);
+      color: var(--color-primary); font-weight: var(--font-weight-semibold);
+      border-radius: var(--radius-sm); z-index: var(--z-sticky, 1100);
+    }
+
+    /* ============ Cabeçalho (nav 1 linha, <=72px) ============ */
+    .site-header { position: sticky; top: 0; background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); z-index: 1100; }
+    @supports not (background: color-mix(in srgb, red 50%, blue)) { .site-header { background: var(--color-bg); } }
+    @media (prefers-reduced-transparency: reduce) { .site-header { background: var(--color-bg); backdrop-filter: none; } }
+    .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 4rem; padding-block: var(--space-2); }
+    .brand { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-strong); font-weight: var(--font-weight-bold); font-size: var(--font-size-h5); text-decoration: none; }
+    .brand:hover { color: var(--color-text-strong); }
+    .brand__mark { width: var(--space-6); height: var(--space-6); color: var(--color-primary); }
+    .site-nav { display: flex; align-items: center; gap: var(--space-6); }
+    .site-nav a { color: var(--color-text); text-decoration: none; font-size: var(--font-size-small); font-weight: var(--font-weight-medium); }
+    .site-nav a:hover { color: var(--color-primary); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-2) var(--space-5); border-radius: var(--radius-full); font-size: var(--font-size-small); font-weight: var(--font-weight-semibold); text-decoration: none; cursor: pointer; border: 1px solid transparent; line-height: 1; transition: background var(--motion-duration-fast) var(--motion-easing-out), transform var(--motion-duration-fast) var(--motion-easing-out); }
+    .btn:active { transform: scale(0.98); }
+    .btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+    .btn--primary:hover { background: var(--color-primary-hover); }
+    .btn--ghost { background: transparent; color: var(--color-text); border-color: var(--color-border-strong); }
+    .btn--ghost:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .header-cta { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+    /* ============ Hero (Persuade; <=4 elementos, padding <=6rem) ============ */
+    .hero { padding-block: var(--space-16) var(--space-20); }
+    .hero__grid { display: grid; gap: var(--space-10); align-items: center; }
+    .hero__eyebrow { display: inline-block; font-size: var(--font-size-caption); font-weight: var(--font-weight-semibold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-primary); margin-bottom: var(--space-3); }
+    .hero__title { font-size: clamp(2.25rem, 5vw, var(--font-size-display)); line-height: var(--font-line-height-tight); letter-spacing: var(--letter-spacing-tight); color: var(--color-text-strong); margin: 0; max-width: 14ch; }
+    .hero__sub { font-size: var(--font-size-h5); line-height: var(--font-line-height-relaxed); color: var(--color-text-muted); margin: var(--space-4) 0 var(--space-6); max-width: 42ch; }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+    .draft-preview { position: relative; border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-surface); box-shadow: var(--shadow-md, 0 10px 30px -12px rgb(15 23 42 / 0.18)); padding: var(--space-5); }
+    .draft-preview__bar { display: flex; align-items: center; gap: var(--space-2); padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-5); }
+    .draft-preview__dot { width: var(--space-2); height: var(--space-2); border-radius: var(--radius-full); background: var(--color-border-strong); }
+    .draft-preview__label { font-size: var(--font-size-caption); color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
+    .draft-row { display: grid; gap: var(--space-5); }
+    .draft-row__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+    .draft-row__title { font-weight: var(--font-weight-semibold); color: var(--color-text-strong); font-size: var(--font-size-h5); }
+    .draft-row__status { font-size: var(--font-size-caption); color: var(--color-success); font-weight: var(--font-weight-semibold); }
+    .draft-row__line { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2) var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); font-size: var(--font-size-small); }
+    .draft-row__line:last-child { border-bottom: 0; }
+    .draft-row__client { color: var(--color-text); font-weight: var(--font-weight-medium); }
+    .draft-row__meta { color: var(--color-text-muted); }
+
+    /* ============ Features (não 3 cards iguais: linha assimétrica) ============ */
+    .features { padding-block: var(--space-20); }
+    .section-head { max-width: 40rem; margin-bottom: var(--space-12); }
+    .section-head h2 { font-size: var(--font-size-h2); line-height: var(--font-line-height-tight); letter-spacing: var(--letter-spacing-tight); color: var(--color-text-strong); margin: 0 0 var(--space-3); }
+    .section-head p { color: var(--color-text-muted); margin: 0; font-size: var(--font-size-h5); line-height: var(--font-line-height-relaxed); }
+    .feature-grid { display: grid; gap: var(--space-5); }
+    .feature { display: flex; gap: var(--space-3); padding: var(--space-4); border: 1px solid transparent; border-radius: var(--radius-lg); background: var(--color-surface); border-color: var(--color-border); }
+    .feature__icon { width: 2.25rem; height: 2.25rem; border-radius: var(--radius-md); background: var(--color-primary-soft); color: var(--color-primary); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .feature h3 { font-size: var(--font-size-h5); color: var(--color-text-strong); margin: 0 0 var(--space-2); font-weight: var(--font-weight-semibold); }
+    .feature p { margin: 0; color: var(--color-text-muted); font-size: var(--font-size-small); line-height: var(--font-line-height-relaxed); }
+
+    /* ============ Como funciona (3 passos, layout vertical/horizontal) ============ */
+    .how { background: var(--color-surface-muted); padding-block: var(--space-20); }
+    .steps { display: grid; gap: var(--space-8); }
+    .step { position: relative; padding-left: var(--space-12); }
+    .step::before { content: attr(data-step); position: absolute; left: 0; top: 0; width: var(--space-10); height: var(--space-10); border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-primary); font-weight: var(--font-weight-bold); font-size: var(--font-size-h5); display: inline-flex; align-items: center; justify-content: center; }
+    .step h3 { margin: 0 0 var(--space-1); color: var(--color-text-strong); font-size: var(--font-size-h5); }
+    .step p { margin: 0; color: var(--color-text-muted); font-size: var(--font-size-small); line-height: var(--font-line-height-relaxed); max-width: 34ch; }
+
+    /* ============ Depoimentos ============ */
+    .testimonials { padding-block: var(--space-20); }
+    .testimonial-grid { display: grid; gap: var(--space-5); }
+    .testimonial { padding: var(--space-5); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+    .testimonial p { margin: 0 0 var(--space-4); color: var(--color-text); font-size: var(--font-size-h5); line-height: var(--font-line-height-relaxed); }
+    .testimonial__author { display: flex; align-items: center; gap: var(--space-3); }
+    .testimonial__avatar { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-primary); display: inline-flex; align-items: center; justify-content: center; font-weight: var(--font-weight-bold); font-size: var(--font-size-h5); }
+    .testimonial__name { font-weight: var(--font-weight-semibold); color: var(--color-text-strong); font-size: var(--font-size-small); }
+    .testimonial__role { color: var(--color-text-muted); font-size: var(--font-size-caption); }
+
+    /* ============ Pricing ============ */
+    .pricing { padding-block: var(--space-20); background: var(--color-surface-muted); }
+    .price-grid { display: grid; gap: var(--space-5); align-items: start; }
+    .price-card { border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-surface); padding: var(--space-6); }
+    .price-card--featured { border-color: var(--color-primary); box-shadow: var(--shadow-md, 0 10px 30px -12px rgb(79 70 229 / 0.25)); position: relative; }
+    .price-card--featured::before { content: "Mais usado"; position: absolute; top: calc(-1 * var(--space-3)); left: var(--space-6); background: var(--color-primary); color: var(--color-on-primary); font-size: var(--font-size-caption); font-weight: var(--font-weight-semibold); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); }
+    .price-card h3 { margin: 0 0 var(--space-2); color: var(--color-text-strong); font-size: var(--font-size-h5); }
+    .price-card__price { font-size: var(--font-size-h2); font-weight: var(--font-weight-bold); color: var(--color-text-strong); margin-bottom: var(--space-4); }
+    .price-card__price span { font-size: var(--font-size-small); color: var(--color-text-muted); font-weight: var(--font-weight-regular, 400); }
+    .price-card ul { list-style: none; margin: 0 0 var(--space-5); padding: 0; display: grid; gap: var(--space-2); }
+    .price-card li { font-size: var(--font-size-small); color: var(--color-text); display: flex; gap: var(--space-2); align-items: flex-start; }
+    .price-card li::before { content: "•"; color: var(--color-primary); font-weight: var(--font-weight-bold); }
+
+    /* ============ CTA final + footer ============ */
+    .final-cta { padding-block: var(--space-20); text-align: center; }
+    .final-cta h2 { font-size: clamp(2rem, 4vw, var(--font-size-h1, 2.5rem)); line-height: var(--font-line-height-tight); letter-spacing: var(--letter-spacing-tight); color: var(--color-text-strong); margin: 0 auto var(--space-4); max-width: 18ch; }
+    .final-cta p { color: var(--color-text-muted); margin: 0 auto var(--space-6); max-width: 40ch; font-size: var(--font-size-h5); }
+    .final-cta__btn { display: inline-flex; }
+    .site-footer { border-top: 1px solid var(--color-border); padding-block: var(--space-8) var(--space-6); }
+    .site-footer__inner { display: grid; gap: var(--space-3); }
+    .site-footer__brand { color: var(--color-text-muted); font-size: var(--font-size-small); margin: 0; }
+    .site-footer__links { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+    .site-footer__links a { color: var(--color-text-muted); font-size: var(--font-size-small); text-decoration: none; }
+    .site-footer__links a:hover { color: var(--color-primary); }
+
+    /* ============ Responsivo (mobile-first → desktop) ============ */
+    @media (max-width: 767px) {
+      .site-nav { display: none; }
+      .hero__grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 768px) {
+      .site-header__cta { display: inline-flex; }
+      .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); }
+      .feature-grid { grid-template-columns: repeat(6, 1fr); }
+      .feature:first-child { grid-column: span 4; }
+      .feature:nth-child(2) { grid-column: span 2; }
+      .feature:nth-child(3) { grid-column: span 2; }
+      .feature:nth-child(4) { grid-column: span 4; }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+      .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
+      .price-grid { grid-template-columns: repeat(3, 1fr); }
+      .site-footer__inner { grid-template-columns: 1fr auto; align-items: center; }
+    }
+
+    /* ============ Motion (motivado: feedback e revelação suave) ============ */
+    @media (prefers-reduced-motion: no-preference) {
+      .feature, .step, .testimonial, .price-card { animation: rise 0.6s var(--motion-easing-out) both; }
+      .hero__eyebrow { animation: rise 0.5s var(--motion-easing-out) both; }
+      .hero__title { animation: rise 0.6s 0.05s var(--motion-easing-out) both; }
+      .hero__sub { animation: rise 0.6s 0.1s var(--motion-easing-out) both; }
+      .hero__cta { animation: rise 0.6s 0.15s var(--motion-easing-out) both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only sr-only-focus:focus" href="#main">Pular para o conteúdo</a>
+
+  <!-- ============ Cabeçalho ============ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#main">
+        <svg class="brand__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 18h-4l-2 4-2-4H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1z"/>
+          <path d="M8 8h8M8 12h5"/>
+        </svg>
+        <span>Draftly</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#precos">Preços</a>
+      </nav>
+      <span class="header-cta"><a class="btn btn--primary" href="#planos">Começar grátis</a></span>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ Hero ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <span class="hero__eyebrow">Para freelancers</span>
+          <h1 id="hero-title" class="hero__title">Fecha proposta, assina e cobra sem sair do fluxo</h1>
+          <p class="hero__sub">Draftly reúne proposta, contrato e faturamento em um só lugar. Você envia, acompanha o aceite e recebe, tudo onde já trabalha.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#planos">Começar grátis</a>
+            <a class="btn btn--ghost" href="#recursos">Ver recursos</a>
+          </div>
+        </div>
+        <div class="visual draft-preview" aria-hidden="true">
+          <div class="draft-preview__bar">
+            <span class="draft-preview__dot"></span><span class="draft-preview__dot"></span><span class="draft-preview__dot"></span>
+            <span class="draft-preview__label">Proposta · Studio Almeida</span>
+          </div>
+          <div class="draft-row">
+            <span class="draft-row__head"><strong class="draft-row__title">Identidade visual</strong><em class="draft-row__status">aceita</em></span><span class="draft-row__head"><span class="draft-row__client">R$ 8.400</span></span>
+            <span class="draft-row__head"><strong class="draft-row__title">Redesign do site</strong><em class="draft-row__status">assinatura pendente</em></span><span class="draft-row__head"><span class="draft-row__client">R$ 12.000</span></span>
+            <span class="draft-row__head"><strong class="draft-row__title">Newsletter mensal</strong><em class="draft-row__status">cobrança deste mês</em></span><span class="draft-row__head"><span class="draft-row__client">R$ 680</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Recursos ============ -->
+    <section id="recursos" class="features" aria-labelledby="recursos-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="recursos-title">O que o Draftly cuida por você</h2>
+          <p>Da proposta ao recebimento, o administrativo do seu trabalho de freelancer em uma ferramenta só.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature">
+            <span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+            <div>
+              <h3>Propostas que assinam</h3>
+              <p>Modele a proposta com escopo e valor; o cliente assina online e você recebe o aceite na hora.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 5a2 2 0 0 1 2-2h7l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 17h4"/></svg></span>
+            <div>
+              <h3>Contrato sem papel</h3>
+              <p>O contrato acompanha a proposta e é assinado digitalmente, sem envio solto de arquivo.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 8h22M6 12h4M6 16h10"/></svg></span>
+            <div>
+              <h3>Faturamento recorrente</h3>
+              <p>Gera notas, dispara cobrança e acompanha o que entra, com relatório simples de caixa.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+            <div>
+              <h3>Onboarding de clientes</h3>
+              <p>Seus dados e os do cliente ficam salvos; a próxima proposta sai em minutos, não em meio dia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Como funciona ============ -->
+    <section id="como-funciona" class="how" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="how-title">Em três passos</h2>
+          <p>Você faz o que sabe; o restante é rotina resolvida.</p>
+        </div>
+        <div class="steps">
+          <div class="step" data-step="1">
+            <h3>Monte a proposta a</h3>
+            <p>Escolha modelo, preencha o escopo e o valor em minutos.</p>
+          </div>
+          <div class="step" data-step="2">
+            <h3>Envie e acompanhe</h3>
+            <p>Cliente lê, aceita e assina; contrato segue junto.</p>
+          </div>
+          <div class="step" data-step="3">
+            <h3>Cobre e receba</h3>
+            <p>Emite a nota, dispara a cobrança e acompanha a entrada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Depoimentos ============ -->
+    <section class="testimonials" aria-labelledby="depoimentos-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="depoimentos-title">Quem usa</h2>
+          <p>Freelancers em assinatura e em fechamento diário.</p>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial">
+            <p>Aceitei dois projetos em uma semana sem trocar e-mail de fatura. É o papel que eu não queria ter.</p>
+            <div class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">CB</span>
+              <span><strong class="testimonial__name">Cecilia Barros</strong><br><span class="testimonial__role">Designer de interface</span></span>
+            </div>
+          </div>
+          <div class="testimonial">
+            <p>Fecha proposta, assina contrato e cobra sem sair do fluxo. Era exatamente o elo que faltava.</p>
+            <div class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">TM</span>
+              <span><strong class="testimonial__name">Thiago Menezes</strong><br><span class="testimonial__role">Desenvolvedor independente</span></span>
+            </div>
+          </div>
+          <div class="testimonial">
+            <p>O onboarding de cliente me poupou uma tardinha em cada proposta nova. Parceiro de rotina.</p>
+            <div class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">RA</span>
+              <span><strong class="testimonial__name">Renata Azeredo</strong><br><span class="testimonial__role">Redatora de produto</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Preços ============ -->
+    <section id="precos" class="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="pricing-title">Um preço por etapa</h2>
+          <p>Comece grátis no projeto; cresça quando a rotina for sua.</p>
+        </div>
+        <div class="price-grid">
+          <div class="price-card">
+            <h3>Avulsa</h3>
+            <p class="price-card__price">R$ 0 <span>/ proposta</span></p>
+            <ul>
+              <li>5 propostas por mês</li>
+              <li>Envio com aceite online</li>
+              <li>Contrato base</li>
+            </ul>
+            <a class="btn btn--ghost" href="#planos">Começar</a>
+          </div>
+          <div class="price-card price-card--featured" id="planos">
+            <h3>Solo</h3>
+            <p class="price-card__price">R$ 39 <span>/ mês</span></p>
+            <ul>
+              <li>Propostas e contratos ilimitados</li>
+              <li>Faturamento e notas fiscais</li>
+              <li>Onboarding de clientes</li>
+              <li>Relatório de caixa</li>
+            </ul>
+            <a class="btn btn--primary" href="#planos">Assinar por R$ 39</a>
+          </div>
+          <div class="price-card">
+            <h3>Estúdio</h3>
+            <p class="price-card__price">R$ 119 <span>/ mês</span></p>
+            <ul>
+              <li>Tudo do Solo</li>
+              <li>Até 3 pessoas no time</li>
+              <li>Marca e modelos próprios</li>
+              <li>Suporte prioritário</li>
+            </ul>
+            <a class="btn btn--ghost" href="#planos">Falar com vendas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA final ============ -->
+    <section class="final-cta" aria-labelledby="final-title">
+      <div class="container">
+        <h2 id="final-title">Seu próximo projeto, sem papel no caminho</h2>
+        <p>Crie a primeira proposta em dois minutos. Não precisa de cartão para começar.</p>
+        <span class="final-cta__btn"><a class="btn btn--primary" href="#planos">Começar grátis</a></span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__brand">Draftly: proposta, contrato e recebimento para freelancers.</p>
+      <nav class="site-footer__links" aria-label="Rodapé">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#precos">Preços</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

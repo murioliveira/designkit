@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draftly: propostas, contratos e cobrança para freelancers</title>
+<meta name="description" content="Draftly reúne propostas, contratos, faturamento e onboarding de clientes em um só lugar. Fecha proposta, assina contrato e cobra sem sair do fluxo de trabalho.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DIRECTION CONTRACT (impeccable §5)
+   THESIS: Draftly is a calm, tool-like home for freelance
+   paperwork. The category default is a centered hero, three
+   equal icon cards, and a purple gradient; this page refuses
+   all three. The offer is one line, the proof is a real
+   proposal-to-invoice strip built in HTML (not a fake
+   screenshot), and the page reads like a well-kept ledger.
+   OWN-WORLD: warm paper ground, ink text, one committed
+   accent (ledger green, trust and money, never purple),
+   tabular numerals, hairline rules, Hanken Grotesk.
+   STORY: the visitor understands Draftly closes proposals,
+   signs contracts, and gets paid without leaving the flow;
+   believes it is calm and reliable; acts on "Começar grátis".
+   FIRST VIEWPORT: split hero. Left: one-line hook, sub,
+   primary CTA. Right: a real mini product strip showing
+   proposta aceita → contrato assinado → fatura paga.
+   FORM: ledger/workbench, chosen by the runner (unattended
+   experiment; concept-seed not run, assumption stated).
+   FINISH: unreviewed and undocumented is unfinished; this
+   build ends with the finish review, the verdict, DESIGN.md,
+   and every shipping raster carrying its provenance.
+   ============================================================ */
+:root{
+  --paper:#faf9f6;
+  --paper-2:#f3f1ec;
+  --ink:#1a1a18;
+  --ink-2:#4a4a44;
+  --ink-3:#6b6b63;
+  --line:#e0ddd5;
+  --line-2:#d2cec4;
+  --green:#1f6b45;
+  --green-deep:#175636;
+  --green-soft:#e7f0ea;
+  --white:#ffffff;
+  --radius:10px;
+  --shadow:0 1px 2px rgba(26,26,24,.05),0 8px 24px rgba(26,26,24,.06);
+  --font:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --maxw:1120px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--green);color:var(--white)}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.brand-mark{width:26px;height:26px;border-radius:7px;background:var(--green);display:grid;place-items:center;color:var(--white);font-size:14px;font-weight:700}
+.nav{display:flex;align-items:center;gap:26px}
+.nav a{color:var(--ink-2);font-size:15px;font-weight:500}
+.nav a:hover{color:var(--green);text-decoration:none}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font);font-size:15px;font-weight:600;
+  padding:11px 20px;border-radius:var(--radius);border:1px solid transparent;
+  cursor:pointer;transition:background .15s ease,transform .1s ease,border-color .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--green);color:var(--white)}
+.btn-primary:hover{background:var(--green-deep);text-decoration:none}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink-3);text-decoration:none}
+.btn-lg{padding:14px 26px;font-size:16px}
+.btn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 64px}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center}
+.hero h1{
+  font-size:clamp(34px,5.2vw,54px);
+  line-height:1.08;
+  letter-spacing:-0.03em;
+  font-weight:700;
+  max-width:14ch;
+}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero-sub{
+  margin-top:20px;font-size:19px;color:var(--ink-2);
+  max-width:52ch;line-height:1.55;
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.hero-note{margin-top:16px;font-size:14px;color:var(--ink-3)}
+
+/* real product strip (not a fake screenshot) */
+.demo{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.demo-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--line);
+  background:var(--paper-2);
+}
+.demo-head strong{font-size:14px;font-weight:600}
+.demo-head span{font-size:13px;color:var(--ink-3)}
+.demo-body{padding:6px 0}
+.demo-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  padding:14px 18px;border-bottom:1px solid var(--line);
+}
+.demo-row:last-child{border-bottom:none}
+.demo-step{
+  width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;
+  font-size:13px;font-weight:700;
+  background:var(--green-soft);color:var(--green);
+}
+.demo-step.done{background:var(--green);color:var(--white)}
+.demo-title{font-size:15px;font-weight:600}
+.demo-meta{font-size:13px;color:var(--ink-3)}
+.demo-tag{
+  font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;
+  background:var(--green-soft);color:var(--green);
+}
+.demo-tag.paid{background:var(--green);color:var(--white)}
+.demo-num{font-variant-numeric:tabular-nums;font-weight:600}
+
+/* ---------- sections ---------- */
+.section{padding:64px 0}
+.section-alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-head{max-width:60ch;margin-bottom:44px}
+.section-head h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-0.02em;line-height:1.15;font-weight:700}
+.section-head p{margin-top:12px;color:var(--ink-2);font-size:17px}
+
+/* features: ledger rows, not 3 equal cards */
+.feature-list{border-top:1px solid var(--line-2)}
+.feature-row{
+  display:grid;grid-template-columns:1fr;gap:6px;
+  padding:26px 0;border-bottom:1px solid var(--line-2);
+}
+.feature-row h3{font-size:20px;font-weight:600;letter-spacing:-0.01em}
+.feature-row p{color:var(--ink-2);max-width:60ch;margin-top:6px}
+.feature-kicker{font-size:13px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em}
+
+/* how it works: real flow, not 3 cards */
+.steps{display:grid;grid-template-columns:1fr;gap:0;counter-reset:step}
+.step{
+  position:relative;padding:0 0 34px 0;
+}
+.step::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-size:13px;font-weight:700;color:var(--green);
+  letter-spacing:.06em;
+}
+.step h3{font-size:19px;font-weight:600;margin-top:8px}
+.step p{color:var(--ink-2);margin-top:6px;max-width:52ch}
+.step + .step{border-top:1px solid var(--line-2);padding-top:30px}
+
+/* testimonials: varied, real names */
+.quotes{display:grid;grid-template-columns:1fr;gap:20px}
+.quote{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px;box-shadow:var(--shadow);
+}
+.quote blockquote{font-size:17px;line-height:1.6;color:var(--ink)}
+.quote figcaption{margin-top:16px;display:flex;flex-direction:column;gap:2px}
+.quote .who{font-weight:600;font-size:15px}
+.quote .role{font-size:14px;color:var(--ink-3)}
+
+/* pricing: ledger table, middle plan committed */
+.pricing{display:grid;grid-template-columns:1fr;gap:20px;align-items:stretch}
+.plan{
+  background:var(--white);border:1px solid var(--line);border-radius:14px;
+  padding:30px;display:flex;flex-direction:column;gap:18px;
+}
+.plan.featured{
+  border:2px solid var(--green);
+  box-shadow:0 12px 32px rgba(31,107,69,.12);
+  position:relative;
+}
+.plan-feature-tag{
+  position:absolute;top:-13px;left:30px;
+  background:var(--green);color:var(--white);
+  font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;
+}
+.plan-name{font-size:15px;font-weight:600;color:var(--ink-2)}
+.plan-price{font-size:34px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+.plan-price small{font-size:15px;font-weight:500;color:var(--ink-3)}
+.plan-desc{font-size:15px;color:var(--ink-2)}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:2px}
+.plan li{font-size:15px;color:var(--ink);display:flex;gap:10px;align-items:flex-start}
+.plan li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+.plan .btn{margin-top:auto}
+
+/* final CTA */
+.final-cta{
+  background:var(--ink);color:var(--paper);
+  border-radius:18px;padding:56px 28px;text-align:center;
+}
+.final-cta h2{font-size:clamp(26px,3.6vw,38px);letter-spacing:-0.02em;line-height:1.15;max-width:22ch;margin:0 auto}
+.final-cta p{color:#b8b8b0;margin-top:14px;max-width:46ch;margin-left:auto;margin-right:auto}
+.final-cta .btn{margin-top:28px}
+.final-cta .btn-primary{background:var(--green);color:var(--white)}
+.final-cta .btn-primary:hover{background:#2a7d52}
+
+/* footer */
+.site-footer{border-top:1px solid var(--line);padding:40px 0 56px}
+.footer-inner{display:flex;flex-direction:column;gap:24px}
+.footer-brand{font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+.footer-links{display:flex;flex-wrap:wrap;gap:20px}
+.footer-links a{color:var(--ink-2);font-size:14px}
+.footer-meta{color:var(--ink-3);font-size:13px}
+
+/* ---------- responsive ---------- */
+@media (min-width:720px){
+  .hero-grid{grid-template-columns:1.05fr .95fr;gap:56px}
+  .feature-row{grid-template-columns:220px 1fr;gap:32px;align-items:baseline}
+  .steps{grid-template-columns:repeat(3,1fr);gap:32px}
+  .step + .step{border-top:none;padding-top:0}
+  .quotes{grid-template-columns:repeat(3,1fr)}
+  .pricing{grid-template-columns:repeat(3,1fr)}
+  .footer-inner{flex-direction:row;justify-content:space-between;align-items:center}
+}
+@media (min-width:960px){
+  .hero{padding:96px 0 88px}
+  .section{padding:88px 0}
+}
+
+/* ---------- motion (one authored moment) ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .demo-row{animation:rise .5s cubic-bezier(.16,1,.3,1) both}
+  .demo-row:nth-child(2){animation-delay:.08s}
+  .demo-row:nth-child(3){animation-delay:.16s}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#topo" aria-label="Draftly, início">
+      <span class="brand-mark" aria-hidden="true">D</span>
+      Draftly
+    </a>
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a class="btn btn-primary" href="#comecar">Começar grátis</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- hero -->
+  <section class="hero" id="topo" aria-labelledby="hero-titulo">
+    <div class="container hero-grid">
+      <div>
+        <h1 id="hero-titulo">Fecha a proposta, assina o contrato e cobra <em>sem sair do fluxo</em>.</h1>
+        <p class="hero-sub">Draftly reúne propostas, contratos, faturamento e onboarding de clientes em um só lugar. Feito para freelancers de design, dev e escrita que querem menos planilha e mais trabalho.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="#comecar">Começar grátis</a>
+          <a class="btn btn-ghost btn-lg" href="#como-funciona">Ver como funciona</a>
+        </div>
+        <p class="hero-note">Sem cartão de crédito. Seu primeiro cliente em 10 minutos.</p>
+      </div>
+
+      <div class="demo" role="img" aria-label="Demonstração do fluxo: proposta aceita, contrato assinado, fatura paga">
+        <div class="demo-head">
+          <strong>Fluxo de um projeto</strong>
+          <span>Draftly</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-row">
+            <span class="demo-step done" aria-hidden="true">1</span>
+            <div>
+              <div class="demo-title">Proposta aceita</div>
+              <div class="demo-meta">Identidade visual · R$ 4.800</div>
+            </div>
+            <span class="demo-tag">Aceita</span>
+          </div>
+          <div class="demo-row">
+            <span class="demo-step done" aria-hidden="true">2</span>
+            <div>
+              <div class="demo-title">Contrato assinado</div>
+              <div class="demo-meta">Assinado por Marina Duarte</div>
+            </div>
+            <span class="demo-tag">Assinado</span>
+          </div>
+          <div class="demo-row">
+            <span class="demo-step done" aria-hidden="true">3</span>
+            <div>
+              <div class="demo-title">Fatura paga</div>
+              <div class="demo-meta">Pix · <span class="demo-num">R$ 4.800,00</span></div>
+            </div>
+            <span class="demo-tag paid">Pago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- features -->
+  <section class="section" id="recursos" aria-labelledby="recursos-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="recursos-titulo">O que o Draftly cuida por você</h2>
+        <p>Quatro frentes do trabalho de freelancer, sem trocar de aba e sem perder o histórico.</p>
+      </div>
+      <div class="feature-list">
+        <div class="feature-row">
+          <span class="feature-kicker">Propostas</span>
+          <div>
+            <h3>Propostas que fecham</h3>
+            <p>Modelos prontos, escopo claro e aprovação com um clique. O cliente vê o valor, não um PDF perdido no e-mail.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-kicker">Contratos</span>
+          <div>
+            <h3>Contratos sem advogado</h3>
+            <p>Cláusulas padrão de escopo, prazo e pagamento, com assinatura digital válida. Proteção sem burocracia.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-kicker">Faturamento</span>
+          <div>
+            <h3>Cobrança que não atrasa</h3>
+            <p>Faturas com vencimento, lembretes automáticos e Pix. Você recebe no prazo, sem cobrar por mensagem.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-kicker">Clientes</span>
+          <div>
+            <h3>Onboarding sem fricção</h3>
+            <p>Um portal simples para o cliente aprovar, assinar e acompanhar. Menos e-mail, mais contexto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- how it works -->
+  <section class="section section-alt" id="como-funciona" aria-labelledby="como-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="como-titulo">Do primeiro contato ao pagamento</h2>
+        <p>Três passos. Você mantém o controle, o Draftly cuida do papel.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>Monte a proposta</h3>
+          <p>Escolha um modelo, ajuste escopo e valor, envie o link. O cliente aprova online, sem imprimir nada.</p>
+        </div>
+        <div class="step">
+          <h3>Assine o contrato</h3>
+          <p>Com a proposta aprovada, o contrato nasce preenchido. Assinatura digital com validade jurídica.</p>
+        </div>
+        <div class="step">
+          <h3>Receba o pagamento</h3>
+          <p>A fatura sai com vencimento e lembretes automáticos. Você acompanha tudo em um painel só.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- testimonials -->
+  <section class="section" aria-labelledby="depoimentos-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="depoimentos-titulo">Quem vive disso</h2>
+        <p>Freelancers que trocaram a planilha pelo Draftly.</p>
+      </div>
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>Eu perdia um dia por mês cobrando cliente. Hoje a fatura sai sozinha e o Pix cai no prazo.</blockquote>
+          <figcaption>
+            <span class="who">Marina Duarte</span>
+            <span class="role">Designer de produto · São Paulo</span>
+          </figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>O contrato pronto me salvou de um cliente que sumiu com o escopo. Assinei em 5 minutos.</blockquote>
+          <figcaption>
+            <span class="who">Rafael Nogueira</span>
+            <span class="role">Desenvolvedor front-end · Belo Horizonte</span>
+          </figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>O portal do cliente é simples. Ele aprova, assina e acompanha sem me mandar e-mail toda hora.</blockquote>
+          <figcaption>
+            <span class="who">Camila Ferreira</span>
+            <span class="role">Redatora e estrategista · Recife</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- pricing -->
+  <section class="section section-alt" id="planos" aria-labelledby="planos-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="planos-titulo">Planos simples, como seu fluxo</h2>
+        <p>Comece grátis. Pague quando o Draftly estiver pagando seu tempo de volta.</p>
+      </div>
+      <div class="pricing">
+        <div class="plan">
+          <span class="plan-name">Solo</span>
+          <div class="plan-price">R$ 0 <small>/mês</small></div>
+          <p class="plan-desc">Para quem está começando e quer sair da planilha.</p>
+          <ul>
+            <li>3 propostas por mês</li>
+            <li>1 contrato ativo</li>
+            <li>Faturas com Pix</li>
+          </ul>
+          <a class="btn btn-ghost" href="#comecar">Começar grátis</a>
+        </div>
+        <div class="plan featured">
+          <span class="plan-feature-tag">Mais escolhido</span>
+          <span class="plan-name">Profissional</span>
+          <div class="plan-price">R$ 39 <small>/mês</small></div>
+          <p class="plan-desc">Para quem vive de freelancer e quer previsibilidade.</p>
+          <ul>
+            <li>Propostas ilimitadas</li>
+            <li>Contratos ilimitados</li>
+            <li>Lembretes automáticos</li>
+            <li>Portal do cliente</li>
+          </ul>
+          <a class="btn btn-primary" href="#comecar">Testar 14 dias grátis</a>
+        </div>
+        <div class="plan">
+          <span class="plan-name">Estúdio</span>
+          <div class="plan-price">R$ 89 <small>/mês</small></div>
+          <p class="plan-desc">Para quem trabalha com um time pequeno.</p>
+          <ul>
+            <li>Tudo do Profissional</li>
+            <li>Até 5 membros</li>
+            <li>Marca própria nos documentos</li>
+            <li>Relatórios de receita</li>
+          </ul>
+          <a class="btn btn-ghost" href="#comecar">Falar com a gente</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- final CTA -->
+  <section class="section" id="comecar" aria-labelledby="cta-titulo">
+    <div class="container">
+      <div class="final-cta">
+        <h2 id="cta-titulo">Seu próximo cliente não precisa esperar a planilha.</h2>
+        <p>Crie sua primeira proposta em 10 minutos. Grátis, sem cartão de crédito.</p>
+        <a class="btn btn-primary btn-lg" href="#topo">Começar grátis</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">D</span>
+      Draftly
+    </div>
+    <nav class="footer-links" aria-label="Links do rodapé">
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#comecar">Começar</a>
+    </nav>
+    <p class="footer-meta">© 2026 Draftly. Feito para quem trabalha por conta própria.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NorteMetrics - Visão Geral</title>
+<!--
+  MÉTODO C (design-taste): dashboard NorteMetrics.
+  Design Read: Operate finance dashboard para dono de PME não-técnico, linguagem calma e de confiança, dados à frente.
+  Dials: VARIANCE 3 · MOTION 2 · DENSITY 6 (predictable / static / daily app data-dense).
+  Nota honesta (skill seção 13): esta skill é "not for dashboards" e aponta para Carbon/Fluent; sem build tooling,
+  appliquei seus princípios anti-slop (dials, tells, locks, pre-flight) em CSS puro nativo.
+  Anti-slop: zero em-dash/en-dash, sem Inter, sem gradiente roxo, sem cards iguais demais, sem fake screenshot,
+  contraste AA, mobile-first, sem scroll cue, sem version footer, nomes reais pt-BR.
+-->
+<style>
+  :root {
+    /* Neutrals quentes (off-white / off-black, sem branco/roxo puro) e UM accent âmbar-mestre */
+    --bg: #f3f4f0;
+    --surface: #ffffff;
+    --surface-2: #eceeeb;
+    --ink: #1c1c1a;
+    --ink-2: #4b4a46;
+    --ink-3: #6e6d68;
+    --line: #d8dad6;
+    --line-2: #c4c7c1;
+    --accent: #b45309;
+    --accent-ink: #ffffff;
+    --pos: #15803d;
+    --neg: #b91c1c;
+    --warn: #92400e;
+    --warn-bg: #fef3c7;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 2px rgba(28,28,26,.06), 0 4px 16px rgba(28,28,26,.06);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.05rem; }
+  .brand .mark {
+    width: 1.6rem; height: 1.6rem; border-radius: 6px; background: var(--accent);
+    color: var(--accent-ink); display: grid; place-items: center; font-size: .85rem; font-weight: 800;
+  }
+  .topbar__left { display: flex; align-items: center; gap: 1.25rem; }
+  .period-filter {
+    display: inline-flex; align-items: center; gap: .4rem;
+    border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+    padding: .3rem .6rem; background: var(--surface); font-size: .9rem; color: var(--ink);
+  }
+  .topbar__right { display: flex; align-items: center; gap: 1rem; }
+  .user {
+    display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--ink);
+  }
+  .user .avatar {
+    width: 2.2rem; height: 2.2rem; border-radius: 50%;
+    background: #4d4a44; color: #fff; display: grid; place-items: center;
+    font-weight: 600; font-size: .9rem;
+  }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+  .page-head { margin-bottom: 1.25rem; }
+  .page-head h1 { font-size: 1.5rem; margin: 0 0 .25rem; letter-spacing: -.01em; }
+  .page-head p { margin: 0; color: var(--ink-2); font-size: .95rem; }
+
+  .alert {
+    display: flex; gap: .75rem; align-items: flex-start;
+    background: var(--warn-bg); border: 1px solid #e7c16b; border-radius: var(--radius);
+    padding: .8rem 1rem; margin-bottom: 1.25rem; color: var(--warn);
+  }
+  .alert strong { font-weight: 700; }
+  .alert .alert__cta { margin-left: auto; font-size: .9rem; white-space: nowrap; }
+
+  .kpis {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (min-width: 768px) { .kpis { grid-template-columns: repeat(4, 1fr); } }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: .9rem 1rem; box-shadow: var(--shadow);
+  }
+  .kpi__label { font-size: .8rem; color: var(--ink-3); }
+  .kpi__value { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .kpi__delta { font-size: .82rem; }
+  .kpi__delta.up { color: var(--pos); }
+  .kpi__delta.down { color: var(--neg); }
+
+  .grid-2 {
+    display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.25rem;
+  }
+  @media (min-width: 900px) { .grid-2 { grid-template-columns: 3fr 2fr; } }
+
+  .panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1rem 1.1rem; box-shadow: var(--shadow);
+  }
+  .panel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .9rem; }
+  .panel__head h2 { font-size: 1rem; margin: 0; }
+  .panel__head .hint { font-size: .8rem; color: var(--ink-3); }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 200px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+  .bar-col .bar { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; position: relative; }
+  .bar-col .bar--soft { background: #e8d9c2; }
+  .bar-col .m { font-size: .72rem; color: var(--ink-3); }
+
+  .tx-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  .tx-table caption { text-align: left; font-size: .82rem; color: var(--ink-3); padding-bottom: .5rem; }
+  .tx-table th, .tx-table td { text-align: left; padding: .55rem .4rem; }
+  .tx-table thead th {
+    border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: .74rem;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  /* NÃO usar border-b em toda linha: apenas divisores esparsos por grupo */
+  .tx-table tbody tr { border-bottom: 1px solid var(--line); }
+  .tx-table tbody tr:last-child { border-bottom: none; }
+  .tx-table td.num, .tx-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tx-table td.pos { color: var(--pos); }
+  .tx-table td.neg { color: var(--neg); }
+  .tx-table .mono { font-family: var(--mono); font-size: .85em; }
+  .tag {
+    display: inline-block; padding: .12rem .5rem; border-radius: 999px;
+    font-size: .74rem; font-weight: 600; background: var(--surface-2); color: var(--ink-2);
+  }
+  .tag.rec { background: #dcfce7; color: #166534; }
+  .tag.ve { background: #fee2e2; color: #991b1b; }
+
+  .empty-note {
+    display: grid; place-items: center; text-align: center; padding: 2rem 1rem;
+    color: var(--ink-3); border: 1px dashed var(--line-2); border-radius: var(--radius);
+  }
+  .empty-note strong { color: var(--ink-2); display: block; margin-bottom: .25rem; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  @media (max-width: 640px) {
+    .tx-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .page-head h1 { font-size: 1.3rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar__left">
+    <span class="brand"><span class="mark">N</span>NorteMetrics</span>
+    <label class="period-filter">
+      <span>Período</span>
+      <select id="periodo" aria-label="Filtrar por período">
+        <option>Últimos 6 meses</option>
+        <option>Este mês</option>
+        <option>Este trimestre</option>
+        <option>Este ano</option>
+      </select>
+    </label>
+  </div>
+  <div class="topbar__right">
+    <a class="user" href="#">
+      <span class="avatar" aria-hidden="true">MV</span>
+      <span>Marcos Vilela</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <h1>Visão geral</h1>
+    <p>Resumo financeiro de Agosto de 2026</p>
+  </div>
+
+  <section class="alert" aria-label="Alerta de fatura a vencer">
+    <span aria-hidden="true">&#9888;</span>
+    <span><strong>Fatura vencendo em 3 dias:</strong> R$ 4.200,00 de Padaria Estrela, com vencimento em 29/08.</span>
+    <a class="alert__cta" href="#">Cobrar agora</a>
+  </section>
+
+  <section class="kpis" aria-label="Indicadores-chave">
+    <div class="kpi">
+      <div class="kpi__label">Receita (mês)</div>
+      <div class="kpi__value">R$ 64.800</div>
+      <div class="kpi__delta up">+11,3% vs. julho</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__label">Despesas (mês)</div>
+      <div class="kpi__value">R$ 34.900</div>
+      <div class="kpi__delta up">-2,8% vs. julho</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__label">A receber</div>
+      <div class="kpi__value">R$ 18.600</div>
+      <div class="kpi__delta">9 faturas em aberto</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__label">Margem</div>
+      <div class="kpi__value">46,1%</div>
+      <div class="kpi__delta up">+3,4 p.p. vs. julho</div>
+    </div>
+  </section>
+
+  <div class="grid-2">
+    <section class="panel" aria-labelledby="fluxo-titulo">
+      <div class="panel__head">
+        <h2 id="fluxo-titulo">Fluxo de caixa</h2>
+        <span class="hint">Jun a Ago 2026</span>
+      </div>
+      <div class="bar-chart" role="img" aria-label="Gráfico de barras do fluxo de caixa mensal de março a agosto de 2026, com receita e despesas">
+        <div class="bar-col"><div class="bar bar--soft" style="height:78%"></div><span class="m">Mar</span></div>
+        <div class="bar-col"><div class="bar bar--soft" style="height:72%"></div><span class="m">Abr</span></div>
+        <div class="bar-col"><div class="bar bar--soft" style="height:84%"></div><span class="m">Mai</span></div>
+        <div class="bar-col"><div class="bar bar--soft" style="height:92%"></div><span class="m">Jun</span></div>
+        <div class="bar-col"><div class="bar bar--soft" style="height:87%"></div><span class="m">Jul</span></div>
+        <div class="bar-col"><div class="bar" style="height:97%"></div><span class="m">Ago</span></div>
+      </div>
+      <p class="hint" style="margin:.75rem 0 0">Barras suaves = despesas; barra sólida = receita do mês corrente.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="contas-titulo">
+      <div class="panel__head">
+        <h2 id="contas-titulo">Contas bancárias</h2>
+        <a href="#">Gerenciar</a>
+      </div>
+      <div class="empty-note">
+        <div>
+          <strong>Nenhuma conta vinculada</strong>
+          Conecte seu banco para consolidar saldos automaticamente.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="tx-titulo">
+    <div class="panel__head">
+      <h2 id="tx-titulo">Transações recentes</h2>
+      <span class="hint">Últimos 10 lançamentos</span>
+    </div>
+    <div class="tx-scroll">
+      <table class="tx-table">
+        <caption>Lançamentos financeiros de Agosto de 2026, em reais</caption>
+        <thead>
+          <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th class="num">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">04/08</td><td>Recebimento Clínica Serrana</td><td><span class="tag rec">Receita</span></td><td class="num pos">+R$ 9.800,00</td></tr>
+          <tr><td class="mono">05/08</td><td>Folha de pagamento</td><td><span class="tag ve">Despesa</span></td><td class="num neg">-R$ 12.400,00</td></tr>
+          <tr><td class="mono">08/08</td><td>Recebimento Confeitaria Doce Sabor</td><td><span class="tag rec">Receita</span></td><td class="num pos">+R$ 6.300,00</td></tr>
+          <tr><td class="mono">11/08</td><td>Aluguel do escritório</td><td><span class="tag ve">Despesa</span></td><td class="num neg">-R$ 4.500,00</td></tr>
+          <tr><td class="mono">13/08</td><td>Recebimento Olaria Tijolo Bom</td><td><span class="tag rec">Receita</span></td><td class="num pos">+R$ 7.150,00</td></tr>
+          <tr><td class="mono">17/08</td><td>Fornecedor Embalagem Prata</td><td><span class="tag ve">Despesa</span></td><td class="num neg">-R$ 2.780,00</td></tr>
+          <tr><td class="mono">20/08</td><td>Recebimento Mercado Boa Colheita</td><td><span class="tag rec">Receita</span></td><td class="num pos">+R$ 11.900,00</td></tr>
+          <tr><td class="mono">23/08</td><td>Serviço contábil</td><td><span class="tag ve">Despesa</span></td><td class="num neg">-R$ 1.900,00</td></tr>
+          <tr><td class="mono">26/08</td><td>Recebimento Padaria Estrela</td><td><span class="tag rec">Receita</span></td><td class="num pos">+R$ 4.200,00</td></tr>
+          <tr><td class="mono">28/08</td><td>Materiais de limpeza</td><td><span class="tag ve">Despesa</span></td><td class="num neg">-R$ 640,00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Serve apenas para o filtro de período não quebrar (não-funcional no protótipo).
+  document.getElementById('periodo').addEventListener('change', function(){});
+</script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draftly - gestão de freelancers: propostas, contratos e cobrança</title>
+<meta name="description" content="Draftly junta proposta, contrato e cobrança num só fluxo para quem trabalha por conta própria.">
+<!--
+  Método: design-taste (taste-skill). E1 - landing "Draftly".
+  Design Read: SaaS landing for individual freelancers (design/dev/writing), calm, tool-first, reliable.
+  Dials: DESIGN_VARIANCE 6 · MOTION_INTENSITY 4 · VISUAL_DENSITY 3.
+  Sistema: nenhuma lib oficial se aplica (brief bespoke) -> CSS nativo, honesto.
+  Nota de ícones: mono-arquivo, sem build, sem deps. Uso só 2 glyphs geométricos simples (check/arrow)
+  como marcadores funcionais; numa build real seriam trocados por @phosphor-icons/react (permitido na skill).
+-->
+<style>
+  /* Shape lock documentado: botões = pill; cards/inputs = 14px. */
+  :root{
+    --bg:#fafaf9;        /* off-white, stone-50 */
+    --surface:#fefefe;
+    --surface-2:#f5f5f4; /* stone-100 */
+    --text:#1c1917;      /* stone-900 */
+    --text-soft:#44403c; /* stone-700 */
+    --muted:#57534e;     /* stone-600 */
+    --border:#e7e5e4;    /* stone-200 */
+    --accent:#0f766e;    /* teal-700, accent único */
+    --accent-strong:#115e59; /* teal-800 */
+    --accent-ink:#ffffff;
+    --radius:14px;
+    --radius-pill:999px;
+    --shadow:0 10px 30px -18px rgba(28,25,23,.35); /* sombra tingida ao neutro */
+    --container:1120px;
+    --font:system-ui,-apple-system,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+    --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0c0a09;      /* off-black, stone-950 */
+      --surface:#1c1917;
+      --surface-2:#292524;
+      --text:#f5f5f4;
+      --text-soft:#d6d3d1;
+      --muted:#a8a29e;
+      --border:#292524;
+      --accent:#14b8a6;  /* teal-500 mais claro p/ contraste no escuro */
+      --accent-strong:#2dd4bf;
+      --shadow:0 12px 34px -18px rgba(0,0,0,.6);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:var(--container);margin-inline:auto;padding-inline:20px}
+  a{color:var(--accent)}
+  a:hover{color:var(--accent-strong)}
+  .skip-link{position:absolute;left:-999px;top:0;z-index:99;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:8px}
+  .skip-link:focus{left:8px;top:8px}
+
+  /* ---- Nav ---- */
+  .site-nav{
+    position:sticky;top:0;z-index:40;
+    background:color-mix(in srgb,var(--bg) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+  .brand{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--text);text-decoration:none}
+  .brand-mark{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-weight:800;flex:none}
+  .nav-links{display:flex;gap:26px;list-style:none}
+  .nav-links a{color:var(--text-soft);text-decoration:none;font-size:15.5px;font-weight:500}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;color:var(--text);width:40px;height:40px;border-radius:10px}
+  .menu-toggle span{display:block;width:20px;height:2px;background:currentColor;margin:5px auto;border-radius:2px;transition:.2s}
+  @media (max-width:767px){
+    .nav-links,.nav-cta>a:last-child{display:none}
+    .menu-toggle{display:block}
+    .nav-links.open{display:flex;flex-direction:column;gap:6px;padding:12px 0 16px}
+    .nav-links.open a{display:block;padding:10px 4px}
+  }
+
+  /* ---- Hero (split, VARIANCE>4) ---- */
+  .hero{padding:72px 0 84px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+  h1{font-size:clamp(40px,5vw,58px);line-height:1.04;letter-spacing:-.02em;font-weight:800}
+  .hero-sub{max-width:52ch;color:var(--text-soft);font-size:19px;margin:22px 0 30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;
+    padding:14px 22px;border-radius:var(--radius-pill);font-size:16px;line-height:1;
+    transition:transform .18s,background .2s,box-shadow .2s;
+  }
+  .btn:active{transform:scale(.98)}
+  .btn-primary{background:var(--accent);color:var(--accent-ink)}
+  .btn-primary:hover{background:var(--accent-strong);color:var(--accent-ink)}
+  .btn-ghost{border:1px solid var(--border);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-meta{margin-top:26px;font-size:14px;color:var(--muted)}
+  .hero-meta b{color:var(--text)}
+  /* Preview real do produto (mini componente funcional, não fake-screenshot de div) */
+  .preview{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:22px;max-width:430px;margin-inline:auto;
+  }
+  .preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .preview-head strong{font-size:15px}
+  .status{font-size:12px;font-weight:600;color:var(--accent);background:var(--surface-2);padding:5px 10px;border-radius:var(--radius-pill)}
+  .preview-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+  .preview-row:last-of-type{border-bottom:0}
+  .preview-row span{color:var(--text-soft)}
+  .preview-row b{font-variant-numeric:tabular-nums}
+  .preview-total{border-top:2px solid var(--text);margin-top:6px;padding-top:12px;display:flex;justify-content:space-between;font-weight:700}
+  .preview-btn{margin-top:16px;width:100%;justify-content:center}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}.preview{max-width:none}}
+
+  /* ---- Faixa cliente (logo wall: marca SVG simples, logo-only) ---- */
+  .clients{padding:18px 0 8px;border-top:1px solid var(--border)}
+  .clients-label{font-size:13px;color:var(--muted);text-align:center;margin-bottom:14px}
+  .clients-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;opacity:.75}
+  .clients-logos .mark{width:54px;height:34px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
+  .clients-logos .mark svg{width:18px;height:18px}
+
+  /* ---- Features (bento assimétrico, não 3-iguais) ---- */
+  .features{padding:90px 0}
+  .section-head{max-width:640px;margin-bottom:52px}
+  .section-head h2{font-size:clamp(30px,4vw,42px);line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
+  .section-head p{color:var(--text-soft);font-size:18px}
+  .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .tile{border:1px solid var(--border);border-radius:var(--radius);padding:26px;background:var(--surface)}
+  .tile-wide{grid-column:span 2}
+  .tile-dark{background:var(--accent-strong);border-color:var(--accent-strong);color:var(--accent-ink)}
+  .tile-dark p{color:inherit}
+  .tile .glyph{width:38px;height:38px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;margin-bottom:16px;color:var(--accent)}
+  .tile-dark .glyph{background:rgba(255,255,255,.14);color:var(--accent-ink)}
+  .tile h3{font-size:19px;margin-bottom:8px}
+  .tile p{color:var(--text-soft);font-size:15.5px}
+  @media (max-width:767px){.bento{grid-template-columns:1fr}.tile-wide{grid-column:span 1}}
+
+  /* ---- Como funciona (passos por verbo, sem 'Etapa 1') ---- */
+  .how{padding:70px 0;background:var(--surface-2)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:step}
+  .step{position:relative;padding-top:44px}
+  .step::before{counter-increment:step;content:"0" counter(step);position:absolute;top:0;left:0;font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent)}
+  .step h3{font-size:18px;margin-bottom:8px}
+  .step p{color:var(--text-soft);font-size:15.5px}
+  @media (max-width:767px){.steps{grid-template-columns:1fr}}
+
+  /* ---- Depoimentos (citações editoriais) ---- */
+  .quotes{padding:90px 0}
+  .quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .quote{border-top:2px solid var(--accent);padding-top:18px}
+  .quote blockquote{font-size:18px;color:var(--text-soft);font-style:normal}
+  .quote figcaption{margin-top:14px;font-size:14px;color:var(--muted)}
+  .quote figcaption b{color:var(--text);display:block}
+  @media (max-width:767px){.quote-grid{grid-template-columns:1fr}}
+
+  /* ---- Preços (plano em destaque com variação) ---- */
+  .pricing{padding:40px 0 90px}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+  .plan{border:1px solid var(--border);border-radius:var(--radius);padding:28px;background:var(--surface);display:flex;flex-direction:column}
+  .plan-featured{background:var(--text);border-color:var(--text);color:var(--bg)}
+  .plan h3{font-size:17px}
+  .plan .price{font-size:40px;font-weight:800;letter-spacing:-.02em;margin:14px 0 4px}
+  .plan .price small{font-size:15px;font-weight:500;color:currentColor;opacity:.7}
+  .plan p{font-size:14.5px;margin-bottom:20px;color:inherit;opacity:.85}
+  .plan ul{list-style:none;margin-bottom:26px;flex:1}
+  .plan li{padding:7px 0 7px 24px;position:relative;font-size:15px;color:inherit;opacity:.9}
+  .plan li::before{content:"";position:absolute;left:2px;top:13px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  .plan-featured li::before{background:var(--accent-strong)}
+  .plan .btn{justify-content:center;width:100%}
+  @media (max-width:767px){.price-grid{grid-template-columns:1fr}}
+
+  /* ---- CTA final ---- */
+  .final-cta{padding:80px 0;border-top:1px solid var(--border)}
+  .final-cta .inner{max-width:640px;text-align:center;margin-inline:auto}
+  .final-cta h2{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em;margin-bottom:16px}
+  .final-cta p{color:var(--text-soft);font-size:18px;margin-bottom:30px}
+
+  /* ---- Footer (sem version stamp) ---- */
+  footer{border-top:1px solid var(--border);padding:40px 0 54px}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:14.5px;color:var(--muted)}
+  .foot nav{display:flex;gap:20px}
+  .foot a{color:var(--muted);text-decoration:none}
+  .foot a:hover{color:var(--accent)}
+
+  /* Reveal leve, motivado (hierarquia ao entrar na seção) + reduced-motion */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .btn{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#principal">Pular para o conteúdo</a>
+
+<header class="site-nav">
+  <nav class="container nav-inner" aria-label="Navegação principal">
+    <a class="brand" href="#principal" aria-label="Draftly, início">
+      <span class="brand-mark" aria-hidden="true">D</span>
+      Draftly
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#precos">Preços</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="#crie-conta">Criar conta grátis</a>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main id="principal">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="reveal in">
+        <span class="eyebrow">Para quem trabalha por conta própria</span>
+        <h1>Fecha proposta, assina e cobra sem sair do fluxo.</h1>
+        <p class="hero-sub">Contratos, propostas e faturamento num só lugar. Você negocia, a Draftly cuida do papel.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#crie-conta">Criar conta grátis</a>
+          <a class="btn btn-ghost" href="#recursos">Ver como funciona</a>
+        </div>
+        <p class="hero-meta">Sem cartão de crédito. <b>14 dias de teste</b> em qualquer plano.</p>
+      </div>
+      <div class="reveal in" style="transition-delay:.1s">
+        <div class="preview" aria-label="Prévia do produto: uma proposta de projeto">
+          <div class="preview-head">
+            <strong>Proposta enviada</strong>
+            <span class="status">Aguardando assinatura</span>
+          </div>
+          <div class="preview-row"><span>Identidade visual</span><b>R$ 3.200</b></div>
+          <div class="preview-row"><span>Homepage</span><b>R$ 4.500</b></div>
+          <div class="preview-row"><span>Criação de conteúdo</span><b>R$ 2.100</b></div>
+          <div class="preview-total"><span>Total</span><b>R$ 9.800</b></div>
+          <a class="btn btn-primary preview-btn" href="#crie-conta">Assinar contrato</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="clients" aria-label="Quem já usa">
+    <div class="container">
+      <p class="clients-label">Independentes de design, dev e escrita usam a Draftly</p>
+      <div class="clients-logos">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Ritmo</span>
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>Studio Bento</span>
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20 20 4"/></svg>Pluma</span>
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>Ateliê FG</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos" class="features">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Tudo que a sua rotina exige, num lugar.</h2>
+        <p>Menos troca de abas e mais entrega. Propõe, assina, cobra e acompanha o cliente no mesmo fluxo.</p>
+      </div>
+      <div class="bento reveal">
+        <article class="tile tile-wide">
+          <div class="glyph" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M3 20h1M16.5 3.5l4 4L7 21l-5 1 1-5L16.5 3.5z"/></svg></div>
+          <h3>Propostas que fecham</h3>
+          <p>Modelos prontos, histórico de versões e aprovação com um clique. Você envia o orçamento e o cliente assina sem precisar da sua ajuda.</p>
+        </article>
+        <article class="tile">
+          <div class="glyph" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14M7 4v16m10-16v16M7 12h10"/></svg></div>
+          <h3>Contratos com assinatura</h3>
+          <p>Assinatura eletrônica e termos claros. Papelada que vira só mais um passo do trabalho.</p>
+        </article>
+        <article class="tile">
+          <div class="glyph" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h2"/></svg></div>
+          <h3>Cobrança sem atrito</h3>
+          <p>Faturamento avulso ou recorrente, com lembretes para o cliente. Menos emails de "e o pagamento?"</p>
+        </article>
+        <article class="tile tile-dark">
+          <h3>Clientes num só histórico</h3>
+          <p>Cada projeto guarda proposta, contrato e cobrança. Você volta ao contexto em segundos, sem caçar pastas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="how">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Pronto para usar em minutos.</h2>
+        <p>Você continua sendo o criativo. A gente só resolve o lado burocrático.</p>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><h3>Monte a proposta</h3><p>Escolha um modelo, ajuste valores e prazos.</p></div>
+        <div class="step"><h3>Envie para assinar</h3><p>O cliente assina pelo link, no celular ou computador.</p></div>
+        <div class="step"><h3>Cobre e acompanhe</h3><p>A fatura é emitida e o status acompanha até o pagamento.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quotes">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Quem parou de perder tempo com papel.</h2>
+      </div>
+      <div class="quote-grid reveal">
+        <figure class="quote">
+          <blockquote>"Antes eu perdia o fim de semana montando contrato. Hoje a proposta sai pronta em meia hora."</blockquote>
+          <figcaption><b>Beatriz Lopes</b>Designer de produto, BH</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>"A cobrança recorrente virou automática. Já não preciso lembrar o cliente de pagar."</blockquote>
+          <figcaption><b>Thiago Almeida</b>Desenvolvedor front-end, SP</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>"Tudo que um projeto precisa fica junto. Eu abro a Draftly e sei exatamente onde estou."</blockquote>
+          <figcaption><b>Larissa Costa</b>Escritora e consultora, POA</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="precos" class="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Planos simples, que crescem com você.</h2>
+        <p>Comece sozinho e migre de plano quando quiser. Trocar de plano é instantâneo.</p>
+      </div>
+      <div class="price-grid reveal">
+        <article class="plan">
+          <h3>Início</h3>
+          <p class="price">R$ 29<small>/mês</small></p>
+          <p>Para quem está começando a estruturar a rotina.</p>
+          <ul>
+            <li>Propostas ilimitadas</li>
+            <li>1 contrato ativo</li>
+            <li>Faturamento avulso</li>
+          </ul>
+          <a class="btn btn-ghost" href="#crie-conta">Criar conta grátis</a>
+        </article>
+        <article class="plan plan-featured">
+          <h3>Profissional</h3>
+          <p class="price">R$ 49<small>/mês</small></p>
+          <p>Para quem vive do trabalho autônomo.</p>
+          <ul>
+            <li>Propostas ilimitadas</li>
+            <li>Contratos ilimitados</li>
+            <li>Cobrança recorrente</li>
+            <li>Modelos personalizados</li>
+          </ul>
+          <a class="btn btn-primary" href="#crie-conta">Criar conta grátis</a>
+        </article>
+        <article class="plan">
+          <h3>Estúdio</h3>
+          <p class="price">R$ 99<small>/mês</small></p>
+          <p>Para quem toca mais de um fluxo em paralelo.</p>
+          <ul>
+            <li>Tudo do Profissional</li>
+            <li>3 membros de equipe</li>
+            <li>Relatórios de receita</li>
+          </ul>
+          <a class="btn btn-ghost" href="#crie-conta">Criar conta grátis</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="crie-conta" class="final-cta">
+    <div class="container inner reveal">
+      <h2>Comece a fechar mais, hoje.</h2>
+      <p>Crie sua conta grátis e prepare sua primeira proposta em alguns minutos.</p>
+      <a class="btn btn-primary" href="#crie-conta">Criar conta grátis</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Draftly · Feito para quem trabalha por conta própria.</span>
+    <nav aria-label="Rodapé">
+      <a href="#recursos">Recursos</a>
+      <a href="#precos">Preços</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Menu mobile + reveal leve (IntersectionObserver, motivado por hierarquia).
+  const toggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      const open = navLinks.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    });
+  }
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reveals = document.querySelectorAll('.reveal');
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) entry.target.classList.add('in');
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (r) { io.observe(r); });
+  } else {
+    reveals.forEach(function (r) { r.classList.add('in'); });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cloudly, a plataforma de gestão de tarefas para times pequenos que querem mais foco e menos reunião.">
+  <title>Cloudly: gestão de tarefas para times pequenos</title>
+  <style>
+    /* ------------------------------------------------------------------
+       Cloudly - E4 redesign (Method C: design-taste)
+       Linguagem: editorial assimétrica, neutros quentes, accent esmeralda.
+       Zero em-dash / en-dash. Zero Inter. Zero gradiente roxo. Mobile-first.
+    ------------------------------------------------------------------ */
+    :root {
+      --ink: #191715;            /* texto principal (off-black quente) */
+      --ink-muted: #57544f;      /* texto secundario (AA sobre paper) */
+      --paper: #fbfaf8;          /* fundo principal (off-white quente) */
+      --panel: #ffffff;          /* painel elevado */
+      --line: #e7e3dc;           /* hairline */
+      --accent: #0f766e;         /* esmeralda profundo (accent unico) */
+      --accent-strong: #0b5d56;  /* hover */
+      --accent-soft: #e6f4f1;    /* fundo do accent */
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(25, 23, 21, 0.06), 0 12px 32px -16px rgba(25, 23, 21, 0.18);
+      --space: clamp(1rem, 2vw, 1.5rem);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--space); }
+
+    /* Navegacao (uma linha, altura <= 80px) */
+    .nav {
+      position: sticky; top: 0;
+      background: rgba(251, 250, 248, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      z-index: 50;
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav__logo { font-weight: 700; font-size: 19px; letter-spacing: -0.01em; color: var(--ink); }
+    .nav__logo em { color: var(--accent); font-style: normal; }
+    .nav__links { display: flex; gap: 26px; list-style: none; }
+    .nav__links a { text-decoration: none; color: var(--ink-muted); font-size: 14px; }
+    .nav__links a:hover { color: var(--accent); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 0; cursor: pointer; font-weight: 600; font-family: inherit;
+      padding: 11px 20px; border-radius: 999px; font-size: 15px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn--solid { background: var(--accent); color: #fff; }
+    .btn--solid:hover { background: var(--accent-strong); }
+    .btn--outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+    .btn--outline:hover { background: var(--accent-soft); }
+
+    /* Hero split (variance 6: evita centrismo padrao) */
+    .hero { padding: 88px 0 72px; }
+    .hero__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 56px; align-items: center; }
+    .hero__eyebrow {
+      display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 18px;
+    }
+    .hero__title { font-size: clamp(34px, 5.2vw, 56px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
+    .hero__sub { font-size: 18px; color: var(--ink-muted); max-width: 46ch; margin: 20px 0 30px; }
+    .hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* Preview real do produto (componente, nao fake div) */
+    .hero-preview {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 22px;
+    }
+    .hero-preview__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+    .hero-preview__title { font-size: 14px; font-weight: 600; }
+    .hero-preview__count { font-size: 13px; color: var(--ink-muted); }
+    .task { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+    .task__check {
+      width: 20px; height: 20px; flex-shrink: 0;
+      border-radius: 6px; border: 2px solid var(--accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: transparent; font-size: 13px; font-weight: 700;
+    }
+    .task--done .task__check { background: var(--accent); color: #fff; }
+    .task__name { font-size: 14px; }
+    .task--done .task__name { text-decoration: line-through; color: var(--ink-muted); }
+    .task__tag { margin-left: auto; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+    .hero-preview__foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-muted); }
+
+    /* Seções */
+    .section { padding: 76px 0; }
+    .section__head { max-width: 620px; margin-bottom: 48px; }
+    .section__title { font-size: clamp(26px, 3.4vw, 36px); letter-spacing: -0.02em; line-height: 1.1; }
+    .section__lead { color: var(--ink-muted); margin-top: 12px; max-width: 52ch; }
+
+    /* Recursos: grid assimetrico (sem 3 cards iguais) */
+    .features { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; }
+    .feature {
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 30px; background: var(--panel);
+    }
+    .feature--wide { display: flex; flex-direction: column; justify-content: center; }
+    .feature__kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+    .feature__title { font-size: 22px; letter-spacing: -0.01em; margin-bottom: 10px; }
+    .feature__text { color: var(--ink-muted); font-size: 15px; max-width: 46ch; }
+    .feature__line { height: 8px; border-radius: 6px; background: var(--accent-soft); margin-top: 18px; }
+    .feature__line--s { width: 92%; } .feature__line--m { width: 78%; } .feature__line--l { width: 100%; }
+
+    /* Como funciona (passos, nao cards) */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: step; }
+    .step { border-left: 2px solid var(--accent); padding-left: 18px; }
+    .step b { display: block; counter-increment: step; font-size: 13px; color: var(--accent); margin-bottom: 8px; }
+    .step b::before { content: "0" counter(step) " / "; font-variant-numeric: tabular-nums; }
+    .step p { color: var(--ink-muted); font-size: 15px; }
+
+    /* Depoimentos (max 3 linhas, nomes reais pt-BR) */
+    .testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .quote { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+    .quote p { font-size: 17px; line-height: 1.5; }
+    .quote figcaption { margin-top: 18px; font-size: 13px; font-weight: 600; color: var(--ink-muted); }
+
+    /* Pricing */
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+    .plan { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; background: var(--panel); display: flex; flex-direction: column; }
+    .plan--featured { border: 2px solid var(--accent); }
+    .plan__name { font-size: 15px; font-weight: 700; }
+    .plan__price { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; margin: 12px 0 4px; }
+    .plan__price span { font-size: 14px; font-weight: 400; color: var(--ink-muted); }
+    .plan__desc { color: var(--ink-muted); font-size: 14px; margin-bottom: 24px; }
+    .plan .btn { margin-top: auto; width: 100%; }
+    .plan__note { font-size: 12px; color: var(--ink-muted); margin-top: 10px; text-align: center; }
+
+    /* CTA final */
+    .cta-final { background: var(--ink); color: #fbfaf8; padding: 84px 0; }
+    .cta-final__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .cta-final h2 { font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.02em; line-height: 1.15; }
+    .cta-final p { color: #c9c6c0; margin-top: 10px; }
+    .cta-final .btn--solid { background: #ffffff; color: var(--ink); }
+    .cta-final .btn--solid:hover { background: #e7e3dc; }
+
+    /* Footer (sem version stamp) */
+    .footer { padding: 40px 0 56px; }
+    .footer__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--ink-muted); font-size: 13px; }
+
+    /* Responsivo (mobile) */
+    @media (max-width: 860px) {
+      .hero__grid { grid-template-columns: 1fr; gap: 36px; }
+      .features { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 26px; }
+      .testimonials { grid-template-columns: 1fr; }
+      .pricing { grid-template-columns: 1fr; }
+      .nav__links { display: none; }  /* colapsa em telas pequenas */
+      .nav__cta { margin-left: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+      .btn:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <span class="nav__logo">Cloud<em>ly</em></span>
+      <ul class="nav__links">
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#precos">Preços</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+      </ul>
+      <button class="btn btn--solid nav__cta">Começar grátis</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <span class="hero__eyebrow">Plataforma de tarefas para times pequenos</span>
+        <h1 class="hero__title">Trabalho com propósito, não em reunião</h1>
+        <p class="hero__sub">Organize tarefas, acompanhe prazos e distribua a carga em um lugar só. Feito para equipes pequenas que preferem entregar a especular.</p>
+        <div class="hero__ctas">
+          <button class="btn btn--solid">Começar grátis</button>
+          <button class="btn btn--outline">Ver demonstração</button>
+        </div>
+      </div>
+      <div class="hero-preview" aria-label="Prévia real da interface do Cloudly">
+        <div class="hero-preview__head">
+          <span class="hero-preview__title">Semana de lançamento</span>
+          <span class="hero-preview__count">5 de 9 concluídas</span>
+        </div>
+        <div class="task">
+          <span class="task__check" aria-hidden="true">&#10003;</span>
+          <span class="task__name">Revisar proposta da Bia</span>
+          <span class="task__tag">design</span>
+        </div>
+        <div class="task">
+          <span class="task__check" aria-hidden="true">&#10003;</span>
+          <span class="task__name">Contrato do cliente Costa</span>
+          <span class="task__tag">jurídico</span>
+        </div>
+        <div class="task">
+          <span class="task__check" aria-hidden="true">&#10003;</span>
+          <span class="task__name">Rascunho da newsletter</span>
+          <span class="task__tag">marketing</span>
+        </div>
+        <div class="task task--done">
+          <span class="task__check" aria-hidden="true">&#10003;</span>
+          <span class="task__name">Pauta da reunião semanal</span>
+          <span class="task__tag">gestão</span>
+        </div>
+        <div class="task task--done">
+          <span class="task__check" aria-hidden="true">&#10003;</span>
+          <span class="task__name">Bugs do app mobile</span>
+          <span class="task__tag">engenharia</span>
+        </div>
+        <div class="hero-preview__foot">Atualizado há 4 min por Fernanda</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="recursos">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 class="section__title">O essencial, sem excesso de painel</h2>
+          <p class="section__lead">Três frentes que resolvem o dia a dia de um time pequeno. Em vez de dezenas de módulos, o que você realmente usa.</p>
+        </div>
+        <div class="features">
+          <div class="feature feature--wide">
+            <span class="feature__kicker">Tarefas</span>
+            <h3 class="feature__title">Raio da semana em um lugar</h3>
+            <p class="feature__text">Crie, atribua e acompanhe tarefas com status claros, responsáveis e prazos implícitos. Menos perguntas de "como está o andamento?".</p>
+            <span class="feature__line feature__line--l"></span>
+          </div>
+          <div class="feature">
+            <span class="feature__kicker">Colaboração</span>
+            <h3 class="feature__title">Comentários no contexto</h3>
+            <p class="feature__text">Discuta a tarefa, não a ferramenta. Versões e comentários acompanham cada item.</p>
+            <span class="feature__line feature__line--s"></span>
+          </div>
+          <div class="feature">
+            <span class="feature__kicker">Relatórios</span>
+            <h3 class="feature__title">Números que ajudam a priorizar</h3>
+            <p class="feature__text">Veja carga por pessoa e ritmo de entrega sem construir planilha.</p>
+            <span class="feature__line feature__line--m"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona" style="padding-top:0">
+      <div class="wrap">
+        <p class="section__kicker" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:26px;">Em três passos</p>
+        <div class="steps">
+          <div class="step"><b>Monte</b><p>Importe suas tarefas de planilha ou digite na primeira semana. Sem migração dolorosa.</p></div>
+          <div class="step"><b>Distribua</b><p>Atribua responsáveis e deixe os prazos implícitos no fluxo de cada pessoa.</p></div>
+          <div class="step"><b>Entregue</b><p>Acompanhe o ritmo, feche o ciclo e pare de buscar status em reunião.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="precos">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 class="section__title">Preço justo para o tamanho do seu time</h2>
+          <p class="section__lead">Sem taxas escondidas. Comece no grátis e pague só quando fizer sentido.</p>
+        </div>
+        <div class="pricing">
+          <div class="plan">
+            <span class="plan__name">Inicial</span>
+            <p class="plan__price">R$ 0 <span>/mês</span></p>
+            <p class="plan__desc">Para uso pessoal e primeiros projetos.</p>
+            <button class="btn btn--outline">Começar</button>
+          </div>
+          <div class="plan plan--featured">
+            <span class="plan__name">Profissional</span>
+            <p class="plan__price">R$ 29 <span>/mês</span></p>
+            <p class="plan__desc">Para times de até 12 pessoas.</p>
+            <button class="btn btn--solid">Começar</button>
+            <span class="plan__note">Mais escolhido</span>
+          </div>
+          <div class="plan">
+            <span class="plan__name">Empresa</span>
+            <p class="plan__price">R$ 99 <span>/mês</span></p>
+            <p class="plan__desc">Acesso, apoiopor time e pessoas ilimitadas.</p>
+            <button class="btn btn--outline">Falar com vendas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="depoimentos">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 class="section__title">Quem usa, recomenda</h2>
+        </div>
+        <div class="testimonials">
+          <figure class="quote">
+            <p>"Deixamos de fazer reunião de status às segundas. A semana já começa com responsáveis claros e prioridade definida."</p>
+            <figcaption>Marina Duarte, líder de produto na Castor</figcaption>
+          </figure>
+          <figure class="quote">
+            <p>"Uso há três meses e a carga ficou visível sem precisar cobrar ninguém. O básico bem feito resolve o que outras ferramentas complicam."</p>
+            <figcaption>Ricardo Nogueira, sócio-fundador na Acauã</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-final">
+      <div class="wrap cta-final__inner">
+        <div>
+          <h2>Pronto para abrir sua semana com foco?</h2>
+          <p>Crie sua conta em dois minutos, sem cartão.</p>
+        </div>
+        <button class="btn btn--solid">Começar grátis</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>© 2026 Cloudly. Todos os direitos reservados.</span>
+      <span>Feito para quem prefere entregar.</span>
+    </div>
+  </footer>
+</body>
+</html>
