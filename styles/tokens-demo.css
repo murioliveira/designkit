@@ -71,8 +71,9 @@
 }
 
 .swatch__label {
-  font-size: var(--font-size-caption);
+  font-size: var(--font-size-small);
   font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-semibold); /* large text: 3:1 WCAG threshold */
   color: var(--c-neutral-900);
   line-height: var(--font-line-height-tight);
   word-break: break-all;
@@ -80,6 +81,8 @@
 
 .swatch--on-dark .swatch__label {
   color: var(--c-neutral-50);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
 }
 
 /* Semânticas: fundo soft + dot colorido */

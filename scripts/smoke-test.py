@@ -21,7 +21,7 @@ Checks:
   3. HTML        — tags balanceadas, ids únicos, âncoras da sidebar <-> seções 1:1,
                    aria-labelledby resolvem, lang presente
   4. CSS         — chaves {} balanceadas em cada arquivo css
-  5. JS          — node --check em js/app.js (skip com nota se node ausente)
+  5. JS          — node --check em js/*.js (skip com nota se node ausente)
   6. Docs        — docs/componentes/README.md referencia arquivos que existem
   7. Skills      — frontmatter (name+description) em skills/*/SKILL.md;
                    .claude/skills/* 1:1 com skills/*
@@ -227,20 +227,33 @@ def check_css_braces():
 # ---------------------------------------------------------------------------
 # 5. JS: node --check
 # ---------------------------------------------------------------------------
-@check("js: node --check em js/app.js")
+@check("js: node --check em js/*.js")
 def check_js():
     node = shutil.which("node")
     if not node:
         return True, "SKIP: node não encontrado no PATH"
-    path = os.path.join(ROOT, "js", "app.js")
-    if not os.path.exists(path):
-        return False, "js/app.js ausente"
-    proc = subprocess.run([node, "--check", path],
-                          capture_output=True, text=True)
-    if proc.returncode == 0:
-        return True, "sintaxe JS válida"
-    err = (proc.stderr or "").strip().splitlines()
-    return False, "; ".join(err[-3:]) if err else f"exit {proc.returncode}"
+    js_dir = os.path.join(ROOT, "js")
+    if not os.path.isdir(js_dir):
+        return False, "js/ ausente"
+    errors = []
+    checked = 0
+    for fname in sorted(os.listdir(js_dir)):
+        if not fname.endswith(".js"):
+            continue
+        path = os.path.join(js_dir, fname)
+        if not os.path.exists(path):
+            errors.append(f"js/{fname} ausente")
+            continue
+        proc = subprocess.run([node, "--check", path],
+                              capture_output=True, text=True)
+        if proc.returncode != 0:
+            err = (proc.stderr or "").strip().splitlines()
+            errors.append(f"js/{fname}: {'; '.join(err[-3:])}" if err else f"js/{fname}: exit {proc.returncode}")
+        checked += 1
+    if not checked:
+        return True, "SKIP: nenhum .js encontrado em js/"
+    return (not errors,
+            f"{checked} arquivo(s) JS válido(s)" + (f" | {'; '.join(errors)}" if errors else ""))
 
 
 # ---------------------------------------------------------------------------
