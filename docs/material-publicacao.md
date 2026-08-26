@@ -1,4 +1,19 @@
-# Material de Publicação — Design Kit v0.9.0
+# Material de Publicação
+
+## 0. Reforços validados (2ª ed. pesquisa — docs/pesquisa-mercado-atualizada §5b)
+
+### Pain-point 'design systems todos iguais' (golpe mais forte)
+> Open Design chegou a **149 design systems — e os próprios usuários pedem qualidade no lugar de quantidade** ("they are all the same"). Seu agente não precisa de mais templates; precisa de um sistema com tokens reais + enforcement. O Design Kit: **1 sistema de 158 tokens**, auditável por grep, zero hex hardcoded.
+
+### QA confrontável (37 vs 98)
+> O padrão de critique mais usado (impeccable) fala em **37 anti-patterns por página**. O Design Kit roda **98 checks determinísticos** em 14 arquivos — e passa antes de shipar (ou o agente não avança). **Qualidade não é promessa, é gate.**
+
+### Show HN (título que inverte a métrica de quantidade em qualidade)
+```
+Show HN: Design Kit — not 149 templates. 158 auditable design tokens + 98 anti-slop checks inside an 8-skill design department.
+```
+
+ — Design Kit v0.9.0
 
 > **Uso:** copiar e colar em cada plataforma. Texto pronto, sem edição necessária.  
 > **Data:** 2026-08-25 · **Versão:** v0.9.0 (pre-1.0)  
@@ -104,11 +119,11 @@ O ecossistema de skills de design explodiu em 2026. Vamos aos fatos:
 
 impeccable (pbakaus): 1 skill, 23 comandos, 59 regras detectoras. Excelente metodologia de critique e live browser iteration. Mas é 1 skill, não um departamento.
 
-taste-skill (Leonxlnx): 1 skill com 3 dials (VARIANCE, MOTION, DENSITY). Patrocinado pela Vercel, ~46K estrelas. Metodologia anti-slop de alto nível. Sem design system implementado.
+taste-skill (Leonxlnx): 1 skill com 3 dials (VARIANCE, MOTION, DENSITY). Patrocinado pela Vercel, ~78.5K estrelas. Metodologia anti-slop de alto nível. Sem design system implementado.
 
 designer-skills (Owl-Listener): 63 skills, cobre o ciclo completo. A coleção mais ampla. Sem tokens ou componentes próprios.
 
-Open Design (nexu-io): 259+ skills, 142+ design systems. O ecossistema mais ambicioso. Mas os design systems são templates, não sistemas funcionais com showcase vivo.
+Open Design (nexu-io): 57.4K★ e um ecossistema de skills/design systems (19–20 skills; 71–142 listados por diretórios). O mais ambicioso em quantidade. Mas seus próprios usuários reclamam: "149 design systems são todos iguais" — são templates, não sistemas funcionais com enforcement real.
 
 Design Kit: 8 skills, 158 tokens, 18+ componentes com showcase renderizado, 98 checks determinísticos, 8 casos com nota. É o ÚNICO que junta sistema de design implementado + setor de skills + QA executável.
 
@@ -210,7 +225,7 @@ Ou clona o repo e abre index.html no navegador. Zero build. Zero dependência. 1
 
 Repo: github.com/murioliveira/designkit
 
-(Projeto open-source, v0.9.0. Licença MIT pendente de confirmação. Feedback bem-vindo.)
+(Projeto open-source, v0.9.0. Licença MIT. Feedback bem-vindo.)
 ```
 
 ---

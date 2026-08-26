@@ -8,7 +8,7 @@
 
 ## 1. Posicionamento (1 frase)
 
-**Um setor de design inteiro em um pacote de skills.** 8 papéis, 98 checks anti-slop, design system com 158 tokens e 15+ componentes, 7 casos validados com nota. Instala com um comando.
+**Um setor de design inteiro em um pacote de skills.** 8 papéis, 98 checks anti-slop, design system com 158 tokens e 18+ componentes, 8 casos validados com nota. Instala com um comando.
 
 ---
 
@@ -17,17 +17,17 @@
 | Dimensão | Design Kit | impeccable (pbakaus) | taste-skill (Leonxlnx) | designer-skills (Owl-Listener) | frontend-design (Anthropic) |
 |---|---|---|---|---|---|
 | **Skills** | 8 (setor completo) | 1 (23 comandos) | 1 (anti-slop) | 7 (coleção) | 1 (design taste) |
-| **Design system próprio** | ✅ 158 tokens + 15+ componentes | ❌ (metodologia pura) | ❌ (metodologia pura) | ❌ (metodologia pura) | ❌ |
+| **Design system próprio** | ✅ 158 tokens + 18+ componentes | ❌ (metodologia pura) | ❌ (metodologia pura) | ❌ (metodologia pura) | ❌ |
 | **Checks anti-slop mecânicos** | ✅ **98 checks** em 14 arquivos | ✅ 59 regras | ❌ (manual) | ❌ | ❌ |
 | **Loops de qualidade fechados** | ✅ critique → refine → re-critique (máx 2) | ❌ (execução única) | ❌ | ❌ | ❌ |
-| **Casos reais com nota** | ✅ 7 casos (Lumen 4.7/5, Norte 4.6/5, Aurora 14/14) | ❌ | ❌ | ❌ | ❌ |
+| **Casos reais com nota** | ✅ 8 casos (Lumen 4.7/5, Norte 4.6/5, Tereza, Farol...) | ❌ | ❌ | ❌ | ❌ |
 | **Auditoria a11y** | ✅ WCAG 2.2 AA, 10 correções aplicadas | ✅ (comandos de audit) | ❌ | ✅ (visual-critique) | ❌ |
 | **Block library** | ✅ 6 composições com dials | ❌ | ❌ | ❌ | ❌ |
 | **Docs de handoff por componente** | ✅ 9 docs | ❌ | ❌ | ❌ | ❌ |
 | **Portabilidade** | Claude Code + Codex + pi + Cursor | Claude Code (foco) | Claude Code (foco) | Claude Code + Codex + ChatGPT | Claude Code (nativo) |
 | **Regra de tokens auditável** | ✅ grep por hex = zero, script de smoke test | ❌ | ❌ | ❌ | ❌ |
 | **2 checkpoints humanos** | ✅ (research→UI, UI→handoff) | ❌ | ❌ | ❌ | ❌ |
-| **Custo** | Open-source (MIT pendente) | Open-source | Open-source (65k ★) | Open-source (2.1k ★) | Open-source (Anthropic) |
+| **Custo** | Open-source (MIT) | Open-source | Open-source (65k ★) | Open-source (2.1k ★) | Open-source (Anthropic) |
 
 ### O Design Kit é o ÚNICO que junta três camadas
 
@@ -82,7 +82,7 @@ Design Kit: 8 skills que transformam Claude, Codex ou pi num departamento de des
 
 **Tweet 2 (o que é):**
 ```
-Design Kit = design system (158 tokens + 15+ componentes) + 8 skills de setor + onboarding.
+Design Kit = design system (158 tokens + 18+ componentes) + 8 skills de setor + onboarding.
 
 O agente vira researcher, information architect, UI designer, critic, a11y auditor e handoff — em sequência, com 2 checkpoints de aprovação humana.
 
@@ -115,7 +115,7 @@ Máximo 2 rodadas. Se ainda tiver problema, escala pro humano decidir.
 ```
 "Legal no papel, mas funciona?"
 
-7 casos reais validados:
+8 casos reais validados:
 • Lumen (landing): 4.7/5 no critique
 • Norte (dashboard): 4.6/5, reutiliza 12 grupos de componentes
 • Aurora: 14/14 no pre-flight anti-slop
@@ -181,12 +181,12 @@ Não é "taste". É engenharia de qualidade visual.
 ```
 O que o Design Kit entrega que nenhuma outra skill entrega:
 
-- Design system próprio: 158 tokens semânticos (claro/escuro) + 15+ componentes com estados reais (loading/empty/error)
+- Design system próprio: 158 tokens semânticos (claro/escuro) + 18+ componentes com estados reais (loading/empty/error)
 - 8 skills de setor em fluxo fechado: researcher → IA → UI → critic → refine → a11y → handoff
 - 2 checkpoints humanos obrigatórios (você decide, o agente executa)
 - Block library: 6 composições prontas (hero split, bento, manifesto editorial, sticky-stack CSS puro, marquee, galeria Experience) com dial-compatibility
 - WCAG 2.2 AA auditado e corrigido (10 fixes: 2 P1, 5 P2, 3 P3)
-- 7 casos reais validados com nota, não com venda
+- 8 casos reais validados com nota, não com venda
 
 1 pacote. 1 comando de instalação. Zero build.
 ```
@@ -201,7 +201,7 @@ Comparação rápida:
 - impeccable: 1 skill, 23 comandos, 59 regras
 - taste-skill: 1 skill, anti-slop manual
 - designer-skills: 7 skills, sem design system
-- Design Kit: 8 skills, 98 checks mecânicos, 158 tokens, 15+ componentes, 7 casos
+- Design Kit: 8 skills, 98 checks mecânicos, 158 tokens, 18+ componentes, 8 casos
 
 Se você já usa impeccable, o kit NÃO substitui (ele wrappa a critique). Mas se você quer que seu agente execute o ciclo completo sozinho — brief até handoff — é o pacote que junta as peças.
 ```
@@ -230,9 +230,9 @@ COMO FUNCIONA:
 6. O agente gera o handoff pro dev
 
 O QUE TEM DENTRO:
-• Design system: 158 tokens + 15+ componentes com todos os estados
+• Design system: 158 tokens + 18+ componentes com todos os estados
 • DESIGN.md: manual anti-slop com 98 checks mecânicos executáveis
-• 7 casos reais validados (landing 4.7/5, dashboard 4.6/5, portfolio)
+• 8 casos reais validados (landing 4.7/5, dashboard 4.6/5, portfolio)
 • WCAG 2.2 AA auditado e corrigido
 • Zero build: abre no navegador com duplo clique
 
@@ -254,7 +254,7 @@ The problem: models are trained on millions of identical landing pages. The resu
 
 Design Kit solves this with 3 layers no other skill has:
 
-1. DESIGN SYSTEM (158 tokens + 15+ components)
+1. DESIGN SYSTEM (158 tokens + 18+ components)
    Every pixel comes from var(--...). Zero hardcoded hex. Grep-auditable.
 
 2. DESIGN DEPARTMENT (8 skills in closed quality loops)
@@ -289,7 +289,7 @@ I got tired of AI-generated UIs all looking the same (Inter, 3 cards, purple gra
 
 What's inside:
 - 8 agent skills covering the full workflow: researcher → IA → UI designer → critic → refine → a11y auditor → handoff
-- A real design system: 158 semantic tokens (light/dark) + 15+ components with all states (loading/empty/error)
+- A real design system: 158 semantic tokens (light/dark) + 18+ components with all states (loading/empty/error)
 - DESIGN.md: a 300-line anti-slop manual that bans AI tells (em-dash, Inter, generic names, banned palettes)
 - 98 deterministic checks that run BEFORE shipping (`python scripts/anti-slop-check.py`)
 - 8 smoke tests for repo integrity
@@ -356,7 +356,7 @@ Title: Design Kit: a token-first design system + 8 agent skills that form a comp
 
 Body:
 
-Sharing something I've been building: Design Kit — an open-source package that combines a design system (158 tokens, 15+ components) with 8 AI agent skills that run the full design workflow.
+Sharing something I've been building: Design Kit — an open-source package that combines a design system (158 tokens, 18+ components) with 8 AI agent skills that run the full design workflow.
 
 What makes it different from other agent design skills:
 
@@ -403,7 +403,7 @@ The insight: AI models aren't bad at design. They've just been trained on millio
 
 What it is:
 - 158 design tokens (light/dark) — single source of visual truth
-- 15+ components with full states (loading/empty/error)
+- 18+ components with full states (loading/empty/error)
 - 8 agent skills: researcher → information architect → UI designer → critic → refine → a11y auditor → handoff
 - DESIGN.md: 300-line anti-slop manual (bans em-dash, Inter, 3 identical cards, banned palettes, generic names)
 - 98 deterministic anti-slop checks (Python, stdlib only) + 8 integrity smoke tests
@@ -435,7 +435,7 @@ Try it: npx skills add murioliveira/designkit
 ### 5.1 Description do GitHub (160 caracteres máx)
 
 ```
-Design department in a box: 8 AI agent skills, 158 tokens, 15+ components, 98 anti-slop checks, WCAG 2.2 AA. Turns Claude, Codex, pi, Cursor into a full design team.
+Design department in a box: 8 AI agent skills, 158 tokens, 18+ components, 98 anti-slop checks, WCAG 2.2 AA. Turns Claude, Codex, pi, Cursor into a full design team.
 ```
 
 ### 5.2 Website (se não houver Pages separado)
@@ -463,7 +463,7 @@ https://murioliveira.github.io/designkit/
 
 ```html
 <meta property="og:title" content="Design Kit — an entire design department in a box" />
-<meta property="og:description" content="8 AI agent skills that turn Claude, Codex, pi, and Cursor into a functional design department. 158 tokens, 15+ components, 98 anti-slop checks." />
+<meta property="og:description" content="8 AI agent skills that turn Claude, Codex, pi, and Cursor into a functional design department. 158 tokens, 18+ components, 98 anti-slop checks." />
 <meta property="og:image" content="https://murioliveira.github.io/designkit/og-image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 ```

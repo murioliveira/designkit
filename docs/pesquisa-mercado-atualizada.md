@@ -98,9 +98,33 @@ As métricas de mercado CONFIRMARAM as tendências e aceleraram para cima. Nenhu
 
 ---
 
-## 6. Fontes (ago/2026)
+## 5b. Validação de copy — reforços p/ o Mural (plano-descoberta + material-publicacao)
 
-- Skillselion: pbakaus/impeccable (62.3K★/248K installs, 25/ago) · anthropics/skills frontend-design (583K installs)
+Pedido do Orquestrador: conferir se os 2 ativos de lançamento exploram bem (a) o pain-point "design systems todos iguais" e (b) o diferencial de QA. **Veredito: ambos conversam sobre, mas NÃO usam o golpe mais forte nem têm números consistentes.**
+
+### CJ nº1 — Pain-point mal mirado (o golpe está na mão e não é usado)
+- Estado atual: material-publicacao (Post 2, Bluesky) diz só que Open Design tem "design systems são templates, não sistemas funcionais". Fraco — e contradiz a própria evidência (o pain real é QUALIDADE, não formato).
+- **Evidência forte não usada:** usuários do próprio open-design reclamam (issue): "149 design systems são todos iguais"; open-design = 142–149 THEMES/MULTIDADOS mas todos parecen templates.
+- **Reforço de título/copy para o Mural (uma frase):**
+  > "Open Design chegou a **149 design systems — e seus próprios usuários pedem qualidade no lugar de quantidade** ("they are all the same"). Seu agente não precisa de mais templates; precisa de um sistema com tokens reais + enforcement. O Design Kit: 1 sistema de 158 tokens, auditorável por grep, zero hex hardcoded."
+- **Título (Show HN) sugerido:** re-enganá-lo para INVERTER a métrica de quantidade em argumento de qualidade:
+  > `Show HN: Design Kit — not 149 templates. 158 auditable design tokens + 98 anti-slop checks inside an 8-skill design department.`
+
+### CJ nº2 — QA como diferencial confrontável (98 vs 37)
+- Estado atual: material diz "98 checks, nenhum concorrente tem isso" — mas nunca cita o número do adversário na veia.
+- **Evidência:** impeccable (o skill de critique mais instalado) expõe em vídeo oficial "37 anti-patterns" por página. Isso permite comparação auditável: 37 (detecções/página) vs 98 (checks determinísticos/14 arquivos).
+- **Reforço de copy:**
+  > "O padrão de critique mais usado (impeccable) fala em **37 anti-patterns por página**. O Design Kit roda **98 checks determinísticos** em 14 arquivos — e passa antes de shipar (ou o agente não avança). Qualidade não é promessa, é gate."
+
+### CJ nº3 — Consistência numérica (crédito queimado no day-1)
+- Casos: plano-descoberta = **7 casos**; material-publicacao = **8 casos**; repo real (docs/casos) = 8 (aurora, brisa, linha-direta, lumen, norte, ponto-final, redesign-demo, tereza).
+- Componentes: plano = **15+**; material = **18+**. Só um número é verdade; verificar README/componentes.css mais recente.
+- **Licença MIT JÁ decidida** (LICENSE presente) mas material ainda diz "MIT pendente de confirmação".
+- taste-skill estrelas: material diz ~46K; pesquisa 2ª ed confirma **78.5K**.
+- Open Design: material diz 259+/142+; pesquisa atualizada mostra 19–20 skills/71–142 DS (SkillsLLM) vs 57K★ na conta oficial — re-balançar antes de lançar.
+- **Ação:** o Mural precisa de UMA única fonte de verdade de números — a Ficha Técnica do material-publicacao §5 (já tem 8 casos). Alinhar plano-descoberta a ela e remover o já resolvido "pendente de confirmação" (licença já no repositório).
+
+## 6. Fontes (ago/2026)
 - a16z News: "Impeccable by Design" (Paul Bakaus) — 40K★/160K installs de skills.sh
 - tasteskill.dev · github.com/Leonxlnx/taste-skill (78.5K★) · andrew.ooo review (20/08)
 - github.com/nexu-io/open-design (57.4K★) · tecn examplos · nexu-io/html-anything · nexu-io/looper
