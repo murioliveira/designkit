@@ -36,10 +36,10 @@ Artefatos inspecionados:
 | Achado | Severidade | Impacto |
 |---|---|---|
 | **Seção Tokens é um placeholder vazio** ("Referência visual dos tokens: em breve") | Alta | É a primeira seção depois do hero. Um humano chega, vê o hero funcional, rola para baixo e encontra... uma caixa tracejada cinza dizendo "em breve". Perda de credibilidade imediata. |
-| **O showcase mostra componentes isolados, nunca o resultado final** | Alta | Botão, badge, card, alerta, form — tudo em galeria cinza/branca. Um humano que quer saber "o que eu consigo construir com esse kit?" não encontra resposta visual. Os 7 casos reais (Lumen, Norte, Tereza, Aurora, etc.) provam o valor do kit, mas estão enterrados em `docs/casos/` sem nenhuma referência visual no showcase. |
+| **O showcase mostra componentes isolados, nunca o resultado final** | Alta | Botão, badge, card, alerta, form — tudo em galeria cinza/branca. Um humano que quer saber "o que eu consigo construir com esse kit?" não encontra resposta visual. Os 8 casos reais (Lumen, Norte, Tereza, Aurora, Farol, etc.) provam o valor do kit, mas estão enterrados em `docs/casos/` sem nenhuma referência visual no showcase. |
 | **Hero é só texto sobre fundo com gradiente sutil** | Média | O hero é disciplinado (≤ 2 linhas headline, ≤ 20 palavras subtext, CTA visível) mas não tem nenhum elemento visual que mostre o que o kit produz. Diz "uma base de design sólida" mas não mostra. |
 | **Galeria de componentes é monocromática e repetitiva** | Baixa | Seções botões→badges→cards→alertas→forms→overlays são estruturalmente idênticas: título + parágrafo + `.demo__group` cinza. Sem variação de layout entre seções (DESIGN.md §4.5 pede ≥ 4 famílias de layout numa página de 8 seções). |
-| **Footer é mínimo** | Baixa | Só duas linhas de texto. O kit tem 7 casos, 8 skills, 9 componentes — nenhum mencionado no footer. |
+| **Footer é mínimo** | Baixa | Só duas linhas de texto. O kit tem 8 casos, 8 skills, 18+ componentes — nenhum mencionado no footer. |
 
 ### Decisão de escopo
 
@@ -129,7 +129,7 @@ Substituir por uma **galeria de tokens viva**, com 6 subseções organizadas vis
 
 ### Situação atual
 
-O showcase tem 14 seções de componentes. Nenhuma delas mostra um resultado final — uma página pronta, um dashboard real, um portfólio. Os 7 casos reais estão em `docs/casos/` e são acessíveis por link no README, mas um humano que abre `index.html` nunca descobre que eles existem.
+O showcase tem 14 seções de componentes. Nenhuma delas mostra um resultado final — uma página pronta, um dashboard real, um portfólio. Os 8 casos reais estão em `docs/casos/` e são acessíveis por link no README, mas um humano que abre `index.html` nunca descobre que eles existem.
 
 Isso viola o princípio mais básico de persuasão visual: **"show, don't tell."** O showcase gasta 1200 linhas mostrando botões, badges e selects, mas zero linhas mostrando o que esses botões, badges e selects constroem juntos.
 

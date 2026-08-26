@@ -9,7 +9,7 @@
 
 ## Veredito: **APROVADO COM RESSALVAS**
 
-O Design Kit está sólido, funcional e pronto para uso interno. Os detectores passam limpos (8/8 smoke, 98/98 anti-slop), o design system cobre 18+ componentes com dark mode, acessibilidade e zero build tooling, e os 7 casos validados provam que o fluxo research→UI→critique→refine→handoff funciona de ponta a ponta. As ressalvas são de maturidade de produto (pré-1.0), cobertura de portabilidade e algumas lacunas de componentes/documentação. Nenhum blocker técnico.
+O Design Kit está sólido, funcional e pronto para uso interno. Os detectores passam limpos (8/8 smoke, 98/98 anti-slop), o design system cobre 18+ componentes com dark mode, acessibilidade e zero build tooling, e os 8 casos validados provam que o fluxo research→UI→critique→refine→handoff funciona de ponta a ponta. As ressalvas são de maturidade de produto (pré-1.0), cobertura de portabilidade e algumas lacunas de componentes/documentação. Nenhum blocker técnico.
 
 **Nota geral:** 4.1/5 (média das heurísticas internas de avaliação do kit, aplicadas ao próprio kit).
 

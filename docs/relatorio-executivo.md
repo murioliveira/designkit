@@ -11,7 +11,7 @@ Um **agente de IA que substitui um setor de design inteiro**, empacotado como:
 - **Design system real e auditável**: 130+ tokens (claro/escuro), 10 grupos de componentes, showcase vivo com 14 seções. Regra dura: nenhum hex fora de tokens (verificada por script).
 - **8 skills executáveis**: design-researcher → information-architect → ui-designer → design-redesign → design-critic → design-refine → a11y-auditor → design-handoff, com 2 checkpoints humanos e loops fechados de qualidade.
 - **Método anti-slop superior ao impeccable e ao design-taste** (avaliado: 8.5/10 e 9/10 como substituto): DESIGN.md com redesign protocol, mapa de design systems externos, detecção determinística (84+ checks mecânicos), critique enriquecido (cognitive-load + personas), block library com dials.
-- **7 casos reais de prova**: Lumen (4.7/5), Norte (4.6/5), Brisa, Aurora (anti-slop), Linha Direta (blocos), Redesign Demo (skill redesign), Tereza (modo Experience).
+- **8 casos reais de prova**: Lumen (4.7/5), Norte (4.6/5), Brisa, Aurora (anti-slop), Linha Direta (blocos), Redesign Demo (skill redesign), Tereza (modo Experience).
 - **Validação empírica**: cada caso passou por critique com refine; cada critique alimentou o kit (bugs corrigidos no dropdown, marquee, bento; tokenização; color lock).
 - **Portabilidade**: carregável em pi, Claude Code (.claude/skills), Codex (.codex). Smoke test e anti-slop check automatizados.
 - **~18.700 linhas, 92 arquivos**, sem build tooling (HTML/CSS/JS puro + Python stdlib para os detectores).

@@ -20,7 +20,7 @@
 
 **Tweet 3:** O diferencial: método que supera impeccable e design-taste. Critique enriquecido (cognitive-load + personas) pegou bugs que elas não pegam. Detector de 98 checks mecânicos.
 
-**Tweet 4:** 7 casos reais, todos pontuados: Lumen 4.7/5, Norte 4.6/5. Um crítica ensinou o kit (bugs corrigidos no dropdown, marquee, bento). Open source, MIT. github.com/murioliveira/designkit
+**Tweet 4:** 8 casos reais, todos pontuados: Lumen 4.7/5, Norte 4.6/5. Um crítica ensinou o kit (bugs corrigidos no dropdown, marquee, bento). Open source, MIT. github.com/murioliveira/designkit
 
 ## 3. LinkedIn (parágrafo)
 
