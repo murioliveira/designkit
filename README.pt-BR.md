@@ -141,8 +141,9 @@ para implementar, componente por componente, usando os tokens do designkit.
 ## Vitrine ao vivo
 
 O showcase do design system (tokens, componentes e demonstrações) roda em:
-- **Local:** abra `index.html` no navegador (sem build, sem dependências)
-- **GitHub Pages:** `https://murioliveira.github.io/designkit/` (após publicar e ativar Pages em Settings → Pages → Deploy from branch → main/(root), ou pelo workflow em `.github/workflows/pages.yml`)
+- **Portal de design cases resolvidos:** https://murioliveira.github.io/designkit/portal/
+- **Showcase do design system:** https://murioliveira.github.io/designkit/
+- **Local:** abra `index.html` ou `portal/index.html` no navegador (sem build, sem dependências)
 
 ## Como contribuir / estrutura do repo
 

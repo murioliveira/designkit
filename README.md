@@ -141,8 +141,9 @@ designkit tokens.
 ## Live showcase
 
 Run the design system showcase (tokens, components, demos):
-- **Local:** open `index.html` in your browser (no build, no dependencies)
-- **GitHub Pages:** `https://murioliveira.github.io/designkit/` (after enabling Pages under Settings → Pages → Deploy from branch → main/(root), or via the workflow in `.github/workflows/pages.yml`)
+- **Portal of solved design cases:** https://murioliveira.github.io/designkit/portal/
+- **Design system showcase:** https://murioliveira.github.io/designkit/
+- **Local:** open `index.html` / `portal/index.html` in your browser (no build, no dependencies)
 
 ## Contributing / repository layout
 
